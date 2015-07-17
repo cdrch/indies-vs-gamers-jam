@@ -6,9 +6,13 @@ BasicGame.MainMenu = function (game) {
 
 };
 
+var that; // this is a dirty hack, used to maintain proper context when dealing with stuff like passing functions to other functions and then referring to functions in the function that created the first function
+// ...you can see how it works below
+
 BasicGame.MainMenu.prototype = {
 
 	create: function () {
+		that = this;
 
 		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
 		//	Here all we're doing is playing some music and adding a picture and button
@@ -21,7 +25,8 @@ BasicGame.MainMenu.prototype = {
 
 		//this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
 
-		this.startGame();
+		this.mainMenu = new Menu(this, false, true, this.world.centerX, 100, 50, true);
+		this.mainMenu.addMenuItems([{text: "Play", fn: that.startGame}, {text: "Options", fn: this.startGame}, {text: "High Scores", fn: this.startGame}], { font: "65px Arial", fill: "#ff0044", align: "center" });
 
 	},
 
@@ -37,8 +42,16 @@ BasicGame.MainMenu.prototype = {
 		//this.music.stop();
 
 		//	And start the actual game
-		this.state.start('Game');
+		that.state.start('Game');
 
+	},
+
+	showOptions: function () {
+		// show the options menu
+	},
+
+	showHighScores: function () {
+		// show the high scores and player stats
 	}
 
 };
