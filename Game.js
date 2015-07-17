@@ -36,6 +36,9 @@ BasicGame.Game.prototype = {
 
         //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
 
+        this.fireRate = 1000;
+		this.nextFire = 0;
+
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'player');
@@ -52,6 +55,14 @@ BasicGame.Game.prototype = {
 
         this.playerTarget = this.add.sprite(this.input.mousePointer.x, this.input.mousePointer.y, 'crosshair');
         this.playerTarget.anchor.set(0.5);
+
+        bullets = this.add.group();
+	    bullets.enableBody = true;
+	    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+	    bullets.createMultiple(50, 'bullet');
+	    bullets.setAll('checkWorldBounds', true);
+	    bullets.setAll('outOfBoundsKill', true);
 
         this.setControls();
 
@@ -82,7 +93,20 @@ BasicGame.Game.prototype = {
     	if(this.input.activePointer.isDown || this.spaceControl.isDown)
     	{
     		//handle the bullet creation and firing
-    		fire();
+    		this.fire();
+    	}
+    },
+
+    fire: function() {
+    	if (this.time.now > this.nextFire && bullets.countDead() > 0)
+    	{
+	        this.nextFire = this.time.now + this.fireRate;
+
+	        var bullet = bullets.getFirstDead();
+
+	        bullet.reset(this.player.x, this.player.y);
+
+	        bullet.rotation = this.physics.arcade.moveToPointer(bullet, 300);
     	}
     },
 
