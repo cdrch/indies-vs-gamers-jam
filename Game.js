@@ -38,7 +38,8 @@ BasicGame.Game.prototype = {
 
         //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
 
-        this.player = new Entity(this.game, this.world.centerX, this.world.centerY, 'player', 0, 10, 1);
+        this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'player');
+        this.player.anchor.set(0.5);
     },
 
     update: function () {
