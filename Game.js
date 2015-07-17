@@ -41,7 +41,7 @@ BasicGame.Game.prototype = {
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'player');
+        /*this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'player');
         this.player.anchor.set(0.5);
         this.physics.enable(this.player, Phaser.Physics.ARCADE);
         this.player.MAXSPEED = 500; // player's maximum velocity
@@ -51,7 +51,9 @@ BasicGame.Game.prototype = {
 
         this.player.body.maxVelocity.setTo(this.player.MAXSPEED, this.player.MAXSPEED); // x, y
 
-        this.player.body.drag.setTo(this.player.DRAG, this.player.DRAG); // x, y
+        this.player.body.drag.setTo(this.player.DRAG, this.player.DRAG); // x, y*/
+
+        this.player = new Player(this, this.world.centerX, this.world.centerY, 'player');
 
         this.playerTarget = this.add.sprite(this.input.mousePointer.x, this.input.mousePointer.y, 'crosshair');
         this.playerTarget.anchor.set(0.5);
@@ -64,24 +66,16 @@ BasicGame.Game.prototype = {
 	    bullets.setAll('checkWorldBounds', true);
 	    bullets.setAll('outOfBoundsKill', true);
 
-        this.setControls();
-
-    },
-
-    setControls: function () {
-        this.leftControl = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-        this.upControl = this.input.keyboard.addKey(Phaser.Keyboard.UP);
-        this.rightControl = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-        this.downControl = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-        this.spaceControl = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
 
     update: function () {
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        this.player.update(this);
+
         this.updatePlayerTarget();
-        this.movePlayer();
-        this.playerShoot();
+        //this.movePlayer();
+        //this.playerShoot();
     },
 
     updatePlayerTarget: function() {
@@ -89,90 +83,9 @@ BasicGame.Game.prototype = {
     	this.playerTarget.y = this.input.mousePointer.y;
     },
 
-    playerShoot: function() {
-    	if(this.input.activePointer.isDown || this.spaceControl.isDown)
-    	{
-    		//handle the bullet creation and firing
-    		this.fire();
-    	}
-    },
+    
 
-    fire: function() {
-    	if (this.time.now > this.nextFire && bullets.countDead() > 0)
-    	{
-	        this.nextFire = this.time.now + this.fireRate;
-
-	        var bullet = bullets.getFirstDead();
-
-	        bullet.reset(this.player.x, this.player.y);
-
-	        bullet.rotation = this.physics.arcade.moveToPointer(bullet, 300);
-    	}
-    },
-
-    movePlayer: function () {
-
-
-        if (this.leftControl.isDown) // moving left
-        {         
-            if (this.upControl.isDown) // moving up
-            {
-               this.player.body.acceleration.x = -this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-               this.player.body.acceleration.y = -this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-            }
-            else if (this.downControl.isDown) // moving down
-            {
-               this.player.body.acceleration.x = -this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-               this.player.body.acceleration.y = this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-            }
-            else
-            {
-                this.player.body.acceleration.x = -this.player.ACCELERATION;
-                this.player.body.acceleration.y = 0;
-            }
-        }
-        else if (this.rightControl.isDown) // moving right
-        {
-
-            if (this.upControl.isDown)  // moving up
-            {
-                this.player.body.acceleration.x = this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-                this.player.body.acceleration.y = -this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-            }
-            else if (this.downControl.isDown)  // moving down
-            {
-                this.player.body.acceleration.x = this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-                this.player.body.acceleration.y = this.player.ACCELERATION * this.INPUTMODIFYFACTOR;
-            }
-            else
-            {
-                this.player.body.acceleration.x = this.player.ACCELERATION;
-                this.player.body.acceleration.y = 0;
-            }
-        }
-        else
-        {
-            if (this.upControl.isDown)  // moving up
-            {
-                this.player.body.acceleration.x = 0;
-                this.player.body.acceleration.y = -this.player.ACCELERATION;
-            }
-            else if (this.downControl.isDown)  // moving down
-            {
-                this.player.body.acceleration.x = 0;
-                this.player.body.acceleration.y = this.player.ACCELERATION;
-            }
-            else
-            {
-                this.player.body.acceleration.x = 0;
-                this.player.body.acceleration.y = 0;
-            }
-        }
-
-        
-
-
-    },
+    
 
     quitGame: function (pointer) {
 
