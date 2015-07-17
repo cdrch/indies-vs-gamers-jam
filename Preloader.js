@@ -30,8 +30,10 @@ BasicGame.Preloader.prototype = {
 		//this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
 		//	+ lots of other required assets here
 
-		this.load.image('logo', 'phaser.png');
+		//this.load.image('logo', 'phaser.png');
 		this.load.image('textBG', 'Test Text Box Background.png');
+
+		this.load.image('player', 'test-player.png');
 
 	},
 
