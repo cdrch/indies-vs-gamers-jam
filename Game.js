@@ -36,8 +36,7 @@ BasicGame.Game.prototype = {
 
         //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
 
-        this.fireRate = 1000;
-		this.nextFire = 0;
+        this.world.setBounds(0, 0, 2000, 2000);
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -55,16 +54,7 @@ BasicGame.Game.prototype = {
 
         this.player = new Player(this, this.world.centerX, this.world.centerY, 'player');
 
-        this.playerTarget = this.add.sprite(this.input.mousePointer.x, this.input.mousePointer.y, 'crosshair');
-        this.playerTarget.anchor.set(0.5);
-
-        bullets = this.add.group();
-	    bullets.enableBody = true;
-	    bullets.physicsBodyType = Phaser.Physics.ARCADE;
-
-	    bullets.createMultiple(50, 'bullet');
-	    bullets.setAll('checkWorldBounds', true);
-	    bullets.setAll('outOfBoundsKill', true);
+        
 
     },
 
@@ -73,15 +63,12 @@ BasicGame.Game.prototype = {
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         this.player.update(this);
 
-        this.updatePlayerTarget();
+        //this.updatePlayerTarget();
         //this.movePlayer();
         //this.playerShoot();
     },
 
-    updatePlayerTarget: function() {
-    	this.playerTarget.x = this.input.mousePointer.x;
-    	this.playerTarget.y = this.input.mousePointer.y;
-    },
+    
 
     
 
