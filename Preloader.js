@@ -31,6 +31,7 @@ BasicGame.Preloader.prototype = {
 		//	+ lots of other required assets here
 
 		this.load.image('logo', 'phaser.png');
+		this.load.image('textBG', 'Test Text Box Background.png');
 
 	},
 

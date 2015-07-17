@@ -31,8 +31,10 @@ BasicGame.Game.prototype = {
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
 
-        this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
-        this.logo.anchor.setTo(0.5, 0.5);
+        //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
+        //this.logo.anchor.setTo(0.5, 0.5);
+
+        this.textBox = new TextBox(this, "This is some really really really long text typed solely to test out my crazy awesome custom textbox system! This is some really really really long text typed solely to test out my crazy awesome custom textbox system!", 'textBG', 0, 0, 0, { font: "30px Arial", fill: "#4400ff", align: "center" });
 
     },
 
