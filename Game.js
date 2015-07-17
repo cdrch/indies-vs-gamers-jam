@@ -50,6 +50,9 @@ BasicGame.Game.prototype = {
 
         this.player.body.drag.setTo(this.player.DRAG, this.player.DRAG); // x, y
 
+        this.playerTarget = this.add.sprite(this.input.mousePointer.x, this.input.mousePointer.y, 'crosshair');
+        this.playerTarget.anchor.set(0.5);
+
         this.setControls();
 
     },
@@ -59,13 +62,28 @@ BasicGame.Game.prototype = {
         this.upControl = this.input.keyboard.addKey(Phaser.Keyboard.UP);
         this.rightControl = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
         this.downControl = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        this.spaceControl = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
 
     update: function () {
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        this.updatePlayerTarget();
         this.movePlayer();
+        this.playerShoot();
+    },
 
+    updatePlayerTarget: function() {
+    	this.playerTarget.x = this.input.mousePointer.x;
+    	this.playerTarget.y = this.input.mousePointer.y;
+    },
+
+    playerShoot: function() {
+    	if(this.input.activePointer.isDown || this.spaceControl.isDown)
+    	{
+    		//handle the bullet creation and firing
+    		fire();
+    	}
     },
 
     movePlayer: function () {
