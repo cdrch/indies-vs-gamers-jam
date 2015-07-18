@@ -29,9 +29,12 @@ var gameThat;
 
 BasicGame.Game.prototype = {
 
-    create: function () {
+    create: function () { // something is wrong with 64x64 tile display
 
         gameThat = this;
+
+        this.TILESIZEX = 64;
+        this.TILESIZEY = 64;
 
         this.MAPWIDTH = 100;
         this.MAPHEIGHT = 100;
@@ -58,7 +61,7 @@ BasicGame.Game.prototype = {
 
         this.map.setCollision(1);
 
-        this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, 32, 32);
+        this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, 64, 64);
 
         for (var x = 0; x < this.MAPWIDTH; x++)
         {
