@@ -1,4 +1,4 @@
-var TextBox = function (game, text, background, interactionKey, x, y, padding, centerBox, centerText, style)
+var TextBox = function (game, text, background, interactionKey, x, y, padding, centerBox, centerText, style, timeToDelete)
 {
 	this.bg = game.add.image(x, y, background);
 	if (centerBox && centerText)
@@ -60,7 +60,12 @@ var TextBox = function (game, text, background, interactionKey, x, y, padding, c
 	this.text.setText(str);
 	game.input.keyboard.addKey(interactionKey).onDown.add(this.nextPage, this);
 
-	console.log(this.text.text);
+	if(timeToDelete != 0)
+	{
+		var timer = game.time.create(false);
+		timer.add(timeToDelete, this.closeWindow, this);
+		timer.start();
+	}
 };
 
 TextBox.prototype.nextPage = function () {
@@ -75,7 +80,7 @@ TextBox.prototype.nextPage = function () {
 	}
 };
 
-TextBox.prototype.close = function () {
+TextBox.prototype.closeWindow = function () {
 	this.text.destroy();
 	this.bg.destroy();
 };
