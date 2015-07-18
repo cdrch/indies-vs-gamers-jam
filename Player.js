@@ -120,7 +120,7 @@ var Player = function(game, posX, posY, imageName) {
 
 Player.prototype.nextWeapon = function () {
             //  Tidy-up the current weapon
-            if (this.currentWeapon > 9)
+            /*if (this.currentWeapon > 9)
             {
                 this.weapons[this.currentWeapon].reset();
             }
@@ -129,7 +129,7 @@ Player.prototype.nextWeapon = function () {
                 this.weapons[this.currentWeapon].visible = false;
                 this.weapons[this.currentWeapon].callAll('reset', null, 0, 0);
                 this.weapons[this.currentWeapon].setAll('exists', false);
-            }
+            }*/
             //  Activate the new one
             this.currentWeapon++;
             if (this.currentWeapon === this.weapons.length)
