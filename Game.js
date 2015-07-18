@@ -25,13 +25,142 @@ BasicGame.Game = function (game) {
 
 };
 
+var gameThat;
+
 BasicGame.Game.prototype = {
 
-    create: function () {
+    getCurrentLevelInfo: function (level) {
+        switch(level)
+        {
+            case 1:
+                return this.gameInfo.level.one;
+            case 2:
+                return this.gameInfo.level.two;
+            case 3:
+                return this.gameInfo.level.three;
+            case 4:
+                return this.gameInfo.level.four;
+            case 5:
+                return this.gameInfo.level.five;
+            default:
+                console.log ("NO LEVEL");
+                // maybe randomly pick a tough level for infinite score attack?
+        }
+    },
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+    create: function () {        
 
-        this.world.setBounds(0, 0, 2000, 2000);
+        gameThat = this;
+
+        this.TILESIZEX = 128;
+        this.TILESIZEY = 128;
+
+        this.MAPWIDTH = 30;
+        this.MAPHEIGHT = 30;
+
+        this.gameInfo = this.cache.getJSON('gameInfo');
+
+        this.currentLevel = this.getCurrentLevelInfo(BasicGame.currentLevel);     
+
+        console.log(BasicGame.currentLevel);   
+
+        switch (this.currentLevel.type)
+        {
+            case "0":
+                this.loadPremadeLevel(this.TILESIZEX, this.TILESIZEY, this.currentLevel.fileName);
+                this.map.setCollision(2);
+                break;
+            case "1":
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.map.setCollision(1);
+                break;
+            case "2":
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Cave");
+                this.map.setCollision(1);
+                break;
+            case "3":
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Maze");
+                this.map.setCollision(1);
+                break;
+            default:
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.map.setCollision(1);
+        }  
+
+        //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
+       
+
+        //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
+        //this.logo.anchor.setTo(0.5, 0.5);
+
+        //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
+
+        var startX = 0;
+        var startY = 0;
+
+        if (this.currentLevel.type === "0")
+        {
+            startX = this.currentLevel.startX;
+            startY = this.currentLevel.startY;
+        }
+
+        var xCheck = 0;
+        var yCheck = 0;
+
+        while (startX === 0 || startY === 0)
+        {
+            if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0 && 
+                this.mapData[this.array2DTo1D(xCheck+1, yCheck, this.MAPWIDTH)] === 0 && 
+                this.mapData[this.array2DTo1D(xCheck, yCheck+1, this.MAPWIDTH)] === 0 && 
+                this.mapData[this.array2DTo1D(xCheck+1, yCheck+1, this.MAPWIDTH)] === 0)
+            {
+                startX = xCheck;
+                startY = yCheck;
+            }
+            else
+            {
+                if (xCheck > yCheck)
+                {
+                    xCheck = 0;
+                    yCheck++;
+                }
+                else
+                {
+                    xCheck++;
+                }
+            }
+
+            
+            if (xCheck > this.MAPWIDTH * 0.5 && yCheck > this.MAPWIDTH * 0.5)
+            {
+                xCheck = 0;
+                yCheck = 0;
+                while (startX === 0 || startY === 0)
+                {
+                    if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
+                    {
+                        startX = xCheck;
+                        startY = yCheck;
+                    }
+                    else
+                    {
+                        if (xCheck > yCheck)
+                        {
+                            xCheck = 0;
+                            yCheck++;
+                        }
+                        else
+                        {
+                            xCheck++;
+                        }
+                    }
+                }
+            }
+        }
+
+        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
+
+        this.nextLevelButton = this.input.keyboard.addKey(Phaser.Keyboard.N);
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -47,13 +176,155 @@ BasicGame.Game.prototype = {
 
         this.player = new Player(this, 50, 50, 'player');
 
+    },
+
+    loadPremadeLevel: function (tileWidth, tileHeight, fileName) {
+        this.map = this.add.tilemap(fileName);
+
+        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
+
+        //this.setMapCollision();
+
+        this.layer = this.map.createLayer(0);
+
         
 
+        this.layer.resizeWorld();
     },
+
+    createRandomMapDisplay: function (width, height, tileWidth, tileHeight, type) {
+
+        switch (type)
+        {
+            case "Digger":
+                this.mapData = this.createRandomDiggerMapData(); // creates the raw data for maps
+                break;
+            case "Cave":
+                this.mapData = this.createRandomCaveMapData(); // creates the raw data for maps
+                break;
+            case "Maze":
+                this.mapData = this.createRandomMazeMapData(); // creates the raw data for maps
+                break;
+            default:
+                this.mapData = this.createRandomDiggerMapData(); // creates the raw data for maps                
+        }
+        
+
+        this.map = this.add.tilemap();
+
+        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
+
+        //this.setMapCollision();
+
+        this.layer = this.map.create('level1', width, height, tileWidth, tileHeight);
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
+            }
+        }
+
+        this.layer.resizeWorld();
+    },
+
+    createRandomDiggerMapData: function () {
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
+        //this.rotMap.randomize(0.5);
+        //for (var iterations = 0; iterations < 5; iterations++)
+        //{
+            this.rotMap.create();
+        //}
+        
+        var mapCallback = function(x, y, value)
+        {
+            data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
+        };
+        this.rotMap.create(mapCallback);
+
+        return data;
+    },
+
+    createRandomCaveMapData: function () {
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        this.rotMap = new ROT.Map.Cellular(this.MAPWIDTH, this.MAPHEIGHT);
+
+        var width =  this.MAPWIDTH;
+        var height = this.MAPHEIGHT;
+        
+        
+        var mapCallback = function(x, y, value)
+        {
+            data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = ((x == 0 || y == 0 || x == width-1 || y == height-1) ? 1 : value);
+        };
+
+        this.rotMap.randomize(0.5);
+        for (var iterations = 0; iterations < 10; iterations++)
+        {
+            this.rotMap.create(mapCallback);
+        }
+
+        return data;
+    },
+
+    createRandomMazeMapData: function () {
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        var insideMaze = new ROT.Map.EllerMaze(this.MAPWIDTH, this.MAPHEIGHT);
+        var insideMazeData = [this.MAPWIDTH-1 * this.MAPHEIGHT-1];
+
+        //this.rotMap = new ROT.Map.EllerMaze(this.MAPWIDTH, this.MAPHEIGHT);
+
+        var width =  this.MAPWIDTH-1;
+        var height = this.MAPHEIGHT-1;
+        
+        
+        var mapCallback = function(x, y, value)
+        {
+            insideMazeData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
+        };
+        
+        insideMaze.create(mapCallback);
+
+        for (var x = 0; x < this.MAPWIDTH; x++)
+        {
+            for (var y = 0; y < this.MAPHEIGHT; y++)
+            {
+                if (x === 0 || y === 0 || x === this.MAPWIDTH-1 || y === this.MAPHEIGHT-1)
+                {
+                    data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = 1;
+                }
+                else
+                {
+                    data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = insideMazeData[gameThat.array2DTo1D(x-1, y-1, gameThat.MAPWIDTH)];
+                }
+            }
+        }
+
+        return data;
+    },
+
+    loadMapFromFile: function () {
+
+    },
+    /*
+    setMapCollision: function () {
+        this.map.setCollision(2);
+    },*/
 
     update: function () {
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        if (this.nextLevelButton.isDown)
+        {
+            this.goToNextLevel();
+        }
+
+        this.physics.arcade.collide(this.player.sprite, this.layer);
+
         this.player.update(this);
 
         this.physics.arcade.overlap(
@@ -61,7 +332,10 @@ BasicGame.Game.prototype = {
             this.player.collectPickup, null, this);
     },
 
-    
+    goToNextLevel: function () {
+        BasicGame.currentLevel++;
+        this.state.start('Game');
+    },
 
     
 
@@ -75,6 +349,16 @@ BasicGame.Game.prototype = {
         //  Then let's go back to the main menu.
         this.state.start('MainMenu');
 
+    },
+
+    array2DTo1D: function (x, y, rowWidth)
+    {
+        return x + rowWidth * y;
+    },
+
+    array1DTo2D: function (i, rowWidth)
+    {
+        return {x: Math.floor(i % rowWidth), y: Math.floor(i / rowWidth)};
     }
 
 };

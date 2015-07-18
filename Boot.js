@@ -1,4 +1,6 @@
-var BasicGame = {};
+var BasicGame = {
+    currentLevel: 1
+};
 
 BasicGame.Boot = function (game) {
 

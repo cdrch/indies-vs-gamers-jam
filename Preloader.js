@@ -36,7 +36,16 @@ BasicGame.Preloader.prototype = {
 		this.load.image('player', 'test-player.png');
 
 		this.load.image('crosshair', 'crosshair.png');
-		this.load.image('bullet', 'bullet.png');
+		this.load.image('bullet', 'ice-bolt.png');
+
+		this.load.image('tileset16', 'greentest.png');
+		this.load.image('tileset32', 'test-tileset32.png');
+		this.load.image('tileset64', 'bluetestwalls.png');
+		this.load.image('orangetest', 'orangetest.png');
+
+		this.load.json('gameInfo', 'GameInfo.json');
+
+		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.image('pointsPickup', 'pointsPickup.png');
 
