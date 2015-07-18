@@ -33,47 +33,29 @@ BasicGame.Game.prototype = {
 
         gameThat = this;
 
+        this.gameInfo = this.cache.getJSON('gameInfo');
+
+        // switch (this.gameInfo.levels.1.type)
+        // {
+        //     case 1:
+
+        // }
+
         this.TILESIZEX = 128;
         this.TILESIZEY = 128;
 
         this.MAPWIDTH = 50;
         this.MAPHEIGHT = 50;
 
-        this.mapData = this.prepareMapData(); // creates the raw data for maps
+        this.createRandomDungeonMap(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
+
+        
 
         //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
         
         // create maps
 
-        this.map = this.add.tilemap();
-
-        this.map.addTilesetImage('tileset128', 'tileset128', this.TILESIZEX, this.TILESIZEY);
-
-        this.map.setCollision(1);
-
-        this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
-
-        for (var x = 0; x < this.MAPWIDTH; x++)
-        {
-            for (var y = 0; y < this.MAPWIDTH; y++)
-            {
-                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)], x, y, this.layer);
-                //this.map.random(x, y, 1, 1, this.layer);
-            }
-        }
-
-        this.layer.resizeWorld();
-
-        this.layer2 = this.map.create('level2', this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
-
-        for (var x = 0; x < this.MAPWIDTH; x++)
-        {
-            for (var y = 0; y < this.MAPWIDTH; y++)
-            {
-                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)], x, y, this.layer);
-                //this.map.random(x, y, 1, 1, this.layer);
-            }
-        }
+        
 
         //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
         //this.logo.anchor.setTo(0.5, 0.5);
@@ -82,26 +64,39 @@ BasicGame.Game.prototype = {
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        /*this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'player');
-        this.player.anchor.set(0.5);
-        this.physics.enable(this.player, Phaser.Physics.ARCADE);
-        this.player.MAXSPEED = 500; // player's maximum velocity
-        this.player.ACCELERATION = 1500; // player's maximum acceleration
-        this.player.DRAG = 1000; // player's drag
-        this.INPUTMODIFYFACTOR = 0.7071;
+        var startX = 0;
+        var startY = 0;
+        var xCheck = 0;
+        var yCheck = 0;
 
-        this.player.body.maxVelocity.setTo(this.player.MAXSPEED, this.player.MAXSPEED); // x, y
+        while (startX === 0 || startY === 0)
+        {
+            if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
+            {
+                startX = xCheck;
+                startY = yCheck;
+            }
+            else
+            {
+                if (xCheck > yCheck)
+                {
+                    xCheck = 0;
+                    yCheck++;
+                }
+                else
+                {
+                    xCheck++;
+                }
+            }            
+        }
 
-        this.player.body.drag.setTo(this.player.DRAG, this.player.DRAG); // x, y*/
-
-        // this.player = new Player(this, this.world.centerX, this.world.centerY, 'player');
-        this.player = new Player(this, 50, 50, 'player');
+        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
         
 
     },
 
-    prepareMapData: function () {
+    prepareRandomMapData: function () {
 
         var data = [this.MAPWIDTH * this.MAPHEIGHT];
 
@@ -119,6 +114,50 @@ BasicGame.Game.prototype = {
         this.rotMap.create(mapCallback);
 
         return data;
+    },
+
+    createRandomDungeonMap: function (width, height, tileWidth, tileHeight) {
+
+        this.mapData = this.prepareRandomMapData(); // creates the raw data for maps
+
+        this.map = this.add.tilemap();
+
+        this.map.addTilesetImage('tileset128', 'tileset128', tileWidth, tileHeight);
+
+        this.setMapCollision();
+
+        this.layer = this.map.create('level1', width, height, tileWidth, tileHeight);
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
+                //this.map.random(x, y, 1, 1, this.layer);
+            }
+        }
+
+        this.layer.resizeWorld();
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
+            }
+        }
+    },
+
+    createRandomMazeMap: function () {
+
+    },
+
+    loadMapFromFile: function () {
+
+    },
+
+    setMapCollision: function () {
+        this.map.setCollision(1);
     },
 
     update: function () {

@@ -43,6 +43,8 @@ BasicGame.Preloader.prototype = {
 		this.load.image('tileset64', 'bluetestwalls.png');
 		this.load.image('tileset128', 'orangetest.png');
 
+		this.load.json('gameInfo', 'GameInfo.json');
+
 	},
 
 	create: function () {

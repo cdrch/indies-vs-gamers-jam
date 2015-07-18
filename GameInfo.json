@@ -1,0 +1,15 @@
+{
+	gameVersion: 0.0.1,
+	levels: {
+		1: {
+			type: 1,
+			width: 30,
+			height: 30
+		},
+		2: {
+			type: 2,
+			width: 50,
+			height: 50
+		}
+	}
+}
