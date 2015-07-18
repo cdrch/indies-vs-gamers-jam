@@ -29,14 +29,20 @@ BasicGame.Game.prototype = {
 
     create: function () {
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        this.stage.backgroundColor = '#2d2d2d';
+
+        this.map = this.add.tilemap();
+
+        this.map.addTilesetImage('tileset1');
+
+        this.layer = this.map.create('level1', 100, 100, 32, 32);
+
+        this.layer.resizeWorld();
 
         //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
         //this.logo.anchor.setTo(0.5, 0.5);
 
         //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
-
-        this.world.setBounds(0, 0, 2000, 2000);
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
