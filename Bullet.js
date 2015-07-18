@@ -34,7 +34,7 @@ Bullet.prototype.fireCircle = function (x, y, angle, speed, gx, gy) {
     this.reset(x, y);
     this.scale.set(1);
     this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-    //this.angle = angle;
+    this.angle = angle;
 };
 
 Bullet.prototype.update = function () {
