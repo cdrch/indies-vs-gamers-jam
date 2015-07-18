@@ -33,11 +33,10 @@ BasicGame.Preloader.prototype = {
 		//this.load.image('logo', 'phaser.png');
 		this.load.image('textBG', 'Test Text Box Background.png');
 
-		this.load.image('player', 'test-player.png');
+		//this.load.image('player', 'test-player.png');
 
 		this.load.image('BasicEnemy', 'enemy.jpg');
-
-		this.load.image('crosshair', 'crosshair.png');
+		this.load.image('crosshair', 'art/reticle2.png');
 		this.load.image('bullet', 'ice-bolt.png');
 
 		this.load.image('tileset16', 'greentest.png');
@@ -50,6 +49,8 @@ BasicGame.Preloader.prototype = {
 		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.image('pointsPickup', 'pointsPickup.png');
+
+		this.load.spritesheet('player', 'art/bubbles.png', 64, 64);
 
 	},
 

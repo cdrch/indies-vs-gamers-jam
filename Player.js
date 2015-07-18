@@ -83,8 +83,17 @@ var Player = function(game, posX, posY, imageName) {
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
 
+    // animations
+    
+    this.sprite.animations.add('idle', [0], 15, false);
+    this.sprite.animations.add('run', [0, 1, 2, 3], 25, true);
+    this.facing = 'right';
+    this.running = false;
+
+    this.sprite.animations.play('idle');
+
 	game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-    this.MAXSPEED = 500; // player's maximum velocity
+    this.MAXSPEED = 300; // player's maximum velocity
 
     this.sprite.body.collideWorldBounds = true;
 
@@ -189,12 +198,41 @@ Player.prototype.movePlayer = function(game) {
 
     var magnitude = Math.sqrt((xInput * xInput) + (yInput * yInput));
 
-    xInput = xInput / magnitude;
-    yInput = yInput / magnitude;
+    if (magnitude !== 0)
+    {
+        xInput = xInput / magnitude;
+        yInput = yInput / magnitude;
+    }    
 
     this.sprite.body.velocity.x = xInput * this.MAXSPEED;
     this.sprite.body.velocity.y = yInput * this.MAXSPEED;
 
+    var temp = (magnitude !== 0);
+
+    if ( magnitude !== 0 && !this.running)
+    {
+        this.sprite.animations.play('run');
+        this.running = true;
+    }
+    else if (magnitude === 0 && this.running)
+    {
+        this.sprite.animations.play('idle');
+        this.running = false;
+    }
+
+    if (xInput < 0 && this.facing == 'right')
+    {
+        this.facing = 'left';
+    }
+    else if (xInput > 0 && this.facing == 'left')
+    {
+        this.facing = 'right';
+    }
+
+    if (this.facing == 'left')
+        this.sprite.scale.set(-1, 1);
+    else
+        this.sprite.scale.set(1, 1);
 };
 
 Player.prototype.playerShoot = function(game) {
