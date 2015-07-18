@@ -119,7 +119,8 @@ var Player = function(game, posX, posY, imageName) {
     this.score = 0;
 
     this.scoreText = game.add.text(
-    game.game.width / 2, 30, '' + this.score, 
+    game.camera.position.x, game.camera.position.y - game.camera.height + 30, 
+    '' + this.score, 
     { font: '20px monospace', fill: '#fff', align: 'center' });
     this.scoreText.anchor.setTo(0.5, 0.5);
 
@@ -203,13 +204,19 @@ Player.prototype.playerShoot = function(game) {
 };
 
 Player.prototype.updatePlayerTarget = function(game) {
-    	this.playerTarget.x = game.camera.x + game.input.mousePointer.x;
-    	this.playerTarget.y = game.camera.y + game.input.mousePointer.y;
+	this.playerTarget.x = game.camera.x + game.input.mousePointer.x;
+	this.playerTarget.y = game.camera.y + game.input.mousePointer.y;
 
- 	};
+};
+
+Player.prototype.updateScorePosition = function(game) {
+
+    this.scoreText.position = game.camera.position;
+    this.scoreText.position.y -= game.camera.height / 2 - 30;
+};
 
 Player.prototype.update = function(game) {
-
+    this.updateScorePosition(game);
 	this.movePlayer(game);
 	this.playerShoot(game);
 	this.updatePlayerTarget(game);
