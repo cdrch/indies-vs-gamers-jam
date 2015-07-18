@@ -45,7 +45,7 @@ BasicGame.Preloader.prototype = {
 
 		this.load.json('gameInfo', 'GameInfo.json');
 
-		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON)
+		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON);
 
 	},
 

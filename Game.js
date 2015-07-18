@@ -29,11 +29,28 @@ var gameThat;
 
 BasicGame.Game.prototype = {
 
-    create: function () { // something is wrong with 64x64 tile display
+    getCurrentLevelInfo: function (level) {
+        switch(level)
+        {
+            case 1:
+                return this.gameInfo.level.one;
+            case 2:
+                return this.gameInfo.level.two;
+            case 3:
+                return this.gameInfo.level.three;
+            case 4:
+                return this.gameInfo.level.four;
+            case 5:
+                return this.gameInfo.level.five;
+            default:
+                console.log ("NO LEVEL");
+                // maybe randomly pick a tough level for infinite score attack?
+        }
+    },
+
+    create: function () {        
 
         gameThat = this;
-
-        this.gameInfo = this.cache.getJSON('gameInfo');
 
         this.TILESIZEX = 128;
         this.TILESIZEY = 128;
@@ -41,10 +58,16 @@ BasicGame.Game.prototype = {
         this.MAPWIDTH = 30;
         this.MAPHEIGHT = 30;
 
-        switch (this.gameInfo.levels.one.type)
+        this.gameInfo = this.cache.getJSON('gameInfo');
+
+        this.currentLevel = this.getCurrentLevelInfo(BasicGame.currentLevel);     
+
+        console.log(BasicGame.currentLevel);   
+
+        switch (this.currentLevel.type)
         {
             case "0":
-                this.loadPremadeLevel(this.TILESIZEX, this.TILESIZEY, this.gameInfo.levels.one.fileName);
+                this.loadPremadeLevel(this.TILESIZEX, this.TILESIZEY, this.currentLevel.fileName);
                 this.map.setCollision(2);
                 break;
             case "1":
@@ -73,22 +96,18 @@ BasicGame.Game.prototype = {
         //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
-        console.log("1");
 
         var startX = 0;
         var startY = 0;
 
-        if (this.gameInfo.levels.one.type === "0")
+        if (this.currentLevel.type === "0")
         {
-            startX = this.gameInfo.levels.one.startX;
-            startY = this.gameInfo.levels.one.startY;
+            startX = this.currentLevel.startX;
+            startY = this.currentLevel.startY;
         }
-
 
         var xCheck = 0;
         var yCheck = 0;
-
-
 
         while (startX === 0 || startY === 0)
         {
@@ -113,16 +132,13 @@ BasicGame.Game.prototype = {
                 }
             }
 
-            console.log("loop1");
             
             if (xCheck > this.MAPWIDTH * 0.5 && yCheck > this.MAPWIDTH * 0.5)
             {
-                console.log("2");
                 xCheck = 0;
                 yCheck = 0;
                 while (startX === 0 || startY === 0)
                 {
-                    console.log("loop2");
                     if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
                     {
                         startX = xCheck;
@@ -143,11 +159,10 @@ BasicGame.Game.prototype = {
                 }
             }
         }
-        console.log("3");
 
         this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
-        
+        this.nextLevelButton = this.input.keyboard.addKey(Phaser.Keyboard.N);
 
     },
 
@@ -158,7 +173,7 @@ BasicGame.Game.prototype = {
 
         //this.setMapCollision();
 
-        this.layer = this.map.createLayer('Tile Layer 1');
+        this.layer = this.map.createLayer(0);
 
         
 
@@ -291,6 +306,11 @@ BasicGame.Game.prototype = {
 
     update: function () {
 
+        if (this.nextLevelButton.isDown)
+        {
+            this.goToNextLevel();
+        }
+
         this.physics.arcade.collide(this.player.sprite, this.layer);
 
         this.player.update(this);
@@ -300,7 +320,10 @@ BasicGame.Game.prototype = {
         //this.playerShoot();
     },
 
-    
+    goToNextLevel: function () {
+        BasicGame.currentLevel++;
+        this.state.start('Game');
+    },
 
     
 
