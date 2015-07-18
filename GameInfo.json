@@ -2,9 +2,13 @@
     "gameVersion": "0.0.1",
     "levels": {
         "one": {
-            "type": "3",
+            "type": "0",
             "width": "30",
-            "height": "30"
+            "height": "30",
+            "levelName": "Level 1",
+            "fileName": "test-map1",
+            "startX": "2",
+            "startY": "2"
         },
         "two": {
             "type": "2",

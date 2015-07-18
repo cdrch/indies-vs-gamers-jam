@@ -41,9 +41,11 @@ BasicGame.Preloader.prototype = {
 		this.load.image('tileset16', 'greentest.png');
 		this.load.image('tileset32', 'test-tileset32.png');
 		this.load.image('tileset64', 'bluetestwalls.png');
-		this.load.image('tileset128', 'orangetest.png');
+		this.load.image('orangetest', 'orangetest.png');
 
 		this.load.json('gameInfo', 'GameInfo.json');
+
+		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON)
 
 	},
 

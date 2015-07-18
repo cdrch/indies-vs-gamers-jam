@@ -43,17 +43,25 @@ BasicGame.Game.prototype = {
 
         switch (this.gameInfo.levels.one.type)
         {
+            case "0":
+                this.loadPremadeLevel(this.TILESIZEX, this.TILESIZEY, this.gameInfo.levels.one.fileName);
+                this.map.setCollision(2);
+                break;
             case "1":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.map.setCollision(1);
                 break;
             case "2":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Cave");
+                this.map.setCollision(1);
                 break;
             case "3":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Maze");
+                this.map.setCollision(1);
                 break;
             default:
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.map.setCollision(1);
         }  
 
         //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
@@ -69,6 +77,14 @@ BasicGame.Game.prototype = {
 
         var startX = 0;
         var startY = 0;
+
+        if (this.gameInfo.levels.one.type === "0")
+        {
+            startX = this.gameInfo.levels.one.startX;
+            startY = this.gameInfo.levels.one.startY;
+        }
+
+
         var xCheck = 0;
         var yCheck = 0;
 
@@ -135,6 +151,20 @@ BasicGame.Game.prototype = {
 
     },
 
+    loadPremadeLevel: function (tileWidth, tileHeight, fileName) {
+        this.map = this.add.tilemap(fileName);
+
+        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
+
+        //this.setMapCollision();
+
+        this.layer = this.map.createLayer('Tile Layer 1');
+
+        
+
+        this.layer.resizeWorld();
+    },
+
     createRandomMapDisplay: function (width, height, tileWidth, tileHeight, type) {
 
         switch (type)
@@ -155,9 +185,9 @@ BasicGame.Game.prototype = {
 
         this.map = this.add.tilemap();
 
-        this.map.addTilesetImage('tileset128', 'tileset128', tileWidth, tileHeight);
+        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
 
-        this.setMapCollision();
+        //this.setMapCollision();
 
         this.layer = this.map.create('level1', width, height, tileWidth, tileHeight);
 
@@ -166,19 +196,10 @@ BasicGame.Game.prototype = {
             for (var y = 0; y < height; y++)
             {
                 this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
-                //this.map.random(x, y, 1, 1, this.layer);
             }
         }
 
         this.layer.resizeWorld();
-
-        for (var x = 0; x < width; x++)
-        {
-            for (var y = 0; y < height; y++)
-            {
-                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
-            }
-        }
     },
 
     createRandomDiggerMapData: function () {
@@ -263,10 +284,10 @@ BasicGame.Game.prototype = {
     loadMapFromFile: function () {
 
     },
-
+    /*
     setMapCollision: function () {
-        this.map.setCollision(1);
-    },
+        this.map.setCollision(2);
+    },*/
 
     update: function () {
 
