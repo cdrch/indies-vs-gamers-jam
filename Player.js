@@ -35,14 +35,53 @@ Weapon.SingleBullet.prototype.fire = function (source) {
 
 };
 
+Weapon.CircleBullet = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Circle Bullet', false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 600;
+    this.fireRate = 500;
+
+    for (var i = 0; i < 250; i++)
+    {
+        this.add(new Bullet(game, 'bullet'), true, true);
+    }
+
+    return this;
+
+};
+
+
+Weapon.CircleBullet.prototype = Object.create(Phaser.Group.prototype);
+Weapon.CircleBullet.prototype.constructor = Weapon.CircleBullet;
+
+Weapon.CircleBullet.prototype.fire = function (source) {
+
+	var NUMBER_OF_BULLETS = 30;
+
+    if (this.game.time.time < this.nextFire || 
+    	this.countDead < NUMBER_OF_BULLETS) 
+    		{ return; }
+
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+    for(var i = 0; i < NUMBER_OF_BULLETS; i++)
+    {
+    	this.getFirstExists(false).fireCircle(source.sprite.x,
+    	 source.sprite.y, 360 / NUMBER_OF_BULLETS * i,
+    	 this.bulletSpeed, 0, 0);
+    }
+
+
+};
+
 var Player = function(game, posX, posY, imageName) {
 	that2 = this;
 
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
-
-	this.fireRate = 1000;
-	this.nextFire = 0;
 
 	game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     this.MAXSPEED = 500; // player's maximum velocity
@@ -63,6 +102,8 @@ var Player = function(game, posX, posY, imageName) {
     this.currentWeapon = 0;
     this.weaponName = null;
 
+
+    this.weapons.push(new Weapon.CircleBullet(game));
     this.weapons.push(new Weapon.SingleBullet(game));
 
     
@@ -72,14 +113,38 @@ var Player = function(game, posX, posY, imageName) {
         this.weapons[i].visible = false;
     }
 
+    var changeKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    changeKey.onDown.add(this.nextWeapon, this);
+
 };
+
+Player.prototype.nextWeapon = function () {
+            //  Tidy-up the current weapon
+            if (this.currentWeapon > 9)
+            {
+                this.weapons[this.currentWeapon].reset();
+            }
+            else
+            {
+                this.weapons[this.currentWeapon].visible = false;
+                this.weapons[this.currentWeapon].callAll('reset', null, 0, 0);
+                this.weapons[this.currentWeapon].setAll('exists', false);
+            }
+            //  Activate the new one
+            this.currentWeapon++;
+            if (this.currentWeapon === this.weapons.length)
+            {
+                this.currentWeapon = 0;
+            }
+            this.weapons[this.currentWeapon].visible = true;
+            this.weaponName.text = this.weapons[this.currentWeapon].name;
+        };
 
 Player.prototype.setControls = function(game) {
 	this.leftControl = game.input.keyboard.addKey(Phaser.Keyboard.A);
     this.upControl = game.input.keyboard.addKey(Phaser.Keyboard.W);
     this.rightControl = game.input.keyboard.addKey(Phaser.Keyboard.D);
     this.downControl = game.input.keyboard.addKey(Phaser.Keyboard.S);
-    this.spaceControl = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 };
 
 Player.prototype.movePlayer = function(game) {
@@ -117,7 +182,7 @@ Player.prototype.movePlayer = function(game) {
 
 Player.prototype.playerShoot = function(game) {
 
-    if(game.input.activePointer.isDown || this.spaceControl.isDown)
+    if(game.input.activePointer.isDown)
     {
     	//handle the bullet creation and firing
     	this.weapons[this.currentWeapon].fire(this);

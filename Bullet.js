@@ -28,6 +28,15 @@ Bullet.prototype.fire = function (x, y, angle, speed, gx, gy) {
     //this.body.gravity.set(gx, gy);
 };
 
+Bullet.prototype.fireCircle = function (x, y, angle, speed, gx, gy) {
+    gx = gx || 0;
+    gy = gy || 0;
+    this.reset(x, y);
+    this.scale.set(1);
+    this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
+    //this.angle = angle;
+};
+
 Bullet.prototype.update = function () {
     if (this.scaleSpeed > 0)
     {
