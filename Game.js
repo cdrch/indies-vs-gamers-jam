@@ -44,8 +44,8 @@ BasicGame.Game.prototype = {
         this.TILESIZEX = 128;
         this.TILESIZEY = 128;
 
-        this.MAPWIDTH = 50;
-        this.MAPHEIGHT = 50;
+        this.MAPWIDTH = 20;
+        this.MAPHEIGHT = 20;
 
         this.createRandomDungeonMap(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
 
@@ -71,7 +71,10 @@ BasicGame.Game.prototype = {
 
         while (startX === 0 || startY === 0)
         {
-            if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
+            if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0 && 
+                this.mapData[this.array2DTo1D(xCheck+1, yCheck, this.MAPWIDTH)] === 0 && 
+                this.mapData[this.array2DTo1D(xCheck, yCheck+1, this.MAPWIDTH)] === 0 && 
+                this.mapData[this.array2DTo1D(xCheck+1, yCheck+1, this.MAPWIDTH)] === 0)
             {
                 startX = xCheck;
                 startY = yCheck;
