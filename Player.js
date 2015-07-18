@@ -1,7 +1,4 @@
-var that2;
-
 var Player = function(game, posX, posY, imageName) {
-	that2 = this;
 
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
@@ -64,10 +61,6 @@ Player.prototype.setControls = function(game) {
 };
 
 Player.prototype.movePlayer = function(game) {
-    // var xInput = this.leftControl.isDown ? -1 : 0;
-    // xInput += this.rightControl.isDown ? 1 : 0;
-    // var yInput = this.upControl.isDown ? -1: 0;
-    // yInput += this.downControl.isDown ? 1: 0;
     
     var xInput = 0;
     var yInput = 0;
@@ -97,23 +90,6 @@ Player.prototype.movePlayer = function(game) {
 
     this.sprite.body.velocity.x = xInput * this.MAXSPEED;
     this.sprite.body.velocity.y = yInput * this.MAXSPEED;
-/*
-    var diagonal = (xInput !== 0 && yInput !== 0) ? true : false;
-
-    var xMovement;
-    var yMovement;
-
-    if (diagonal)
-    {
-        xMovement = xInput * this.MAXSPEED * (Math.sqrt(xInput * xInput + yInput * yInput));
-        yMovement = yInput * this.MAXSPEED * (Math.sqrt(xInput * xInput + yInput * yInput));
-    }
-    else
-    {
-        xMovement = xInput * this.MAXSPEED;
-        yMovement = yInput * this.MAXSPEED;
- }
-*/
 
 };
 

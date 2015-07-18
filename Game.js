@@ -31,28 +31,10 @@ BasicGame.Game.prototype = {
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
 
-        //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
-        //this.logo.anchor.setTo(0.5, 0.5);
-
-        //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
-
         this.world.setBounds(0, 0, 2000, 2000);
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        /*this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'player');
-        this.player.anchor.set(0.5);
-        this.physics.enable(this.player, Phaser.Physics.ARCADE);
-        this.player.MAXSPEED = 500; // player's maximum velocity
-        this.player.ACCELERATION = 1500; // player's maximum acceleration
-        this.player.DRAG = 1000; // player's drag
-        this.INPUTMODIFYFACTOR = 0.7071;
-
-        this.player.body.maxVelocity.setTo(this.player.MAXSPEED, this.player.MAXSPEED); // x, y
-
-        this.player.body.drag.setTo(this.player.DRAG, this.player.DRAG); // x, y*/
-
-        // this.player = new Player(this, this.world.centerX, this.world.centerY, 'player');
         this.player = new Player(this, 50, 50, 'player');
 
         
@@ -63,10 +45,6 @@ BasicGame.Game.prototype = {
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         this.player.update(this);
-
-        //this.updatePlayerTarget();
-        //this.movePlayer();
-        //this.playerShoot();
     },
 
     
