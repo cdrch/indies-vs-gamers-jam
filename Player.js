@@ -129,7 +129,7 @@ var Player = function(game, posX, posY, imageName) {
 };
 
 Player.prototype.addScore = function(points) {
-    score += score * multiplier;
+    this.score += points * this.multiplier;
     this.scoreText.text = this.score;
 
 };
@@ -215,6 +215,37 @@ Player.prototype.updateScorePosition = function(game) {
 
     this.scoreText.position = game.camera.position;
     this.scoreText.position.y -= game.camera.height / 2 - 30;
+};
+
+Player.prototype.collectPickup = function(player, pickup)
+{
+    if(pickup.name == "multiplierPickup")
+    {
+        //give player a score multiplier
+    }
+
+    if(pickup.name == "healPickup")
+    {
+        //heals player 
+    }
+
+    if(pickup.name == "damagePickup")
+    {
+        //give bonus damage
+    }
+
+    if(pickup.name == "weaponsPickup")
+    {
+        //upgrade weapons
+    }
+
+    if(pickup.name == "pointsPickup")
+    {
+        this.player.addScore(pickup.amount);
+        //give additional points
+    }
+
+    pickup.kill();
 };
 
 Player.prototype.update = function(game) {

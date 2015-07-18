@@ -35,6 +35,16 @@ BasicGame.Game.prototype = {
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
+        this.pickups = this.add.group();
+
+        this.pickups.enableBody = true;
+        this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
+
+
+        var p = this.pickups.create(100, 100, 'pointsPickup');
+        p.amount = 3000;
+        p.name = p.key;
+
         this.player = new Player(this, 50, 50, 'player');
 
         
@@ -45,6 +55,10 @@ BasicGame.Game.prototype = {
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         this.player.update(this);
+
+        this.physics.arcade.overlap(
+            this.player.sprite, this.pickups,
+            this.player.collectPickup, null, this);
     },
 
     

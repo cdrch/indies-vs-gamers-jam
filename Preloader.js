@@ -38,6 +38,8 @@ BasicGame.Preloader.prototype = {
 		this.load.image('crosshair', 'crosshair.png');
 		this.load.image('bullet', 'bullet.png');
 
+		this.load.image('pointsPickup', 'pointsPickup.png');
+
 	},
 
 	create: function () {
