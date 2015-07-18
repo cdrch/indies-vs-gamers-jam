@@ -38,22 +38,12 @@ BasicGame.Game.prototype = {
 
         this.MAPWIDTH = 50;
         this.MAPHEIGHT = 50;
-        this.mapData = [this.MAPWIDTH * this.MAPHEIGHT];
 
-        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
-        //this.rotMap.randomize(0.5);
-        //for (var iterations = 0; iterations < 5; iterations++)
-        //{
-            this.rotMap.create();
-        //}
+        this.mapData = this.prepareMapData(); // creates the raw data for maps
+
+        //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
         
-        var mapCallback = function(x, y, value)
-        {
-            gameThat.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
-        };
-        this.rotMap.create(mapCallback);
-
-        this.stage.backgroundColor = '#1111FF';
+        // create maps
 
         this.map = this.add.tilemap();
 
@@ -75,6 +65,15 @@ BasicGame.Game.prototype = {
         this.layer.resizeWorld();
 
         this.layer2 = this.map.create('level2', this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
+
+        for (var x = 0; x < this.MAPWIDTH; x++)
+        {
+            for (var y = 0; y < this.MAPWIDTH; y++)
+            {
+                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)], x, y, this.layer);
+                //this.map.random(x, y, 1, 1, this.layer);
+            }
+        }
 
         //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
         //this.logo.anchor.setTo(0.5, 0.5);
@@ -100,6 +99,26 @@ BasicGame.Game.prototype = {
 
         
 
+    },
+
+    prepareMapData: function () {
+
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
+        //this.rotMap.randomize(0.5);
+        //for (var iterations = 0; iterations < 5; iterations++)
+        //{
+            this.rotMap.create();
+        //}
+        
+        var mapCallback = function(x, y, value)
+        {
+            data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
+        };
+        this.rotMap.create(mapCallback);
+
+        return data;
     },
 
     update: function () {
