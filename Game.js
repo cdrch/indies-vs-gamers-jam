@@ -52,7 +52,8 @@ BasicGame.Game.prototype = {
 
         this.player.body.drag.setTo(this.player.DRAG, this.player.DRAG); // x, y*/
 
-        this.player = new Player(this, this.world.centerX, this.world.centerY, 'player');
+        // this.player = new Player(this, this.world.centerX, this.world.centerY, 'player');
+        this.player = new Player(this, 50, 50, 'player');
 
         
 
