@@ -37,7 +37,13 @@ BasicGame.Game.prototype = {
         this.MAPHEIGHT = 100;
         this.mapData = [this.MAPWIDTH * this.MAPHEIGHT];
 
-        this.rotMap = new ROT.Map.Arena(this.MAPWIDTH, this.MAPHEIGHT);
+        this.rotMap = new ROT.Map.Cellular(this.MAPWIDTH, this.MAPHEIGHT);
+        this.rotMap.randomize(0.5);
+        for (var iterations = 0; iterations < 5; iterations++)
+        {
+            this.rotMap.create();
+        }
+        
         var mapCallback = function(x, y, value)
         {
             gameThat.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
@@ -90,7 +96,8 @@ BasicGame.Game.prototype = {
 
     update: function () {
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        this.physics.arcade.collide(this.player.sprite, this.layer);
+
         this.player.update(this);
 
         //this.updatePlayerTarget();
