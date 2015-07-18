@@ -35,6 +35,8 @@ BasicGame.Preloader.prototype = {
 
 		this.load.image('player', 'test-player.png');
 
+		this.load.image('BasicEnemy', 'enemy.jpg');
+
 		this.load.image('crosshair', 'crosshair.png');
 		this.load.image('bullet', 'ice-bolt.png');
 

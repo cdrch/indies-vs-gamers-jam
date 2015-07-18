@@ -1,4 +1,3 @@
-
 BasicGame.Game = function (game) {
 
     //  When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
@@ -26,6 +25,53 @@ BasicGame.Game = function (game) {
 };
 
 var gameThat;
+
+var Spawner = {};
+
+Spawner.BasicEnemy = function (game, x, y) {
+
+    Phaser.Group.call(this, game, game.world, 
+        'Basic Enemy', false, true, Phaser.Physics.ARCADE);
+
+    this.spawningTime = 1000;
+    this.nextSpawn = 0;
+    this.spawnHP = 30;
+
+    this.x = x;
+    this.y = y;
+
+    this.maximumEnemies = 5;
+
+    for(var i = 0; i < this.maximumEnemies; i++)
+    {
+        this.add(new Enemy(game, 'BasicEnemy'), true, true);
+    }
+
+    return this;
+}
+
+Spawner.BasicEnemy.prototype = Object.create(Phaser.Group.prototype);
+Spawner.BasicEnemy.prototype.constructor = Spawner.BasicEnemy;
+
+Spawner.BasicEnemy.prototype.spawn = function () {
+
+    if (this.game.time.time < this.nextSpawn) { return; }
+
+    var first = this.getFirstExists(false);
+
+    if(first == null)
+        return;
+
+    first.spawn(this.x, this.y, 
+        this.spawnHP);
+
+    this.nextSpawn = this.game.time.time + this.spawningTime;
+
+};
+
+Spawner.BasicEnemy.prototype.update = function() {
+    this.spawn();
+}
 
 BasicGame.Game.prototype = {
 
@@ -173,6 +219,9 @@ BasicGame.Game.prototype = {
         var p = this.pickups.create(100, 100, 'pointsPickup');
         p.amount = 3000;
         p.name = p.key;
+
+        this.spawners = [];
+        this.spawners.push(new Spawner.BasicEnemy(this, 200, 200));
 
     },
 

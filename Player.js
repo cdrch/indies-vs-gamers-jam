@@ -3,7 +3,8 @@ var Weapon = {};
 
 Weapon.SingleBullet = function (game) {
 
-    Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
+    Phaser.Group.call(this, game, game.world, 'Single Bullet', 
+        false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
     this.bulletSpeed = 600;
