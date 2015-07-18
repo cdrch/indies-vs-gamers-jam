@@ -174,8 +174,6 @@ BasicGame.Game.prototype = {
         p.amount = 3000;
         p.name = p.key;
 
-        this.player = new Player(this, 50, 50, 'player');
-
     },
 
     loadPremadeLevel: function (tileWidth, tileHeight, fileName) {
