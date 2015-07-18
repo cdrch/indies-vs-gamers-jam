@@ -35,27 +35,26 @@ BasicGame.Game.prototype = {
 
         this.gameInfo = this.cache.getJSON('gameInfo');
 
-        // switch (this.gameInfo.levels.1.type)
-        // {
-        //     case 1:
-
-        // }
-
         this.TILESIZEX = 128;
         this.TILESIZEY = 128;
 
-        this.MAPWIDTH = 20;
-        this.MAPHEIGHT = 20;
+        this.MAPWIDTH = 30;
+        this.MAPHEIGHT = 30;
 
-        this.createRandomDungeonMap(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
-
-        
+        switch (this.gameInfo.levels.one.type)
+        {
+            case "1":
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                break;
+            case "2":
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Cave");
+                break;
+            default:
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+        }  
 
         //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
-        
-        // create maps
-
-        
+       
 
         //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
         //this.logo.anchor.setTo(0.5, 0.5);
@@ -63,11 +62,14 @@ BasicGame.Game.prototype = {
         //this.textBox = new TextBox(this, testingText, 'textBG', Phaser.Keyboard.DOWN, this.world.centerX, this.world.centerY, 0, true, true, { font: "30px Arial", fill: "#4400ff", align: "center" });
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
+        console.log("1");
 
         var startX = 0;
         var startY = 0;
         var xCheck = 0;
         var yCheck = 0;
+
+
 
         while (startX === 0 || startY === 0)
         {
@@ -90,8 +92,39 @@ BasicGame.Game.prototype = {
                 {
                     xCheck++;
                 }
-            }            
+            }
+
+            console.log("loop1");
+            /*
+            if (xCheck > this.MAPWIDTH * 0.5 && yCheck > this.MAPWIDTH * 0.5)
+            {
+                console.log("2");
+                xCheck = 0;
+                yCheck = 0;
+                while (startX === 0 || startY === 0)
+                {
+                    console.log("loop2");
+                    if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
+                    {
+                        startX = xCheck;
+                        startY = yCheck;
+                    }
+                    else
+                    {
+                        if (xCheck > yCheck)
+                        {
+                            xCheck = 0;
+                            yCheck++;
+                        }
+                        else
+                        {
+                            xCheck++;
+                        }
+                    }
+                }
+            }*/
         }
+        console.log("3");
 
         this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
@@ -99,29 +132,20 @@ BasicGame.Game.prototype = {
 
     },
 
-    prepareRandomMapData: function () {
+    createRandomMapDisplay: function (width, height, tileWidth, tileHeight, type) {
 
-        var data = [this.MAPWIDTH * this.MAPHEIGHT];
-
-        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
-        //this.rotMap.randomize(0.5);
-        //for (var iterations = 0; iterations < 5; iterations++)
-        //{
-            this.rotMap.create();
-        //}
-        
-        var mapCallback = function(x, y, value)
+        switch (type)
         {
-            data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
-        };
-        this.rotMap.create(mapCallback);
-
-        return data;
-    },
-
-    createRandomDungeonMap: function (width, height, tileWidth, tileHeight) {
-
-        this.mapData = this.prepareRandomMapData(); // creates the raw data for maps
+            case "Digger":
+                this.mapData = this.createRandomDiggerMapData(); // creates the raw data for maps
+                break;
+            case "Cave":
+                this.mapData = this.createRandomCaveMapData(); // creates the raw data for maps
+                break;
+            default:
+                this.mapData = this.createRandomDiggerMapData(); // creates the raw data for maps                
+        }
+        
 
         this.map = this.add.tilemap();
 
@@ -151,7 +175,49 @@ BasicGame.Game.prototype = {
         }
     },
 
-    createRandomMazeMap: function () {
+    createRandomDiggerMapData: function () {
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
+        //this.rotMap.randomize(0.5);
+        //for (var iterations = 0; iterations < 5; iterations++)
+        //{
+            this.rotMap.create();
+        //}
+        
+        var mapCallback = function(x, y, value)
+        {
+            data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
+        };
+        this.rotMap.create(mapCallback);
+
+        return data;
+    },
+
+    createRandomCaveMapData: function () {
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        this.rotMap = new ROT.Map.Cellular(this.MAPWIDTH, this.MAPHEIGHT);
+
+        var width =  this.MAPWIDTH;
+        var height = this.MAPHEIGHT;
+        
+        
+        var mapCallback = function(x, y, value)
+        {
+            data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = ((x == 0 || y == 0 || x == width-1 || y == height-1) ? 1 : value);
+        };
+
+        this.rotMap.randomize(0.5);
+        for (var iterations = 0; iterations < 10; iterations++)
+        {
+            this.rotMap.create(mapCallback);
+        }
+
+        return data;
+    },
+
+    createRandomMazeMapData: function () {
 
     },
 
