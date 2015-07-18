@@ -2,7 +2,7 @@
     "gameVersion": "0.0.1",
     "levels": {
         "one": {
-            "type": "2",
+            "type": "3",
             "width": "30",
             "height": "30"
         },

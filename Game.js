@@ -49,6 +49,9 @@ BasicGame.Game.prototype = {
             case "2":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Cave");
                 break;
+            case "3":
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Maze");
+                break;
             default:
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
         }  
@@ -95,7 +98,7 @@ BasicGame.Game.prototype = {
             }
 
             console.log("loop1");
-            /*
+            
             if (xCheck > this.MAPWIDTH * 0.5 && yCheck > this.MAPWIDTH * 0.5)
             {
                 console.log("2");
@@ -122,7 +125,7 @@ BasicGame.Game.prototype = {
                         }
                     }
                 }
-            }*/
+            }
         }
         console.log("3");
 
@@ -141,6 +144,9 @@ BasicGame.Game.prototype = {
                 break;
             case "Cave":
                 this.mapData = this.createRandomCaveMapData(); // creates the raw data for maps
+                break;
+            case "Maze":
+                this.mapData = this.createRandomMazeMapData(); // creates the raw data for maps
                 break;
             default:
                 this.mapData = this.createRandomDiggerMapData(); // creates the raw data for maps                
@@ -218,7 +224,40 @@ BasicGame.Game.prototype = {
     },
 
     createRandomMazeMapData: function () {
+        var data = [this.MAPWIDTH * this.MAPHEIGHT];
 
+        var insideMaze = new ROT.Map.EllerMaze(this.MAPWIDTH, this.MAPHEIGHT);
+        var insideMazeData = [this.MAPWIDTH-1 * this.MAPHEIGHT-1];
+
+        //this.rotMap = new ROT.Map.EllerMaze(this.MAPWIDTH, this.MAPHEIGHT);
+
+        var width =  this.MAPWIDTH-1;
+        var height = this.MAPHEIGHT-1;
+        
+        
+        var mapCallback = function(x, y, value)
+        {
+            insideMazeData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
+        };
+        
+        insideMaze.create(mapCallback);
+
+        for (var x = 0; x < this.MAPWIDTH; x++)
+        {
+            for (var y = 0; y < this.MAPHEIGHT; y++)
+            {
+                if (x === 0 || y === 0 || x === this.MAPWIDTH-1 || y === this.MAPHEIGHT-1)
+                {
+                    data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = 1;
+                }
+                else
+                {
+                    data[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = insideMazeData[gameThat.array2DTo1D(x-1, y-1, gameThat.MAPWIDTH)];
+                }
+            }
+        }
+
+        return data;
     },
 
     loadMapFromFile: function () {
