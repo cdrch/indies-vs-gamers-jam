@@ -96,11 +96,6 @@ var Player = function(game, posX, posY, imageName) {
     game.camera.follow(this.sprite);
 
 
-<<<<<<< HEAD
-    game.camera.follow(this.sprite);
-    this.sprite.body.velocity.x = 0;
-    this.sprite.body.velocity.y = 0;
-=======
 
     this.weapons = [];
     this.currentWeapon = 0;
@@ -134,7 +129,6 @@ var Player = function(game, posX, posY, imageName) {
 Player.prototype.addScore = function(points) {
     score += score * multiplier;
     this.scoreText.text = this.score;
->>>>>>> b8df63a6c258ddbbd81c8b84d1daed4fba28d383
 
 };
 

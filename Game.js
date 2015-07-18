@@ -90,7 +90,6 @@ BasicGame.Game.prototype = {
         //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
        
 
-<<<<<<< HEAD
         //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
         //this.logo.anchor.setTo(0.5, 0.5);
 
@@ -214,13 +213,6 @@ BasicGame.Game.prototype = {
                 this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
             }
         }
-=======
-        this.world.setBounds(0, 0, 2000, 2000);
-
-        this.physics.startSystem(Phaser.Physics.ARCADE);
-
-        this.player = new Player(this, 50, 50, 'player');
->>>>>>> b8df63a6c258ddbbd81c8b84d1daed4fba28d383
 
         this.layer.resizeWorld();
     },
