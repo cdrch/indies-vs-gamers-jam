@@ -33,19 +33,19 @@ BasicGame.Game.prototype = {
 
         gameThat = this;
 
-        this.TILESIZEX = 64;
-        this.TILESIZEY = 64;
+        this.TILESIZEX = 128;
+        this.TILESIZEY = 128;
 
-        this.MAPWIDTH = 100;
-        this.MAPHEIGHT = 100;
+        this.MAPWIDTH = 50;
+        this.MAPHEIGHT = 50;
         this.mapData = [this.MAPWIDTH * this.MAPHEIGHT];
 
-        this.rotMap = new ROT.Map.Cellular(this.MAPWIDTH, this.MAPHEIGHT);
-        this.rotMap.randomize(0.5);
-        for (var iterations = 0; iterations < 5; iterations++)
-        {
+        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
+        //this.rotMap.randomize(0.5);
+        //for (var iterations = 0; iterations < 5; iterations++)
+        //{
             this.rotMap.create();
-        }
+        //}
         
         var mapCallback = function(x, y, value)
         {
@@ -53,25 +53,28 @@ BasicGame.Game.prototype = {
         };
         this.rotMap.create(mapCallback);
 
-        this.stage.backgroundColor = '#2d2d2d';
+        this.stage.backgroundColor = '#1111FF';
 
         this.map = this.add.tilemap();
 
-        this.map.addTilesetImage('tileset1');
+        this.map.addTilesetImage('tileset128', 'tileset128', this.TILESIZEX, this.TILESIZEY);
 
         this.map.setCollision(1);
 
-        this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, 64, 64);
+        this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
 
         for (var x = 0; x < this.MAPWIDTH; x++)
         {
             for (var y = 0; y < this.MAPWIDTH; y++)
             {
                 this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)], x, y, this.layer);
+                //this.map.random(x, y, 1, 1, this.layer);
             }
         }
 
         this.layer.resizeWorld();
+
+        this.layer2 = this.map.create('level2', this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY);
 
         //this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
         //this.logo.anchor.setTo(0.5, 0.5);
