@@ -39,6 +39,20 @@ var Player = function(game, posX, posY, imageName) {
     this.sprite.body.velocity.x = 0;
     this.sprite.body.velocity.y = 0;
 
+    this.multiplier = 1;
+    this.score = 0;
+
+    this.scoreText = game.add.text(
+    game.game.width / 2, 30, '' + this.score, 
+    { font: '20px monospace', fill: '#fff', align: 'center' });
+    this.scoreText.anchor.setTo(0.5, 0.5);
+
+};
+
+Player.prototype.addScore = function(points) {
+    score += score * multiplier;
+    this.scoreText.text = this.score;
+
 };
 
 Player.prototype.setControls = function(game) {
