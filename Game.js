@@ -56,6 +56,8 @@ BasicGame.Game.prototype = {
 
         this.map.addTilesetImage('tileset1');
 
+        this.map.setCollision(1);
+
         this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, 32, 32);
 
         for (var x = 0; x < this.MAPWIDTH; x++)
