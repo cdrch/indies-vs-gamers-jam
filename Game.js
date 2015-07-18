@@ -25,9 +25,24 @@ BasicGame.Game = function (game) {
 
 };
 
+var gameThat;
+
 BasicGame.Game.prototype = {
 
     create: function () {
+
+        gameThat = this;
+
+        this.MAPWIDTH = 100;
+        this.MAPHEIGHT = 100;
+        this.mapData = [this.MAPWIDTH * this.MAPHEIGHT];
+
+        this.rotMap = new ROT.Map.Arena(this.MAPWIDTH, this.MAPHEIGHT);
+        var mapCallback = function(x, y, value)
+        {
+            gameThat.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)] = value;
+        };
+        this.rotMap.create(mapCallback);
 
         this.stage.backgroundColor = '#2d2d2d';
 
@@ -35,7 +50,15 @@ BasicGame.Game.prototype = {
 
         this.map.addTilesetImage('tileset1');
 
-        this.layer = this.map.create('level1', 100, 100, 32, 32);
+        this.layer = this.map.create('level1', this.MAPWIDTH, this.MAPHEIGHT, 32, 32);
+
+        for (var x = 0; x < this.MAPWIDTH; x++)
+        {
+            for (var y = 0; y < this.MAPWIDTH; y++)
+            {
+                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, gameThat.MAPWIDTH)], x, y, this.layer);
+            }
+        }
 
         this.layer.resizeWorld();
 
@@ -89,6 +112,16 @@ BasicGame.Game.prototype = {
         //  Then let's go back to the main menu.
         this.state.start('MainMenu');
 
+    },
+
+    array2DTo1D: function (x, y, rowWidth)
+    {
+        return x + rowWidth * y;
+    },
+
+    array1DTo2D: function (i, rowWidth)
+    {
+        return {x: Math.floor(i % rowWidth), y: Math.floor(i / rowWidth)};
     }
 
 };

@@ -35,7 +35,7 @@ var Player = function(game, posX, posY, imageName) {
 
     this.setControls(game);
 
-    //game.camera.follow(this.sprite);
+    game.camera.follow(this.sprite);
     this.sprite.body.velocity.x = 0;
     this.sprite.body.velocity.y = 0;
 
