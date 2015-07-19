@@ -350,8 +350,10 @@ ArcaneArcade.Game.prototype = {
                     case 75:
                     case 78:
                     case 79:
-                        gid += 1;
+                        gid += 0;
                         break;
+                    case 3:
+                    case 7:
                     case 10:
                     case 11:
                     case 14:
@@ -368,7 +370,8 @@ ArcaneArcade.Game.prototype = {
                     case 331:
                     case 334:
                     case 335:
-                        gid += 2;
+                    case 451:
+                        gid += 1;
                         break;
                     case 34:
                     case 35:
@@ -385,20 +388,54 @@ ArcaneArcade.Game.prototype = {
                     case 355:
                     case 358:
                     case 359:
-                        gid += 3;
+                        gid += 2;
                         break;
                     case 256:
-                        gid += 4;
+                        gid += 3;
                         break;
                     case 64:
-                        gid += 5; // not done
+                        gid += 4;
+                        break;
+                    case 319:
+                        gid += 6;
+                        break;
+                    case 0:
+                    case 300:
+                    case 301:
+                    case 364:
+                        gid += 9; // interior floor
+                        break;
+                    case 292:
+                        gid += 10; // floor - wall to right
+                        break;
+                    case 447:
+                    case 504:
+                    case 508:
+                    case 510:
+                    case 511:
+                        gid += 14; // interior wall
+                        break;
+                    case 438:
+                    case 439:
+                    case 502:
+                        gid += 15;
+                        break;
+                    case 484:
+                    case 485:
+                        gid += 18;
+                        break;
+                    case 54:
+                        gid += 18;
+                        break;
+                    case 24:
+                        gid += 19;
                         break;
 
                     default:
                         console.log("ERROR: Case " + value + " missing!");
                 }
 
-                
+
 
                 finalDataArray[gameThat.array2DTo1D(x, y, width)] = gid;
             }
