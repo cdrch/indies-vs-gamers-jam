@@ -47,7 +47,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250), true, true);
     }
 
     return this;
@@ -256,6 +256,8 @@ ArcaneArcade.Game.prototype = {
         //this.setMapCollision();
 
         this.layer = this.map.createLayer(0);
+
+        this.map.setCollisionBetween(2, 2, true);
 
         
 

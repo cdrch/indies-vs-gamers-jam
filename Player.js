@@ -83,6 +83,7 @@ var Player = function(game, posX, posY, imageName) {
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
 
+    this.sprite.health = 100;
     // animations
     
     this.sprite.animations.add('idle', [0], 15, false);
@@ -265,6 +266,7 @@ Player.prototype.collectPickup = function(player, pickup)
 
     if(pickup.name == "healPickup")
     {
+        this.player.sprite.health += amount;
         //heals player 
     }
 
