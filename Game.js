@@ -451,7 +451,7 @@ ArcaneArcade.Game.prototype = {
 
     render: function() {
         // call renderGroup on each of the alive members
-        this.enemyGroup.forEach(this.renderGroup, this);
+        //this.enemyGroup.forEach(this.renderGroup, this);
     },
 
     renderGroup: function (member) {

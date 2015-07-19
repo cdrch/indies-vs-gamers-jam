@@ -78,7 +78,7 @@ Weapon.CircleBullet.prototype.fire = function (source) {
 
 };
 
-var Player = function(game, posX, posY, imageName) {
+var Player = function(game, posX, posY, imageName) {    
 
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
@@ -131,16 +131,31 @@ var Player = function(game, posX, posY, imageName) {
     var changeKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     changeKey.onDown.add(this.nextWeapon, this);
 
+    this.bubble = game.add.sprite(this.sprite.x, this.sprite.y, 'transparentBubble');
+    this.bubble.anchor.set(0.5);
+    game.physics.enable(this.bubble, Phaser.Physics.ARCADE);
+    this.bubble.exists = false;
+
     this.multiplier = 1;
     this.score = 0;
+    this.lives = 3;
 
     this.scoreText = game.add.text(
     game.camera.position.x, game.camera.position.y - game.camera.height / 2 + 30, 
     '' + this.score, 
     { font: '20px monospace', fill: '#fff', align: 'center' });
+    this.livesText = game.add.text(
+    game.camera.position.x, game.camera.position.y - game.camera.height / 2 + 70, 
+    '' + this.lives, 
+    { font: '20px monospace', fill: '#fff', align: 'center' });
 
     this.scoreText.anchor.setTo(0.5, 0.5);
     this.scoreText.fixedToCamera = true;
+
+    this.livesText.anchor.setTo(0.5, 0.5);
+    this.livesText.fixedToCamera = true;
+
+
 
 };
 
@@ -251,8 +266,16 @@ Player.prototype.playerShoot = function(game) {
 };
 
 Player.prototype.updatePlayerTarget = function(game) {
-	this.playerTarget.x = game.camera.x + game.input.mousePointer.x;
-	this.playerTarget.y = game.camera.y + game.input.mousePointer.y;
+    if (this.sprite.alive)
+    {
+        this.playerTarget.x = game.camera.x + game.input.mousePointer.x;
+        this.playerTarget.y = game.camera.y + game.input.mousePointer.y;
+    }
+	else
+    {
+        this.playerTarget.x = game.camera.x - 96;
+        this.playerTarget.y = game.camera.y - 96;
+    }
 
 };
 
@@ -307,6 +330,41 @@ Player.prototype.update = function(game) {
         this.movePlayer(game);
         this.playerShoot(game);
     }
+    else
+    {
+        if (!this.bubble.exists)
+        {
+            this.respawn(game);            
+        }    
+        if (this.bubble.exists && this.bubble.x >= this.initialx - 10 && this.bubble.x <= this.initialx + 10 && this.bubble.y >= this.initialy - 10 && this.bubble.y <= this.initialy + 10)
+        {
+            this.sprite.x = this.bubble.x;
+            this.sprite.y = this.bubble.y;
+            this.sprite.revive(100);
+            game.camera.follow(this.sprite);
+            this.bubble.exists = false;
+        }    
+    }
 
 	this.updatePlayerTarget(game);
+};
+
+Player.prototype.respawn = function(game) {
+    this.lives--;
+    this.livesText.setText('' + this.lives);
+    if (this.lives > 0)
+    {    
+        this.bubble.x = this.sprite.x;
+        this.bubble.y = this.sprite.y;
+        this.bubble.exists = true;
+        game.camera.follow(this.bubble);
+
+        game.physics.arcade.moveToXY(this.bubble, this.initialx, this.initialy, 50, 1000);
+    }
+    else
+    {
+        // game over
+    }
+    
+
 };

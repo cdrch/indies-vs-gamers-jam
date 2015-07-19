@@ -50,6 +50,8 @@ ArcaneArcade.Preloader.prototype = {
 
 		this.load.spritesheet('player', 'art/bubbles.png', 64, 64);
 
+		this.load.image('transparentBubble', 'art/Transparent Bubble.png');
+
 
 
 		this.load.audio('titleSong', ['audio/music/Title Song Final.mp3', 'audio/music/Title Song Final.ogg']);
