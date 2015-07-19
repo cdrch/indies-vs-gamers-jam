@@ -1,6 +1,6 @@
 var EnemyWeapon = {};
 
-EnemyWeapon.EnemySingleBullet = function (game) {
+EnemyWeapon.EnemySingleBullet = function (game, damage) {
 
     Phaser.Group.call(this, game, game.world, 'Single Bullet', 
         false, true, Phaser.Physics.ARCADE);
@@ -11,7 +11,7 @@ EnemyWeapon.EnemySingleBullet = function (game) {
 
     for (var i = 0; i < 64; i++)
     {
-        this.add(new Bullet(game, 'bullet'), true, true);
+        this.add(new Bullet(game, 'bullet', damage), true, true);
     }
 
     return this;
@@ -36,7 +36,7 @@ EnemyWeapon.EnemySingleBullet.prototype.fire = function (source, xTarget, yTarge
 
 };
 
-var Enemy = function (game, key, speed, range, invincible, flyer) {
+var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
 
     Phaser.Sprite.call(this, game, 0, 0, key);
 
@@ -52,7 +52,9 @@ var Enemy = function (game, key, speed, range, invincible, flyer) {
     this.speed = speed;
     this.range = range;
 
-    this.weapon = new EnemyWeapon.EnemySingleBullet(game);
+    this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage);
+    this.weapon.enableBody = true;
+    this.weapon.physicsBodyType = Phaser.Physics.ARCADE;
 
     return this;
 };
@@ -68,9 +70,15 @@ Enemy.prototype.spawn = function (x, y, HP, points) {
 };
 
 Enemy.prototype.update = function (layer) {
+
+	if(!this.alive) return;
+
 	var line = new Phaser.Line();
 	line.start.set(this.body.x, this.body.y);
 	line.end.set(this.targetPlayer.sprite.body.x, this.targetPlayer.sprite.body.y);
+
+	this.game.physics.arcade.overlap(this.weapon, this.targetPlayer.sprite, 
+    	this.targetPlayer.getHit, null, this);
 
 	var tileHits = layer.getRayCastTiles(line, 100, true, false);
 	if (tileHits.length == 0 || this.flyer)
@@ -104,18 +112,6 @@ Enemy.prototype.fire = function() {
 		this.targetPlayer.sprite.y);
 };
 
-Enemy.prototype.dealDamage = function(dmg) {
-
-	if(this.invincible)
-		return;
-
-	this.damage(dmg);
-
-	if(!this.alive)
-	{
-		this.targetPlayer.addScore(this.scorePoints);
-	}
-};
 
 //You will use .dealDamage() to deal damage
 //From HTML 5 Shoot Em Up In An Afternoon: 

@@ -1,7 +1,7 @@
 var that2;
 var Weapon = {};
 
-Weapon.SingleBullet = function (game) {
+Weapon.SingleBullet = function (game, damage) {
 
     Phaser.Group.call(this, game, game.world, 'Single Bullet', 
         false, true, Phaser.Physics.ARCADE);
@@ -12,7 +12,7 @@ Weapon.SingleBullet = function (game) {
 
     for (var i = 0; i < 64; i++)
     {
-        this.add(new Bullet(game, 'bullet'), true, true);
+        this.add(new Bullet(game, 'bullet', damage), true, true);
     }
 
     return this;
@@ -36,7 +36,7 @@ Weapon.SingleBullet.prototype.fire = function (source) {
 
 };
 
-Weapon.CircleBullet = function (game) {
+Weapon.CircleBullet = function (game, damage) {
 
     Phaser.Group.call(this, game, game.world, 'Circle Bullet', false, true, Phaser.Physics.ARCADE);
 
@@ -46,7 +46,7 @@ Weapon.CircleBullet = function (game) {
 
     for (var i = 0; i < 250; i++)
     {
-        this.add(new Bullet(game, 'bullet'), true, true);
+        this.add(new Bullet(game, 'bullet', damage), true, true);
     }
 
     return this;
@@ -83,6 +83,9 @@ var Player = function(game, posX, posY, imageName) {
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
 
+    this.initialx = posX;
+    this.initialy = posY;
+
     this.sprite.health = 100;
     // animations
     
@@ -113,14 +116,16 @@ var Player = function(game, posX, posY, imageName) {
     this.weaponName = null;
 
 
-    this.weapons.push(new Weapon.CircleBullet(game));
-    this.weapons.push(new Weapon.SingleBullet(game));
+    this.weapons.push(new Weapon.CircleBullet(game, 20));
+    this.weapons.push(new Weapon.SingleBullet(game, 10));
 
     
     
     for (var i = 1; i < this.weapons.length; i++)
     {
         this.weapons[i].visible = false;
+        this.weapons[i].enableBody = true;
+        this.weapons[i].physicsBodyType = Phaser.Physics.ARCADE;
     }
 
     var changeKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -289,9 +294,19 @@ Player.prototype.collectPickup = function(player, pickup)
     pickup.kill();
 };
 
+Player.prototype.getHit = function(player, bullet)
+{
+    player.damage(bullet.hitDamage);
+    bullet.kill();
+};
+
 Player.prototype.update = function(game) {
     //this.updateScorePosition(game);
-	this.movePlayer(game);
-	this.playerShoot(game);
+    if(this.sprite.alive)
+    {
+        this.movePlayer(game);
+        this.playerShoot(game);
+    }
+
 	this.updatePlayerTarget(game);
 };
