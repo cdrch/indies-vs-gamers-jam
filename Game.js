@@ -122,19 +122,19 @@ ArcaneArcade.Game.prototype = {
                 this.map.setCollision(2);
                 break;
             case "1":
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
                 break;
             case "2":
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Cave");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Cave");
                 this.map.setCollision(1);
                 break;
             case "3":
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Maze");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Maze");
                 this.map.setCollision(1);
                 break;
             default:
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
         }  
 
@@ -266,7 +266,7 @@ ArcaneArcade.Game.prototype = {
         this.layer.resizeWorld();
     },
 
-    createRandomMapDisplay: function (width, height, tileWidth, tileHeight, type) {
+    createRandomMapDisplay: function (width, height, tileWidth, tileHeight, tileset, type) {
 
         switch (type)
         {
@@ -286,7 +286,7 @@ ArcaneArcade.Game.prototype = {
 
         this.map = this.add.tilemap();
 
-        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
+        this.map.addTilesetImage(tileset, tileset, tileWidth, tileHeight);
 
         //this.setMapCollision();
 

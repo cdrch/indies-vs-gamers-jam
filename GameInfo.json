@@ -1,7 +1,7 @@
 {
     "gameVersion": "0.0.1",
     "level": {
-        "one": {
+        "two": {
             "type": "0",
             "width": "30",
             "height": "30",
@@ -10,11 +10,16 @@
             "startX": "2",
             "startY": "2"
         },
-        "two": {
+        "one": {
             "type": "1",
             "width": "30",
             "height": "30",
-            "levelName": "Level 2"
+            "levelName": "Level 2",
+            "tileset": "orangetest",
+            "music": "characterTheme",
+            "enemies": ["skeleton"],
+            "spawnerCount": "2"
+
         },
         "three": {
             "type": "2",
