@@ -227,8 +227,20 @@ BasicGame.Game.prototype = {
         p.amount = 3000;
         p.name = p.key;
 
+        this.enemyGroup = [];
+
         this.spawners = [];
-        this.spawners.push(new Spawner.BasicEnemy(this, 200, 200, 100,'spawner'));
+        this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 100,'spawner');
+        this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
+        this.spawner1.enableBody = true;
+
+        this.spawners.push(this.spawner1);
+
+        this.spawner1.forEach(function (enemy) {
+            this.enemyGroup.push(enemy);
+        }, this);
+
+
 
         this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
@@ -367,10 +379,6 @@ BasicGame.Game.prototype = {
     loadMapFromFile: function () {
 
     },
-    /*
-    setMapCollision: function () {
-        this.map.setCollision(2);
-    },*/
 
     update: function () {
 
@@ -386,6 +394,8 @@ BasicGame.Game.prototype = {
         this.physics.arcade.overlap(
             this.player.sprite, this.pickups,
             this.player.collectPickup, null, this);
+
+        this.physics.arcade.collide(this.player.sprite, this.enemyGroup);
     },
 
     goToNextLevel: function () {
@@ -415,6 +425,15 @@ BasicGame.Game.prototype = {
     array1DTo2D: function (i, rowWidth)
     {
         return {x: Math.floor(i % rowWidth), y: Math.floor(i / rowWidth)};
+    },
+
+    render: function() {
+        // call renderGroup on each of the alive members
+        this.enemyGroup.forEach(this.renderGroup, this);
+    },
+
+    renderGroup: function (member) {
+        this.game.debug.body(member);
     }
 
 };

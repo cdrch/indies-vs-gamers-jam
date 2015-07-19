@@ -6,6 +6,8 @@ var Enemy = function (game, key) {
 
     this.exists = false;
     this.targetPlayer = game.player;
+    
+    return this;
 };
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
