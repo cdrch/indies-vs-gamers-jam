@@ -423,17 +423,57 @@ ArcaneArcade.Game.prototype = {
 
     dealDmgToSpawner: function(spawner, bullet)
     {
-        bullet.kill();
+        if(bullet.destroyAtHit)
+            bullet.kill();
         spawner.damage(bullet.hitDamage);
     },
 
     dealDmgToEnemy: function (enemy, bullet)
     {
-        bullet.kill();
+        if(bullet.destroyAtHit)
+            bullet.kill();
+
+
         if(enemy.invincible)
         return;
 
-        enemy.damage(bullet.hitDamage);
+        if(bullet.damageOverTime > 0)
+        {
+            enemy.dealDot(bullet.damageOverTime, 
+                Phaser.Timer.SECOND * 2);
+
+            enemy.tint = 0x009900;
+            enemy.damageOverTimeStacks++;
+            enemy.damageOverTime = bullet.damageOverTime;
+            this.time.events.repeat(Phaser.Timer.SECOND / 2, 
+                4, enemy.dealDot, enemy);
+            var timer = this.time.create(false);
+            timer.add(Phaser.Timer.SECOND * 2, 
+                enemy.removeDot, enemy);
+            timer.start();
+        }
+
+        if(bullet.stunTime > 0)
+        {
+            enemy.stunStacks++;
+            enemy.tint = 0x996633;
+            var timer = this.time.create(false);
+            timer.add(Phaser.Timer.SECOND * 1, 
+                enemy.removeStun, enemy);
+            timer.start();
+        }
+
+        if(bullet.weaknessAmount > 0)
+        {
+            enemy.weaknessStacks++;
+            enemy.tint = 0xCC0099;
+            var timer = this.time.create(false);
+            timer.add(Phaser.Timer.SECOND * 1, 
+                enemy.removeWeak, enemy);
+            timer.start();
+        }
+
+        enemy.dealDamage(bullet.hitDamage);
 
         if(!enemy.alive)
         {

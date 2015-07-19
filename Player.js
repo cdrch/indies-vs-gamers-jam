@@ -1,82 +1,376 @@
 var that2;
 var Weapon = {};
 
-Weapon.SingleBullet = function (game, damage) {
+/*MAGIC MISSILE*/
 
-    Phaser.Group.call(this, game, game.world, 'Single Bullet', 
+Weapon.MagicMissile = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
     this.bulletSpeed = 600;
-    this.fireRate = 100;
+    this.fireRate = 200;
+    this.hitDamage = 5;
+
+    this.level = 1;
 
     for (var i = 0; i < 64; i++)
     {
-        this.add(new Bullet(game, 'bullet', damage), true, true);
+        this.add(new Bullet(game, 'bullet'), true, true);
     }
+
+    this.setAll("hitDamage", this.hitDamage);   
 
     return this;
 
 };
 
 
-Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
-Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
+Weapon.MagicMissile.prototype = Object.create(Phaser.Group.prototype);
+Weapon.MagicMissile.prototype.constructor = Weapon.MagicMissile;
 
-Weapon.SingleBullet.prototype.fire = function (source) {
+Weapon.MagicMissile.prototype.levelUp = function() {
+
+    this.level++;
+
+    if(this.level == 2)
+        this.fireRate /= 2;
+    else if (this.level == 3)
+    {
+        this.hitDamage *= 2;
+        this.setAll("hitDamage", this.hitDamage);
+    }
+};
+
+Weapon.MagicMissile.prototype.fire = function (source) {
 
     if (this.game.time.time < this.nextFire) { return; }
 
     var x = source.sprite.x + 10;
     var y = source.sprite.y + 10;
 
-    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, source.playerTarget.x, source.playerTarget.y);
+    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+        source.playerTarget.x, source.playerTarget.y);
 
     this.nextFire = this.game.time.time + this.fireRate;
 
 };
 
-Weapon.CircleBullet = function (game, damage) {
+/*ICE BOLT*/
 
-    Phaser.Group.call(this, game, game.world, 'Circle Bullet', false, true, Phaser.Physics.ARCADE);
+
+Weapon.IceBolt = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+        false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
     this.bulletSpeed = 600;
     this.fireRate = 500;
+    this.hitDamage = 10;
+    this.numberOfBullets = 8;
 
+    this.level = 1;
+    
     for (var i = 0; i < 250; i++)
     {
-        this.add(new Bullet(game, 'bullet', damage), true, true);
+        this.add(new Bullet(game, 'bullet'), true, true);
     }
+
+    this.setAll("hitDamage", this.hitDamage);
 
     return this;
 
 };
 
 
-Weapon.CircleBullet.prototype = Object.create(Phaser.Group.prototype);
-Weapon.CircleBullet.prototype.constructor = Weapon.CircleBullet;
+Weapon.IceBolt.prototype = Object.create(Phaser.Group.prototype);
+Weapon.IceBolt.prototype.constructor = Weapon.IceBolt;
 
-Weapon.CircleBullet.prototype.fire = function (source) {
+Weapon.IceBolt.prototype.levelUp = function() {
 
-	var NUMBER_OF_BULLETS = 30;
+    this.level++;
+
+    if(this.level == 2)
+        this.numberOfBullets = 16;
+    else if (this.level == 3)
+        this.numberOfBullets = 32;
+};
+
+Weapon.IceBolt.prototype.fire = function (source) {
+
 
     if (this.game.time.time < this.nextFire || 
-    	this.countDead < NUMBER_OF_BULLETS) 
-    		{ return; }
+        this.countDead < this.numberOfBullets) 
+            { return; }
 
 
     this.nextFire = this.game.time.time + this.fireRate;
 
-    for(var i = 0; i < NUMBER_OF_BULLETS; i++)
+    for(var i = 0; i < this.numberOfBullets; i++)
     {
-    	this.getFirstExists(false).fireCircle(source.sprite.x,
-    	 source.sprite.y, 360 / NUMBER_OF_BULLETS * i,
-    	 this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fireCircle(source.sprite.x,
+         source.sprite.y, 360 / this.numberOfBullets * i,
+         this.bulletSpeed, 0, 0, this.hitDamage);
     }
 
+};
+
+/*POISON STING*/
+
+Weapon.PoisonSting = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+        false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 150;
+    this.fireRate = 1200;
+    this.hitDamage = 0;
+    this.damageOverTime = 30;
+
+    this.level = 1;
+
+    for (var i = 0; i < 30; i++)
+    {
+        this.add(new Bullet(game, 'bullet'), true, true);
+    }
+
+    this.setAll("hitDamage", this.hitDamage);
+    this.setAll("damageOverTime", this.damageOverTime);
+
+    return this;
 
 };
+
+
+Weapon.PoisonSting.prototype = Object.create(Phaser.Group.prototype);
+Weapon.PoisonSting.prototype.constructor = Weapon.PoisonSting;
+
+Weapon.PoisonSting.prototype.levelUp = function() {
+
+    this.level++;
+
+    if(this.level == 2)
+    {
+        this.damageOverTime *= 2;
+        this.setAll("damageOverTime", this.damageOverTime);
+    }
+    else if (this.level == 3)
+    {
+        this.setAll("destroyAtHit", false);
+    }
+};
+
+Weapon.PoisonSting.prototype.fire = function (source) {
+
+    if (this.game.time.time < this.nextFire) { return; }
+
+    var x = source.sprite.x + 10;
+    var y = source.sprite.y + 10;
+
+    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+        source.playerTarget.x, source.playerTarget.y);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+};
+
+/*WIND*/
+
+//TO ADD KNOCKBACK LATER!
+
+Weapon.Wind = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+        false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 600;
+    this.fireRate = 500;
+    this.hitDamage = 0;
+    this.numberOfBullets = 1;
+    this.stunTime = 1;
+
+    this.level = 1;
+    
+    for (var i = 0; i < 250; i++)
+    {
+        this.add(new Bullet(game, 'bullet'), true, true);
+    }
+
+    this.setAll("hitDamage", this.hitDamage);
+    this.setAll("stunTime", this.stunTime);
+
+    this.levelUp();
+    this.levelUp();
+
+    return this;
+
+};
+
+
+Weapon.Wind.prototype = Object.create(Phaser.Group.prototype);
+Weapon.Wind.prototype.constructor = Weapon.Wind;
+
+Weapon.Wind.prototype.levelUp = function() {
+
+    this.level++;
+
+    if(this.level == 2)
+        this.numberOfBullets = 8;
+    else if (this.level == 3)
+        this.numberOfBullets = 16;
+};
+
+Weapon.Wind.prototype.fire = function (source) {
+
+
+    if (this.game.time.time < this.nextFire || 
+        this.countDead < this.numberOfBullets) 
+            { return; }
+
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+    var x = source.sprite.x + 10;
+    var y = source.sprite.y + 10;
+
+    if(this.numberOfBullets == 1)
+    {
+        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+        source.playerTarget.x, source.playerTarget.y);
+    }
+    else
+    {
+        for(var i = 0; i < this.numberOfBullets; i++)
+        {
+            this.getFirstExists(false).fireCircle(source.sprite.x,
+             source.sprite.y, 360 / this.numberOfBullets * i,
+             this.bulletSpeed, 0, 0, this.hitDamage);
+        }
+    }
+};
+
+/*WEAKNESS*/
+
+Weapon.Weakness = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+        false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 600;
+    this.fireRate = 1500;
+    this.hitDamage = 0;
+    this.weaknessAmount = 0.15;
+
+    this.level = 1;
+
+    for (var i = 0; i < 10; i++)
+    {
+        this.add(new Bullet(game, 'bullet'), true, true);
+    }
+
+    this.setAll("hitDamage", this.hitDamage);
+    this.setAll("weaknessAmount", this.weaknessAmount);
+
+    return this;
+
+};
+
+
+Weapon.Weakness.prototype = Object.create(Phaser.Group.prototype);
+Weapon.Weakness.prototype.constructor = Weapon.Weakness;
+
+Weapon.Weakness.prototype.levelUp = function() {
+
+    this.level++;
+
+    if(this.level == 2)
+    {
+        this.weaknessAmount = 0.3;
+        this.setAll("weaknessAmount", this.weaknessAmount);
+    }
+    else if (this.level == 3)
+    {
+        this.weaknessAmount = 0.5;
+        this.setAll("weaknessAmount", this.weaknessAmount);
+    }
+};
+
+Weapon.Weakness.prototype.fire = function (source) {
+
+    if (this.game.time.time < this.nextFire) { return; }
+
+    var x = source.sprite.x + 10;
+    var y = source.sprite.y + 10;
+
+    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+        source.playerTarget.x, source.playerTarget.y);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+};
+
+/*FIREBALL*/
+
+Weapon.Fireball = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+        false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 600;
+    this.fireRate = 200;
+    this.hitDamage = 5;
+
+    this.level = 1;
+
+    for (var i = 0; i < 64; i++)
+    {
+        this.add(new Bullet(game, 'bullet'), true, true);
+    }
+
+    this.setAll("hitDamage", this.hitDamage);   
+
+    return this;
+
+};
+
+
+Weapon.Fireball.prototype = Object.create(Phaser.Group.prototype);
+Weapon.Fireball.prototype.constructor = Weapon.Fireball;
+
+Weapon.Fireball.prototype.levelUp = function() {
+
+    this.level++;
+
+    if(this.level == 2)
+        this.fireRate /= 2;
+    else if (this.level == 3)
+    {
+        this.hitDamage *= 2;
+        this.setAll("hitDamage", this.hitDamage);
+    }
+};
+
+Weapon.Fireball.prototype.fire = function (source) {
+
+    if (this.game.time.time < this.nextFire) { return; }
+
+    var x = source.sprite.x + 10;
+    var y = source.sprite.y + 10;
+
+    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+        source.playerTarget.x, source.playerTarget.y);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+};
+
+/*WEAPONS END*/
 
 var Player = function(game, posX, posY, imageName) {    
 
@@ -116,8 +410,11 @@ var Player = function(game, posX, posY, imageName) {
     this.weaponName = null;
 
 
-    this.weapons.push(new Weapon.CircleBullet(game, 20));
-    this.weapons.push(new Weapon.SingleBullet(game, 10));
+    this.weapons.push(new Weapon.MagicMissile(game));
+    //this.weapons.push(new Weapon.IceBolt(game));
+    //this.weapons.push(new Weapon.PoisonSting(game));
+    //this.weapons.push(new Weapon.Wind(game));
+    this.weapons.push(new Weapon.Weakness(game));
 
     
     

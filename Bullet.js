@@ -1,4 +1,4 @@
-var Bullet = function (game, key, damage) {
+var Bullet = function (game, key) {
 
     Phaser.Sprite.call(this, game, 0, 0, key);
 
@@ -10,7 +10,16 @@ var Bullet = function (game, key, damage) {
     this.outOfBoundsKill = true;
     this.exists = false;
 
-    this.hitDamage = damage;
+    this.hitDamage = 5;
+    this.destroyAtHit = true;
+    this.damageOverTime = 0;
+    this.destroyAtHit = true;
+    this.stunTime = 0;
+    this.weaknessAmount = 0;
+
+    this.blowAtDestination = false;
+    this.destX = 0;
+    this.destY = 0;
 
     this.tracking = false;
     this.scaleSpeed = 0;
@@ -21,6 +30,7 @@ Bullet.prototype = Object.create(Phaser.Sprite.prototype);
 Bullet.prototype.constructor = Bullet;
 
 Bullet.prototype.fire = function (x, y, angle, speed, gx, gy) {
+
     gx = gx || 0;
     gy = gy || 0;
     this.reset(x, y);
@@ -49,6 +59,16 @@ Bullet.prototype.update = function () {
     this.game.physics.arcade.collide(
             this, this.game.layer,
             this.killThis, null, this);
+
+
+    var destination = new Phaser.Point(destX, destY);
+
+    var distance = this.game.physics.arcade.distanceBetween(this, destination);
+
+    if(distance < 1)
+    {
+
+    }
 };
 
 Bullet.prototype.killThis = function() {

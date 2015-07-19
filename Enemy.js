@@ -52,6 +52,14 @@ var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
     this.speed = speed;
     this.range = range;
 
+    this.stunStacks = 0;
+
+    this.damageOverTime = 0;
+    this.damageOverTimeStacks = 0;
+
+    this.weaknessStacks = 0;
+    this.weakness = 0;
+
     this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage);
     this.weapon.enableBody = true;
     this.weapon.physicsBodyType = Phaser.Physics.ARCADE;
@@ -65,13 +73,17 @@ Enemy.prototype.constructor = Enemy;
 Enemy.prototype.spawn = function (x, y, HP, points) {
 
     this.reset(x, y, HP);
+    this.damageOverTimeStacks = 1;
+    this.removeDot();
     this.scorePoints = points;
+    this.stunStacks = 0;
     this.scale.set(1);
 };
 
 Enemy.prototype.update = function (layer) {
 
-	if(!this.alive) return;
+	if(!this.alive || this.stunStacks > 0) return;
+
 
 	var line = new Phaser.Line();
 	line.start.set(this.body.x, this.body.y);
@@ -115,6 +127,42 @@ Enemy.prototype.fire = function() {
 	}
 	
 };
+Enemy.prototype.dealDamage = function(dmg) {
+	var dam = (1 + this.weakness) * dmg;
+	this.damage(dam);
+}
+
+Enemy.prototype.dealDot = function() {
+	this.dealDamage(this.damageOverTime);
+};
+
+Enemy.prototype.removeDot = function() {
+	this.damageOverTimeStacks--;
+	if(this.damageOverTimeStacks == 0)
+	{
+		this.tint = 0xffffff;
+		this.damageOverTime = 0;
+	}
+};
+
+Enemy.prototype.removeStun = function() {
+	//this.stunned = false;
+	this.stunStacks--;
+	if(this.stunStacks == 0)
+	{
+		this.tint = 0xffffff;
+		this.damageOverTime = 0;
+	}
+};
+
+Enemy.prototype.removeWeak = function(){
+	this.weaknessStacks--;
+	if(this.weaknessStacks == 0)
+	{
+		this.tint = 0xffffff;
+		this.weakness = 0;
+	}
+}
 
 
 //You will use .dealDamage() to deal damage
