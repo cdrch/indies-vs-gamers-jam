@@ -47,7 +47,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250, 1), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250, 20), true, true);
     }
 
     return this;
@@ -55,11 +55,6 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
 Spawner.BasicEnemy.prototype = Object.create(Phaser.Group.prototype);
 Spawner.BasicEnemy.prototype.constructor = Spawner.BasicEnemy;
-
-Spawner.BasicEnemy.prototype.damage = function(dmg) {
-
-    this.sprite.damage(dmg);
-};
 
 Spawner.BasicEnemy.prototype.spawn = function () {
 
@@ -79,6 +74,7 @@ Spawner.BasicEnemy.prototype.spawn = function () {
 };
 
 Spawner.BasicEnemy.prototype.update = function() {
+    if(!this.sprite.alive) return;
     this.spawn();
 };
 
@@ -233,9 +229,12 @@ ArcaneArcade.Game.prototype = {
         this.enemyGroup = [];
 
         this.spawners = [];
-        this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 100,'spawner');
+        this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');
         this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
-        this.spawner1.enableBody = true;
+        //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        //this.spawner1.sprite.enableBody = true;
+        this.physics.enable(this.spawner1.sprite, 
+            Phaser.Physics.ARCADE, true);
 
         this.spawners.push(this.spawner1);
 
@@ -405,6 +404,12 @@ ArcaneArcade.Game.prototype = {
             this.enemyGroup, this.player.weapons,
             this.dealDmgToEnemy, null, this);
 
+        this.spawners.forEach(function (spawner) {
+            this.physics.arcade.overlap(
+            spawner.sprite, this.player.weapons,
+            this.dealDmgToSpawner, null, this);
+        }, this);
+
         this.physics.arcade.collide(this.player.sprite, this.layer);
 
         this.physics.arcade.overlap(
@@ -416,8 +421,15 @@ ArcaneArcade.Game.prototype = {
         this.physics.arcade.collide(this.enemyGroup, this.enemyGroup);
     },
 
+    dealDmgToSpawner: function(spawner, bullet)
+    {
+        bullet.kill();
+        spawner.damage(bullet.hitDamage);
+    },
+
     dealDmgToEnemy: function (enemy, bullet)
     {
+        bullet.kill();
         if(enemy.invincible)
         return;
 
