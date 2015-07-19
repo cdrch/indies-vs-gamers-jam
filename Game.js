@@ -124,6 +124,7 @@ ArcaneArcade.Game.prototype = {
             case "1":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
+                this.map.setCollision(2);
                 break;
             case "2":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Cave");
@@ -287,6 +288,19 @@ ArcaneArcade.Game.prototype = {
         this.map = this.add.tilemap();
 
         this.map.addTilesetImage(tileset, tileset, tileWidth, tileHeight);
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                if (this.mapData[gameThat.array2DTo1D(x, y, width)] === 1 && 
+                    this.mapData[gameThat.array2DTo1D(x, y+1, width)] !== undefined && 
+                    this.mapData[gameThat.array2DTo1D(x, y+1, width)] === 0)
+                {
+                    this.mapData[gameThat.array2DTo1D(x, y, width)] = 2;
+                }                
+            }
+        }
 
         //this.setMapCollision();
 

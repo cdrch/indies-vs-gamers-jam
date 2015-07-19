@@ -15,31 +15,10 @@
             "width": "30",
             "height": "30",
             "levelName": "Level 2",
-            "tileset": "orangetest",
+            "tileset": "simple-tiles",
             "music": "characterTheme",
-            "enemies": ["skeleton"],
             "spawnerCount": "2"
 
-        },
-        "three": {
-            "type": "2",
-            "width": "10",
-            "height": "10",
-            "levelName": "Level 3"
-        },
-        "four": {
-            "type": "3",
-            "width": "30",
-            "height": "30",
-            "levelName": "Level 4"
-        },
-        "five": {
-            "type": "0",
-            "width": "30",
-            "height": "30",
-            "levelName": "Level 5",
-            "startX": "1",
-            "startY": "1"
         }
     }
 }

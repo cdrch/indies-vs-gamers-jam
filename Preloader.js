@@ -44,7 +44,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.image('tileset64', 'bluetestwalls.png');
 		this.load.image('orangetest', 'orangetest.png');
 
-		this.load.image('tileset1', 'art/tileset1.png');
+		this.load.image('simple-tiles', 'art/simple-tiles.png');
 
 		this.load.json('gameInfo', 'GameInfo.json');
 
