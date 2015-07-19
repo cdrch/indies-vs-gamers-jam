@@ -1,3 +1,41 @@
+var EnemyWeapon = {};
+
+EnemyWeapon.EnemySingleBullet = function (game) {
+
+    Phaser.Group.call(this, game, game.world, 'Single Bullet', 
+        false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 600;
+    this.fireRate = 100;
+
+    for (var i = 0; i < 64; i++)
+    {
+        this.add(new Bullet(game, 'bullet'), true, true);
+    }
+
+    return this;
+
+};
+
+
+EnemyWeapon.EnemySingleBullet.prototype = Object.create(Phaser.Group.prototype);
+EnemyWeapon.EnemySingleBullet.prototype.constructor = Weapon.EnemySingleBullet;
+
+EnemyWeapon.EnemySingleBullet.prototype.fire = function (source, xTarget, yTarget) {
+
+    if (this.game.time.time < this.nextFire) { return; }
+
+    var x = source.x + 10;
+    var y = source.y + 10;
+
+    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+    	xTarget, yTarget);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+};
+
 var Enemy = function (game, key, speed, range, invincible, flyer) {
 
     Phaser.Sprite.call(this, game, 0, 0, key);
@@ -14,6 +52,8 @@ var Enemy = function (game, key, speed, range, invincible, flyer) {
     this.speed = speed;
     this.range = range;
 
+    this.weapon = new EnemyWeapon.EnemySingleBullet(game);
+
     return this;
 };
 
@@ -26,12 +66,6 @@ Enemy.prototype.spawn = function (x, y, HP, points) {
     this.scorePoints = points;
     this.scale.set(1);
 };
-
-/*Enemy.prototype.update = function() {
-	var line = new Phaser.Line(this.x, this.y, this.targetPlayer.x, this.targetPlayer.y);
-
-	var intersect = 
-};*/
 
 Enemy.prototype.update = function (layer) {
 	var line = new Phaser.Line();
@@ -51,6 +85,7 @@ Enemy.prototype.update = function (layer) {
 		else
 		{
 			this.body.moves = false;
+			this.fire();
 			//just shoot
 		}
 	}
@@ -62,6 +97,11 @@ Enemy.prototype.update = function (layer) {
 
 Enemy.prototype.moveTo = function (x, y) {
 	this.game.physics.arcade.moveToXY(this, x, y, this.speed);
+};
+
+Enemy.prototype.fire = function() {
+	this.weapon.fire(this, this.targetPlayer.sprite.x, 
+		this.targetPlayer.sprite.y);
 };
 
 Enemy.prototype.dealDamage = function(dmg) {
