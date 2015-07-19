@@ -282,7 +282,129 @@ ArcaneArcade.Game.prototype = {
             default:
                 this.mapData = this.createRandomDiggerMapData(); // creates the raw data for maps                
         }
+
+        // calculate what tiles to display
+
+        var finalDataArray = this.mapData.slice(0);
         
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                var value = 0; // this is a bitwise check
+
+                if (this.mapData[gameThat.array2DTo1D(x-1, y-1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x-1, y-1, width)] === 1)
+                {
+                    value += 1;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x, y-1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x, y-1, width)] === 1)
+                {
+                    value += 2;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x+1, y-1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x+1, y-1, width)] === 1)
+                {
+                    value += 4;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x-1, y, width)] === undefined || this.mapData[gameThat.array2DTo1D(x-1, y, width)] === 1)
+                {
+                    value += 8;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x, y, width)] === undefined || this.mapData[gameThat.array2DTo1D(x, y, width)] === 1)
+                {
+                    value += 16;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x+1, y, width)] === undefined || this.mapData[gameThat.array2DTo1D(x+1, y, width)] === 1)
+                {
+                    value += 32;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x-1, y+1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x-1, y+1, width)] === 1)
+                {
+                    value += 64;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x, y+1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x, y+1, width)] === 1)
+                {
+                    value += 128;
+                }
+
+                if (this.mapData[gameThat.array2DTo1D(x+1, y+1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x+1, y+1, width)] === 1)
+                {
+                    value += 256;
+                }
+
+                var gid = 0; // set this to the firstGid, either 0 or 1?
+
+                switch (value)
+                {
+                    case 10:
+                    case 11:
+                    case 14:
+                    case 15:
+                    case 74:
+                    case 75:
+                    case 78:
+                    case 79:
+                        gid += 1;
+                        break;
+                    case 10:
+                    case 11:
+                    case 14:
+                    case 15:
+                    case 74:
+                    case 75:
+                    case 76:
+                    case 77:
+                    case 266:
+                    case 267:
+                    case 270:
+                    case 271:
+                    case 330:
+                    case 331:
+                    case 334:
+                    case 335:
+                        gid += 2;
+                        break;
+                    case 34:
+                    case 35:
+                    case 38:
+                    case 39:
+                    case 98:
+                    case 99:
+                    case 103:
+                    case 290:
+                    case 291:
+                    case 294:
+                    case 295:
+                    case 354:
+                    case 355:
+                    case 358:
+                    case 359:
+                        gid += 3;
+                        break;
+                    case 256:
+                        gid += 4;
+                        break;
+                    case 64:
+                        gid += 5; // not done
+                        break;
+
+                    default:
+                        console.log("ERROR: Case " + value + " missing!");
+                }
+
+                
+
+                finalDataArray[gameThat.array2DTo1D(x, y, width)] = gid;
+            }
+        }
+        
+        // end display calcs
 
         this.map = this.add.tilemap();
 
@@ -296,7 +418,7 @@ ArcaneArcade.Game.prototype = {
         {
             for (var y = 0; y < height; y++)
             {
-                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
+                this.map.putTile(finalDataArray[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
             }
         }
 
