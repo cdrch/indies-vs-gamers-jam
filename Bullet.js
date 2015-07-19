@@ -45,5 +45,13 @@ Bullet.prototype.update = function () {
         this.scale.x += this.scaleSpeed;
         this.scale.y += this.scaleSpeed;
     }
+
+    this.game.physics.arcade.collide(
+            this, this.game.layer,
+            this.killThis, null, this);
 };
+
+Bullet.prototype.killThis = function() {
+    this.kill();
+}
 
