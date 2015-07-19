@@ -1,4 +1,4 @@
-var Bullet = function (game, key) {
+var Bullet = function (game, key, damage) {
 
     Phaser.Sprite.call(this, game, 0, 0, key);
 
@@ -9,6 +9,8 @@ var Bullet = function (game, key) {
     this.checkWorldBounds = true;
     this.outOfBoundsKill = true;
     this.exists = false;
+
+    this.hitDamage = damage;
 
     this.tracking = false;
     this.scaleSpeed = 0;

@@ -47,7 +47,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250, 1), true, true);
     }
 
     return this;
@@ -396,6 +396,10 @@ ArcaneArcade.Game.prototype = {
             enemy.update(gameThat.layer);
         }, this);
 
+        this.physics.arcade.overlap(
+            this.enemyGroup, this.player.weapons,
+            this.dealDmgToEnemy, null, this);
+
         this.physics.arcade.collide(this.player.sprite, this.layer);
 
         this.physics.arcade.overlap(
@@ -405,6 +409,19 @@ ArcaneArcade.Game.prototype = {
         this.physics.arcade.collide(this.player.sprite, this.enemyGroup);
         this.physics.arcade.collide(this.layer, this.enemyGroup);
         this.physics.arcade.collide(this.enemyGroup, this.enemyGroup);
+    },
+
+    dealDmgToEnemy: function (enemy, bullet)
+    {
+        if(enemy.invincible)
+        return;
+
+        enemy.damage(bullet.hitDamage);
+
+        if(!enemy.alive)
+        {
+            enemy.targetPlayer.addScore(enemy.scorePoints);
+        }
     },
 
     goToNextLevel: function () {
