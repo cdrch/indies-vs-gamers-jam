@@ -28,7 +28,7 @@ var gameThat;
 
 var Spawner = {};
 
-Spawner.BasicEnemy = function (game, x, y) {
+Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     Phaser.Group.call(this, game, game.world, 
         'Basic Enemy', false, true, Phaser.Physics.ARCADE);
@@ -37,10 +37,12 @@ Spawner.BasicEnemy = function (game, x, y) {
     this.nextSpawn = 0;
     this.spawnHP = 30;
 
-    this.x = x;
-    this.y = y;
+    this.sprite = game.add.sprite(x, y, imgName);
+    this.sprite.anchor.set(0.5);
 
-    this.maximumEnemies = 5;
+    this.sprite.reset(x, y, HP);
+
+    this.maximumEnemies = 2;
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
@@ -48,10 +50,15 @@ Spawner.BasicEnemy = function (game, x, y) {
     }
 
     return this;
-}
+};
 
 Spawner.BasicEnemy.prototype = Object.create(Phaser.Group.prototype);
 Spawner.BasicEnemy.prototype.constructor = Spawner.BasicEnemy;
+
+Spawner.BasicEnemy.prototype.damage = function(dmg) {
+
+    this.sprite.damage(dmg);
+};
 
 Spawner.BasicEnemy.prototype.spawn = function () {
 
@@ -62,8 +69,8 @@ Spawner.BasicEnemy.prototype.spawn = function () {
     if(first == null)
         return;
 
-    first.spawn(this.x + this.game.rnd.integerInRange(-30, 30), 
-        this.y + this.game.rnd.integerInRange(-30, 30), 
+    first.spawn(this.sprite.x + this.game.rnd.integerInRange(-30, 30), 
+        this.sprite.y + this.game.rnd.integerInRange(-30, 30), 
         this.spawnHP);
 
     this.nextSpawn = this.game.time.time + this.spawningTime;
@@ -205,7 +212,6 @@ BasicGame.Game.prototype = {
             }
         }
 
-        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
         this.nextLevelButton = this.input.keyboard.addKey(Phaser.Keyboard.N);
 
@@ -222,7 +228,9 @@ BasicGame.Game.prototype = {
         p.name = p.key;
 
         this.spawners = [];
-        this.spawners.push(new Spawner.BasicEnemy(this, 200, 200));
+        this.spawners.push(new Spawner.BasicEnemy(this, 200, 200, 100,'spawner'));
+
+        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
     },
 
