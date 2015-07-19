@@ -241,11 +241,13 @@ Player.prototype.movePlayer = function(game) {
         this.running = false;
     }
 
-    if (xInput < 0 && this.facing == 'right')
+    if (this.playerTarget.x < this.sprite.x 
+        && this.facing == 'right')
     {
         this.facing = 'left';
     }
-    else if (xInput > 0 && this.facing == 'left')
+    else if (this.playerTarget.x > this.sprite.x  
+        && this.facing == 'left')
     {
         this.facing = 'right';
     }
@@ -316,6 +318,7 @@ Player.prototype.collectPickup = function(player, pickup)
 
     pickup.kill();
 };
+
 
 Player.prototype.getHit = function(player, bullet)
 {
