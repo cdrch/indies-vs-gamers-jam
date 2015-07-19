@@ -24,6 +24,7 @@ Menu.prototype = {
 				var item = items[i];
 
 				var button = this.game.add.button(this.x, yPos, item.button, item.fn, this.game, 2, 1, 0);
+				this.menuItemsGroup.add(button);
 				if (this.centered)
 					button.anchor.set(0.5);
 
@@ -37,6 +38,7 @@ Menu.prototype = {
 				var item = items[i];
 
 				var button = this.game.add.text(this.x, yPos, item.text, (item.style === undefined) ? style : item.style);
+				this.menuItemsGroup.add(button);
 				if (this.centered)
 					button.anchor.set(0.5);
 
@@ -46,5 +48,13 @@ Menu.prototype = {
 				yPos += button.height + this.spacing;
 			}
 		}		
+	},
+
+	hide: function () {
+		this.menuItemsGroup.setAll('exists', false);
+	},
+
+	show: function () {
+		this.menuItemsGroup.setAll('exists', true);
 	}
 };
