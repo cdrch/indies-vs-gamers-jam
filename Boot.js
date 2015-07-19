@@ -1,12 +1,12 @@
-var BasicGame = {
+var ArcaneArcade = {
     currentLevel: 1
 };
 
-BasicGame.Boot = function (game) {
+ArcaneArcade.Boot = function (game) {
 
 };
 
-BasicGame.Boot.prototype = {
+ArcaneArcade.Boot.prototype = {
 
     init: function () {
 

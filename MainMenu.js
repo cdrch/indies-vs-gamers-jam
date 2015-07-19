@@ -1,5 +1,5 @@
 
-BasicGame.MainMenu = function (game) {
+ArcaneArcade.MainMenu = function (game) {
 
 	//this.music = null;
 	//this.playButton = null;
@@ -9,7 +9,7 @@ BasicGame.MainMenu = function (game) {
 var that; // this is a dirty hack, used to maintain proper context when dealing with stuff like passing functions to other functions and then referring to functions in the function that created the first function
 // ...you can see how it works below
 
-BasicGame.MainMenu.prototype = {
+ArcaneArcade.MainMenu.prototype = {
 
 	create: function () {
 		that = this;

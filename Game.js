@@ -1,4 +1,4 @@
-BasicGame.Game = function (game) {
+ArcaneArcade.Game = function (game) {
 
     //  When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
 
@@ -82,7 +82,7 @@ Spawner.BasicEnemy.prototype.update = function() {
     this.spawn();
 };
 
-BasicGame.Game.prototype = {
+ArcaneArcade.Game.prototype = {
 
     getCurrentLevelInfo: function (level) {
         switch(level)
@@ -115,9 +115,9 @@ BasicGame.Game.prototype = {
 
         this.gameInfo = this.cache.getJSON('gameInfo');
 
-        this.currentLevel = this.getCurrentLevelInfo(BasicGame.currentLevel);     
+        this.currentLevel = this.getCurrentLevelInfo(ArcaneArcade.currentLevel);     
 
-        console.log(BasicGame.currentLevel);   
+        console.log(ArcaneArcade.currentLevel);   
 
         switch (this.currentLevel.type)
         {
@@ -406,7 +406,7 @@ BasicGame.Game.prototype = {
     },
 
     goToNextLevel: function () {
-        BasicGame.currentLevel++;
+        ArcaneArcade.currentLevel++;
         this.state.start('Game');
     },
 

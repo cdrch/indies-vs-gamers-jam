@@ -1,5 +1,5 @@
 
-BasicGame.Preloader = function (game) {
+ArcaneArcade.Preloader = function (game) {
 
 	//this.background = null;
 	//this.preloadBar = null;
@@ -8,7 +8,7 @@ BasicGame.Preloader = function (game) {
 
 };
 
-BasicGame.Preloader.prototype = {
+ArcaneArcade.Preloader.prototype = {
 
 	preload: function () {
 
