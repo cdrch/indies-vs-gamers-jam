@@ -17,9 +17,10 @@ var Enemy = function (game, key, speed) {
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 
-Enemy.prototype.spawn = function (x, y, HP) {
+Enemy.prototype.spawn = function (x, y, HP, points) {
 
     this.reset(x, y, HP);
+    this.scorePoints = points;
     this.scale.set(1);
 };
 
@@ -39,7 +40,16 @@ Enemy.prototype.moveTo = function (x, y) {
 	this.game.physics.arcade.moveToXY(this, x, y, this.speed);
 };
 
-//You will use .damage() to deal damage
+Enemy.prototype.dealDamage = function(dmg) {
+	this.damage(dmg);
+
+	if(!this.alive)
+	{
+		this.targetPlayer.addScore(this.scorePoints);
+	}
+};
+
+//You will use .dealDamage() to deal damage
 //From HTML 5 Shoot Em Up In An Afternoon: 
 //Using damage() automatically kill()s the 
 //sprite once its health is reduced to zero. 
