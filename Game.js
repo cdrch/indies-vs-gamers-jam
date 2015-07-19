@@ -124,6 +124,7 @@ ArcaneArcade.Game.prototype = {
             case "1":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
+                this.map.setCollision(2);
                 break;
             case "2":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Cave");
@@ -137,6 +138,8 @@ ArcaneArcade.Game.prototype = {
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
         }  
+
+        console.log("too far");
 
         //this.stage.backgroundColor = '#1111FF'; // use for debugging - if you can see this bright blue color, then something is wrong
        
@@ -268,6 +271,8 @@ ArcaneArcade.Game.prototype = {
 
     createRandomMapDisplay: function (width, height, tileWidth, tileHeight, tileset, type) {
 
+        console.log("here");
+
         switch (type)
         {
             case "Digger":
@@ -285,7 +290,7 @@ ArcaneArcade.Game.prototype = {
 
         // calculate what tiles to display
 
-        var finalDataArray = this.mapData.slice(0);
+        console.log("2");
         
         for (var x = 0; x < width; x++)
         {
@@ -293,153 +298,29 @@ ArcaneArcade.Game.prototype = {
             {
                 var value = 0; // this is a bitwise check
 
-                if (this.mapData[gameThat.array2DTo1D(x-1, y-1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x-1, y-1, width)] === 1)
-                {
-                    value += 1;
-                }
-
                 if (this.mapData[gameThat.array2DTo1D(x, y-1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x, y-1, width)] === 1)
                 {
-                    value += 2;
+                    value += 6;
                 }
 
-                if (this.mapData[gameThat.array2DTo1D(x+1, y-1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x+1, y-1, width)] === 1)
+                if (this.mapData[gameThat.array2DTo1D(x, y, width)] === 1)
                 {
-                    value += 4;
+                    value += 14;
                 }
 
-                if (this.mapData[gameThat.array2DTo1D(x-1, y, width)] === undefined || this.mapData[gameThat.array2DTo1D(x-1, y, width)] === 1)
+                if (this.mapData[gameThat.array2DTo1D(x, y, width)] === 0)
                 {
-                    value += 8;
-                }
-
-                if (this.mapData[gameThat.array2DTo1D(x, y, width)] === undefined || this.mapData[gameThat.array2DTo1D(x, y, width)] === 1)
-                {
-                    value += 16;
-                }
-
-                if (this.mapData[gameThat.array2DTo1D(x+1, y, width)] === undefined || this.mapData[gameThat.array2DTo1D(x+1, y, width)] === 1)
-                {
-                    value += 32;
-                }
-
-                if (this.mapData[gameThat.array2DTo1D(x-1, y+1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x-1, y+1, width)] === 1)
-                {
-                    value += 64;
-                }
-
-                if (this.mapData[gameThat.array2DTo1D(x, y+1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x, y+1, width)] === 1)
-                {
-                    value += 128;
-                }
-
-                if (this.mapData[gameThat.array2DTo1D(x+1, y+1, width)] === undefined || this.mapData[gameThat.array2DTo1D(x+1, y+1, width)] === 1)
-                {
-                    value += 256;
-                }
-
-                var gid = 0; // set this to the firstGid, either 0 or 1?
-
-                switch (value)
-                {
-                    case 10:
-                    case 11:
-                    case 14:
-                    case 15:
-                    case 74:
-                    case 75:
-                    case 78:
-                    case 79:
-                        gid += 0;
-                        break;
-                    case 3:
-                    case 7:
-                    case 10:
-                    case 11:
-                    case 14:
-                    case 15:
-                    case 74:
-                    case 75:
-                    case 76:
-                    case 77:
-                    case 266:
-                    case 267:
-                    case 270:
-                    case 271:
-                    case 330:
-                    case 331:
-                    case 334:
-                    case 335:
-                    case 451:
-                        gid += 1;
-                        break;
-                    case 34:
-                    case 35:
-                    case 38:
-                    case 39:
-                    case 98:
-                    case 99:
-                    case 103:
-                    case 290:
-                    case 291:
-                    case 294:
-                    case 295:
-                    case 354:
-                    case 355:
-                    case 358:
-                    case 359:
-                        gid += 2;
-                        break;
-                    case 256:
-                        gid += 3;
-                        break;
-                    case 64:
-                        gid += 4;
-                        break;
-                    case 319:
-                        gid += 6;
-                        break;
-                    case 0:
-                    case 300:
-                    case 301:
-                    case 364:
-                        gid += 9; // interior floor
-                        break;
-                    case 292:
-                        gid += 10; // floor - wall to right
-                        break;
-                    case 447:
-                    case 504:
-                    case 508:
-                    case 510:
-                    case 511:
-                        gid += 14; // interior wall
-                        break;
-                    case 438:
-                    case 439:
-                    case 502:
-                        gid += 15;
-                        break;
-                    case 484:
-                    case 485:
-                        gid += 18;
-                        break;
-                    case 54:
-                        gid += 18;
-                        break;
-                    case 24:
-                        gid += 19;
-                        break;
-
-                    default:
-                        console.log("ERROR: Case " + value + " missing!");
+                    value += 9;
                 }
 
 
 
-                finalDataArray[gameThat.array2DTo1D(x, y, width)] = gid;
+                this.mapData[gameThat.array2DTo1D(x, y, width)] = value;
             }
         }
+
+
+        console.log("4");
         
         // end display calcs
 
@@ -455,11 +336,14 @@ ArcaneArcade.Game.prototype = {
         {
             for (var y = 0; y < height; y++)
             {
-                this.map.putTile(finalDataArray[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
+                this.map.putTile(this.mapData[gameThat.array2DTo1D(x, y, width)], x, y, this.layer);
             }
         }
 
         this.layer.resizeWorld();
+
+
+        console.log("20");
     },
 
     createRandomDiggerMapData: function () {
