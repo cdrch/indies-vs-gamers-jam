@@ -4,7 +4,7 @@ ArcaneArcade.Preloader = function (game) {
 	//this.background = null;
 	//this.preloadBar = null;
 
-	//this.ready = false;
+	this.ready = false;
 
 };
 
@@ -30,10 +30,7 @@ ArcaneArcade.Preloader.prototype = {
 		//this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
 		//	+ lots of other required assets here
 
-		//this.load.image('logo', 'phaser.png');
 		this.load.image('textBG', 'Test Text Box Background.png');
-
-		//this.load.image('player', 'test-player.png');
 
 		this.load.image('BasicEnemy', 'enemy.jpg');
 		this.load.image('spawner', 'spawner.png');
@@ -53,6 +50,24 @@ ArcaneArcade.Preloader.prototype = {
 
 		this.load.spritesheet('player', 'art/bubbles.png', 64, 64);
 
+
+
+		this.load.audio('titleSong', ['audio/music/Title Song Final.mp3', 'audio/music/Title Song Final.ogg']);
+		this.load.audio('characterTheme', ['audio/music/Main Character Fixed.mp3', 'audio/music/Main Character Fixed.ogg']);
+
+		this.load.audio('die', ['audio/sfx/Die.mp3', 'audio/sfx/Die.ogg']);
+		this.load.audio('earth', ['audio/sfx/Earth.mp3', 'audio/sfx/Earth.ogg']);
+		this.load.audio('enemyHit', ['audio/sfx/Enemy Hit.mp3', 'audio/sfx/Enemy Hit.ogg']);
+		this.load.audio('exitLevel', ['audio/sfx/Exit Level.mp3', 'audio/sfx/Exit Level.ogg']);
+		this.load.audio('fireball', ['audio/sfx/Fireball.mp3', 'audio/sfx/Fireball.ogg']);
+		this.load.audio('getCoin', ['audio/sfx/GetCoin.mp3', 'audio/sfx/GetCoin.ogg']);
+		this.load.audio('getHit', ['audio/sfx/GetHit.mp3', 'audio/sfx/GetHit.ogg']);
+		this.load.audio('heal', ['audio/sfx/Heal.mp3', 'audio/sfx/Heal.ogg']);
+		this.load.audio('ice', ['audio/sfx/Ice.mp3', 'audio/sfx/Ice.ogg']);
+		this.load.audio('Lightning', ['audio/sfx/Lightning.mp3', 'audio/sfx/Lightning.ogg']);
+		this.load.audio('pickup', ['audio/sfx/Pickup.mp3', 'audio/sfx/Pickup.ogg']);
+		this.load.audio('water', ['audio/sfx/Water.mp3', 'audio/sfx/Water.ogg']);
+		this.load.audio('wind', ['audio/sfx/Wind.mp3', 'audio/sfx/Wind.ogg']);
 	},
 
 	create: function () {
@@ -73,11 +88,11 @@ ArcaneArcade.Preloader.prototype = {
 		//	If you don't have any music in your game then put the game.state.start line into the create function and delete
 		//	the update function completely.
 		
-		//if (this.cache.isSoundDecoded('titleMusic') && this.ready == false)
-		//{
-			//this.ready = true;
+		if (this.cache.isSoundDecoded('titleSong') && this.ready === false)
+		{
+			this.ready = true;
 			this.state.start('MainMenu');
-		//}
+		}
 
 	}
 
