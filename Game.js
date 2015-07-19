@@ -21,6 +21,7 @@ BasicGame.Game = function (game) {
 
     //  You can use any of these from any function within this State.
     //  But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
+    //  
 
 };
 
@@ -46,7 +47,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy'), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50), true, true);
     }
 
     return this;
@@ -79,7 +80,7 @@ Spawner.BasicEnemy.prototype.spawn = function () {
 
 Spawner.BasicEnemy.prototype.update = function() {
     this.spawn();
-}
+};
 
 BasicGame.Game.prototype = {
 
@@ -222,6 +223,8 @@ BasicGame.Game.prototype = {
         this.pickups.enableBody = true;
         this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
 
+        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
+
 
         var p = this.pickups.create(100, 100, 'pointsPickup');
         p.amount = 3000;
@@ -242,7 +245,6 @@ BasicGame.Game.prototype = {
 
 
 
-        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
     },
 
@@ -387,25 +389,26 @@ BasicGame.Game.prototype = {
             this.goToNextLevel();
         }
 
-        this.physics.arcade.collide(this.player.sprite, this.layer);
-
         this.player.update(this);
+        this.enemyGroup.forEach(function (enemy) {
+            enemy.update(gameThat.layer);
+        }, this);
+
+        this.physics.arcade.collide(this.player.sprite, this.layer);
 
         this.physics.arcade.overlap(
             this.player.sprite, this.pickups,
             this.player.collectPickup, null, this);
 
         this.physics.arcade.collide(this.player.sprite, this.enemyGroup);
+        this.physics.arcade.collide(this.layer, this.enemyGroup);
+        this.physics.arcade.collide(this.enemyGroup, this.enemyGroup);
     },
 
     goToNextLevel: function () {
         BasicGame.currentLevel++;
         this.state.start('Game');
     },
-
-    
-
-    
 
     quitGame: function (pointer) {
 
