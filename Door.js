@@ -26,6 +26,6 @@ Door.prototype.update = function() {
             this.openDoor, null, this);
 };
 
-Door.prototype.openDoor = function(a, b) {
+Door.prototype.openDoor = function() {
 	this.currentGame.goToNextLevel();
 };
