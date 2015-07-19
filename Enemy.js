@@ -108,8 +108,12 @@ Enemy.prototype.moveTo = function (x, y) {
 };
 
 Enemy.prototype.fire = function() {
-	this.weapon.fire(this, this.targetPlayer.sprite.x, 
+	if (this.targetPlayer.sprite.alive)
+	{
+		this.weapon.fire(this, this.targetPlayer.sprite.x, 
 		this.targetPlayer.sprite.y);
+	}
+	
 };
 
 
