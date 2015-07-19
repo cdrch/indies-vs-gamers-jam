@@ -62,7 +62,8 @@ Spawner.BasicEnemy.prototype.spawn = function () {
     if(first == null)
         return;
 
-    first.spawn(this.x, this.y, 
+    first.spawn(this.x + this.game.rnd.integerInRange(-30, 30), 
+        this.y + this.game.rnd.integerInRange(-30, 30), 
         this.spawnHP);
 
     this.nextSpawn = this.game.time.time + this.spawningTime;
