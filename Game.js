@@ -244,6 +244,9 @@ ArcaneArcade.Game.prototype = {
         }, this);
 
 
+        this.door = new Door(this, 'door', 200, 200);
+
+
 
 
     },
@@ -385,6 +388,8 @@ ArcaneArcade.Game.prototype = {
     },
 
     update: function () {
+
+        this.door.update();
 
         if (this.nextLevelButton.isDown)
         {

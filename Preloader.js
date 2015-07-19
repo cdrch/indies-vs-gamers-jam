@@ -40,6 +40,8 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.image('crosshair', 'art/reticle2.png');
 		this.load.image('bullet', 'ice-bolt.png');
 
+		this.load.image('door', 'door.png');
+
 		this.load.image('tileset16', 'greentest.png');
 		this.load.image('tileset32', 'test-tileset32.png');
 		this.load.image('tileset64', 'bluetestwalls.png');
