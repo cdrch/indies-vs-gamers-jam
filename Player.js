@@ -47,13 +47,15 @@ Weapon.MagicMissile.prototype.fire = function (source) {
 
     if (this.game.time.time < this.nextFire) { return; }
 
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
     var x = source.sprite.x + 10;
     var y = source.sprite.y + 10;
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
 
-    this.nextFire = this.game.time.time + this.fireRate;
 
 };
 
@@ -62,7 +64,7 @@ Weapon.MagicMissile.prototype.fire = function (source) {
 
 Weapon.IceBolt = function (game) {
 
-    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+    Phaser.Group.call(this, game, game.world, 'Ice Bolt', 
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
@@ -121,7 +123,7 @@ Weapon.IceBolt.prototype.fire = function (source) {
 
 Weapon.PoisonSting = function (game) {
 
-    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+    Phaser.Group.call(this, game, game.world, 'Poison Sting', 
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
@@ -167,13 +169,15 @@ Weapon.PoisonSting.prototype.fire = function (source) {
 
     if (this.game.time.time < this.nextFire) { return; }
 
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
     var x = source.sprite.x + 10;
     var y = source.sprite.y + 10;
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
 
-    this.nextFire = this.game.time.time + this.fireRate;
 
 };
 
@@ -183,7 +187,7 @@ Weapon.PoisonSting.prototype.fire = function (source) {
 
 Weapon.Wind = function (game) {
 
-    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+    Phaser.Group.call(this, game, game.world, 'Wind', 
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
@@ -257,7 +261,7 @@ Weapon.Wind.prototype.fire = function (source) {
 
 Weapon.Weakness = function (game) {
 
-    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+    Phaser.Group.call(this, game, game.world, 'Weakness', 
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
@@ -304,13 +308,15 @@ Weapon.Weakness.prototype.fire = function (source) {
 
     if (this.game.time.time < this.nextFire) { return; }
 
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
     var x = source.sprite.x + 10;
     var y = source.sprite.y + 10;
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
 
-    this.nextFire = this.game.time.time + this.fireRate;
 
 };
 
@@ -322,18 +328,21 @@ Weapon.Fireball = function (game) {
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
-    this.bulletSpeed = 600;
-    this.fireRate = 200;
-    this.hitDamage = 5;
+    this.bulletSpeed = 200;
+    this.fireRate = 20000;
+    this.hitDamage = 10;
 
     this.level = 1;
 
-    for (var i = 0; i < 64; i++)
+    for (var i = 0; i < 2; i++)
     {
         this.add(new Bullet(game, 'bullet'), true, true);
     }
 
     this.setAll("hitDamage", this.hitDamage);   
+    this.setAll("destroyAtHit", false);
+    this.setAll("scale.x", 0.5);
+    this.setAll("scale.y", 0.5);
 
     return this;
 
@@ -348,7 +357,10 @@ Weapon.Fireball.prototype.levelUp = function() {
     this.level++;
 
     if(this.level == 2)
-        this.fireRate /= 2;
+    {
+        this.setAll(scale.x, 1);
+        this.setAll(scale.y, 1);
+    }
     else if (this.level == 3)
     {
         this.hitDamage *= 2;
@@ -360,15 +372,22 @@ Weapon.Fireball.prototype.fire = function (source) {
 
     if (this.game.time.time < this.nextFire) { return; }
 
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
     var x = source.sprite.x + 10;
     var y = source.sprite.y + 10;
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
 
-    this.nextFire = this.game.time.time + this.fireRate;
 
 };
+
+/*BUBBLES BEAM*/
+
+
+
 
 /*WEAPONS END*/
 
@@ -410,11 +429,12 @@ var Player = function(game, posX, posY, imageName) {
     this.weaponName = null;
 
 
-    this.weapons.push(new Weapon.MagicMissile(game));
+    //this.weapons.push(new Weapon.MagicMissile(game));
     //this.weapons.push(new Weapon.IceBolt(game));
     //this.weapons.push(new Weapon.PoisonSting(game));
     //this.weapons.push(new Weapon.Wind(game));
-    this.weapons.push(new Weapon.Weakness(game));
+    //this.weapons.push(new Weapon.Weakness(game));
+    this.weapons.push(new Weapon.Fireball(game));
 
     
     

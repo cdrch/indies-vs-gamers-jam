@@ -11,7 +11,7 @@ EnemyWeapon.EnemySingleBullet = function (game, damage) {
 
     for (var i = 0; i < 64; i++)
     {
-        this.add(new Bullet(game, 'bullet', damage), true, true);
+        this.add(new Bullet(game, 'arrow', damage), true, true);
     }
 
     return this;

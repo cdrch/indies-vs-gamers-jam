@@ -17,10 +17,6 @@ var Bullet = function (game, key) {
     this.stunTime = 0;
     this.weaknessAmount = 0;
 
-    this.blowAtDestination = false;
-    this.destX = 0;
-    this.destY = 0;
-
     this.tracking = false;
     this.scaleSpeed = 0;
 
@@ -34,7 +30,6 @@ Bullet.prototype.fire = function (x, y, angle, speed, gx, gy) {
     gx = gx || 0;
     gy = gy || 0;
     this.reset(x, y);
-    this.scale.set(1);
     //this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
     this.rotation = this.game.physics.arcade.moveToXY(this, gx, gy, speed);
     //this.body.gravity.set(gx, gy);
@@ -59,19 +54,8 @@ Bullet.prototype.update = function () {
     this.game.physics.arcade.collide(
             this, this.game.layer,
             this.killThis, null, this);
-
-
-    var destination = new Phaser.Point(destX, destY);
-
-    var distance = this.game.physics.arcade.distanceBetween(this, destination);
-
-    if(distance < 1)
-    {
-
-    }
 };
 
 Bullet.prototype.killThis = function() {
     this.kill();
 }
-
