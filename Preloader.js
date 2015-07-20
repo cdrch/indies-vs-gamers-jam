@@ -56,6 +56,9 @@ ArcaneArcade.Preloader.prototype = {
 
 		this.load.image('transparentBubble', 'art/Transparent Bubble.png');
 
+		this.load.image('hp-bar', 'art/hp-bar.png');
+		this.load.image('hp-bg', 'art/hp-bg.png');
+
 		this.load.audio('titleSong', ['audio/music/Title Song Final.mp3', 'audio/music/Title Song Final.ogg']);
 		this.load.audio('characterTheme', ['audio/music/Main Character Fixed.mp3', 'audio/music/Main Character Fixed.ogg']);
 

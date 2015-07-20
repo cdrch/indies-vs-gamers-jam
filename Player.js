@@ -136,6 +136,26 @@ var Player = function(game, posX, posY, imageName) {
     game.physics.enable(this.bubble, Phaser.Physics.ARCADE);
     this.bubble.exists = false;
 
+    this.hpBG = game.add.sprite(20, 60, 'hp-bg');
+    this.hpBG.anchor.setTo(0, 0.5);
+    this.hpBG.fixedToCamera = true;
+    
+    this.hpBar = game.add.sprite(28, 60, 'hp-bar');
+    this.hpBar.anchor.setTo(0, 0.5);
+    this.hpBar.fixedToCamera = true;
+
+    this.hpBar.cropEnabled = true;
+    this.hpBar.crop(new Phaser.Rectangle(0, 0, (this.sprite.health / 100) * this.hpBar.width, this.hpBar.height), true);
+
+    this.hpText = game.add.text(
+        32, 60, 
+        '' + this.sprite.health + '%', 
+        { font: '20px monospace', fill: '#111', align: 'center' }
+    );
+    this.hpText.anchor.setTo(0, 0.4);
+    this.hpText.fixedToCamera = true;
+
+
     this.multiplier = 1;
     this.score = 0;
     this.lives = 3;
@@ -146,7 +166,7 @@ var Player = function(game, posX, posY, imageName) {
     { font: '20px monospace', fill: '#fff', align: 'center' });
     this.livesText = game.add.text(
     game.camera.position.x, game.camera.position.y - game.camera.height / 2 + 70, 
-    '' + this.lives, 
+    '' + this.lives + ' ' + ((this.lives === 1) ? ' Life' : 'Lives') + ' Left', 
     { font: '20px monospace', fill: '#fff', align: 'center' });
 
     this.scoreText.anchor.setTo(0.5, 0.5);
@@ -328,6 +348,10 @@ Player.prototype.getHit = function(player, bullet)
 
 Player.prototype.update = function(game) {
     //this.updateScorePosition(game);
+    this.hpText.text = this.sprite.health + '%';
+    this.hpBar.crop(new Phaser.Rectangle(0, 0, (this.sprite.health / 100) * this.hpBar.width, this.hpBar.height), true);
+    this.hpBar.updateCrop();
+
     if(this.sprite.alive)
     {
         this.movePlayer(game);
@@ -350,6 +374,7 @@ Player.prototype.update = function(game) {
     }
 
 	this.updatePlayerTarget(game);
+
 };
 
 Player.prototype.respawn = function(game) {
