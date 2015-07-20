@@ -37,13 +37,22 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
     this.spawningTime = 1000;
     this.nextSpawn = 0;
     this.spawnHP = 30;
+    this.firstHP = HP;
+    this.isBroken = false;
+
+    
 
     this.sprite = game.add.sprite(x, y, imgName);
     this.sprite.anchor.set(0.5);
 
     this.sprite.reset(x, y, HP);
 
+    this.sprite.animations.add('new', [0], 15, false);
+    this.sprite.animations.add('broken', [1], 15, false);
+
     this.maximumEnemies = 2;
+
+    this.sprite.animations.play('new');
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
@@ -75,6 +84,13 @@ Spawner.BasicEnemy.prototype.spawn = function () {
 
 Spawner.BasicEnemy.prototype.update = function() {
     if(!this.sprite.alive) return;
+
+    if(this.firstHP / this.sprite.health >= 2 && !this.isBroken)
+    {
+        this.sprite.animations.play('broken');
+        this.isBroken = true;
+    }
+
     this.spawn();
 };
 
