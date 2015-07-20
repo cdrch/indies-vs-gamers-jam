@@ -513,12 +513,12 @@ var Player = function(game, posX, posY, imageName) {
     this.weaponName = null;
 
 
-    //this.weapons.push(new Weapon.MagicMissile(game));
-    //this.weapons.push(new Weapon.IceBolt(game));
-    //this.weapons.push(new Weapon.PoisonSting(game));
-    //this.weapons.push(new Weapon.Wind(game));
-    //this.weapons.push(new Weapon.Weakness(game));
-    //this.weapons.push(new Weapon.Fireball(game));
+    this.weapons.push(new Weapon.MagicMissile(game));
+    this.weapons.push(new Weapon.IceBolt(game));
+    this.weapons.push(new Weapon.PoisonSting(game));
+    this.weapons.push(new Weapon.Wind(game));
+    this.weapons.push(new Weapon.Weakness(game));
+    this.weapons.push(new Weapon.Fireball(game));
     this.weapons.push(new Weapon.BubblesBeam(game));
 
     
@@ -580,11 +580,15 @@ Player.prototype.nextWeapon = function () {
                 this.weapons[this.currentWeapon].setAll('exists', false);
             }*/
             //  Activate the new one
-            this.currentWeapon++;
-            if (this.currentWeapon === this.weapons.length)
+            do
             {
-                this.currentWeapon = 0;
-            }
+                this.currentWeapon++;
+                if (this.currentWeapon === this.weapons.length)
+                {
+                    this.currentWeapon = 0;
+                }
+            }while(!ArcaneArcade.playerWeapons[this.currentWeapon]);
+
             this.weapons[this.currentWeapon].visible = true;
             this.weaponName.text = this.weapons[this.currentWeapon].name;
         };
@@ -707,9 +711,31 @@ Player.prototype.collectPickup = function(player, pickup)
         //give bonus damage
     }
 
-    if(pickup.name == "weaponsPickup")
+    if(pickup.name == "basicWeapon")
     {
         //upgrade weapons
+        this.weapons[0].levelUp();
+    }
+
+    if(pickup.name == "supportWeapon")
+    {
+        //upgrade weapons
+        this.weapons[1].levelUp();
+        this.weapons[2].levelUp();
+    }
+
+    if(pickup.name == "alternateBasicWeapon")
+    {
+        //upgrade weapons
+        this.weapons[3].levelUp();
+        this.weapons[4].levelUp();
+    }
+
+    if(pickup.name == "ultimateWeapon")
+    {
+        //upgrade weapons
+        this.weapons[5].levelUp();
+        this.weapons[6].levelUp();
     }
 
     if(pickup.name == "pointsPickup")

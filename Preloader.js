@@ -33,7 +33,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.image('textBG', 'Test Text Box Background.png');
 
 		this.load.image('BasicEnemy', 'enemy.jpg');
-		this.load.image('spawner', 'spawner.png');
+		this.load.image('spawner', 'spawner_Small.png');
 		this.load.image('crosshair', 'art/reticle2.png');
 		this.load.image('bullet', 'ice-bolt.png');
 		this.load.image('arrow', 'arrow.png');

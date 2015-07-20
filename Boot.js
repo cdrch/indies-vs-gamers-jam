@@ -1,7 +1,8 @@
 var ArcaneArcade = {
     currentLevel: 1,
     musicVolume: 1.0,
-    sfxVolume: 1.0
+    sfxVolume: 1.0,
+    playerWeapons: [true, false, false, false, false, false, true]
 };
 
 ArcaneArcade.Boot = function (game) {
