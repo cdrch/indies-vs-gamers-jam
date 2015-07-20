@@ -47,7 +47,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250, 20), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage), true, true);
     }
 
     return this;
@@ -95,6 +95,7 @@ ArcaneArcade.Game.prototype = {
                 return this.gameInfo.level.five;
             default:
                 console.log ("NO LEVEL");
+                return this.gameInfo.level.infiniteChallenge;
                 // maybe randomly pick a tough level for infinite score attack?
         }
     },
@@ -149,6 +150,58 @@ ArcaneArcade.Game.prototype = {
 
         var startX = 0;
         var startY = 0;
+
+        var remainingSpawners = this.currentLevel.spawnerCount;
+
+        this.enemyGroup = [];
+
+        this.spawners = [];
+
+        var rooms = this.rotMap.getRooms();
+
+        for (var i=0; i<rooms.length; i++) {
+            var room = rooms[i];
+
+            var leftSide = room.getLeft() * this.TILESIZEX;
+            var rightSide = room.getRight() * this.TILESIZEX;
+            var topSide = room.getTop() * this.TILESIZEY;
+            var bottomSide = room.getBottom() * this.TILESIZEY;
+
+            console.log(leftSide);
+            console.log(rightSide);
+            console.log(topSide);
+            console.log(bottomSide);
+
+            var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
+            var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
+
+            //room.getDoors(drawDoor);
+
+            if (i === 0)
+            {
+                startX = randomX;
+                startY = randomY;
+                console.log('Player ' + startX + ',' + startY);
+            }
+            else if (remainingSpawners > 0)
+            {
+                var spawner = new Spawner.BasicEnemy(this, randomX, randomY, 500,'spawner');
+                //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+                //this.spawner1.sprite.enableBody = true;
+                this.physics.enable(spawner.sprite, Phaser.Physics.ARCADE);
+
+                this.spawners.push(spawner);
+
+                spawner.forEach(function (enemy) {
+                    this.enemyGroup.push(enemy);
+                }, this);
+                remainingSpawners--;
+            }
+            else
+            {
+                break;
+            }
+        }
 
         if (this.currentLevel.type === "0")
         {
@@ -220,7 +273,7 @@ ArcaneArcade.Game.prototype = {
         this.pickups.enableBody = true;
         this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
 
-        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
+        this.player = new Player(this, startX, startY, 'player');
 
 
         var p = this.pickups.create(100, 100, 'pointsPickup');
@@ -229,19 +282,19 @@ ArcaneArcade.Game.prototype = {
 
         this.enemyGroup = [];
 
-        this.spawners = [];
-        this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');
-        this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
-        //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
-        //this.spawner1.sprite.enableBody = true;
-        this.physics.enable(this.spawner1.sprite, 
-            Phaser.Physics.ARCADE, true);
+        // this.spawners = [];
+        // this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');
+        // this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
+        // //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        // //this.spawner1.sprite.enableBody = true;
+        // this.physics.enable(this.spawner1.sprite, 
+        //     Phaser.Physics.ARCADE, true);
 
-        this.spawners.push(this.spawner1);
+        // this.spawners.push(this.spawner1);
 
-        this.spawner1.forEach(function (enemy) {
-            this.enemyGroup.push(enemy);
-        }, this);
+        // this.spawner1.forEach(function (enemy) {
+        //     this.enemyGroup.push(enemy);
+        // }, this);
 
 
         this.door = new Door(this, 'door', 200, 200);

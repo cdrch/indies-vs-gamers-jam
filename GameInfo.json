@@ -1,7 +1,7 @@
 {
     "gameVersion": "0.0.1",
     "level": {
-        "two": {
+        "premadesample": {
             "type": "0",
             "width": "30",
             "height": "30",
@@ -10,6 +10,19 @@
             "startX": "2",
             "startY": "2"
         },
+        "infiniteChallenge": {
+            "type": "1",
+            "width": "50",
+            "height": "50",
+            "levelName": "Level ???",
+            "tileset": "simple-tiles",
+            "music": "characterTheme",
+            "spawnerCount": "20",
+            "enemyHP": "300",
+            "enemyDamage": "99",
+            "spawnerEnemyCap": "10"
+
+        },
         "one": {
             "type": "1",
             "width": "30",
@@ -17,7 +30,62 @@
             "levelName": "Level 2",
             "tileset": "simple-tiles",
             "music": "characterTheme",
-            "spawnerCount": "2"
+            "spawnerCount": "2",
+            "enemyHP": "30",
+            "enemyDamage": "1",
+            "spawnerEnemyCap": "2"
+
+        },
+        "two": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "levelName": "Level 2",
+            "tileset": "simple-tiles",
+            "music": "characterTheme",
+            "spawnerCount": "2",
+            "enemyHP": "30",
+            "enemyDamage": "1",
+            "spawnerEnemyCap": "2"
+
+        },
+        "three": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "levelName": "Level 2",
+            "tileset": "simple-tiles",
+            "music": "characterTheme",
+            "spawnerCount": "2",
+            "enemyHP": "30",
+            "enemyDamage": "1",
+            "spawnerEnemyCap": "2"
+
+        },
+        "four": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "levelName": "Level 2",
+            "tileset": "simple-tiles",
+            "music": "characterTheme",
+            "spawnerCount": "2",
+            "enemyHP": "30",
+            "enemyDamage": "1",
+            "spawnerEnemyCap": "2"
+
+        },
+        "five": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "levelName": "Level 2",
+            "tileset": "simple-tiles",
+            "music": "characterTheme",
+            "spawnerCount": "2",
+            "enemyHP": "30",
+            "enemyDamage": "1",
+            "spawnerEnemyCap": "2"
 
         }
     }
