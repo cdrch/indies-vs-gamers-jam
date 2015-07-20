@@ -125,6 +125,9 @@ ArcaneArcade.Game.prototype = {
         this.MAPWIDTH = 30;
         this.MAPHEIGHT = 30;
 
+        this.startedFading = 0;
+        this.endsFading = 0;
+
         this.gameInfo = this.cache.getJSON('gameInfo');
 
         this.currentLevel = this.getCurrentLevelInfo(ArcaneArcade.currentLevel);     
@@ -506,8 +509,28 @@ ArcaneArcade.Game.prototype = {
     },
 
     goToNextLevel: function () {
+        if(this.startedFading == 0)
+        {
+            this.startedFading = this.time.now;
+            this.fadeOut();
+            return;
+        }
         ArcaneArcade.currentLevel++;
-        this.state.start('Game');
+        this.state.start('MainMenu');
+    },
+
+    fadeOut: function() {
+        this.player.sprite.body.moves = false;
+        this.player.stunned = true;
+        var sprite = this.add.sprite(this.camera.position.x , 
+            this.camera.position.y, 'blackScreen');
+        sprite.anchor.setTo(0.5, 0.5);
+        sprite.alpha = 0;
+        this.add.tween(sprite).to( { alpha: 1 }, 2000, "Linear", true);
+        var timer = this.time.create(false);
+            timer.add(Phaser.Timer.SECOND * 2, 
+                this.goToNextLevel, this);
+            timer.start();
     },
 
     quitGame: function (pointer) {
