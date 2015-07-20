@@ -169,7 +169,7 @@ Enemy.prototype.dealDamage = function(dmg) {
 	{
 		var chance = this.game.rnd.integerInRange(1, 10);
 
-		if(true)
+		if(chance == 1)
 		{
 			this.game.spawnPickup(this.x, this.y);
 		}
