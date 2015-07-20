@@ -94,7 +94,6 @@ ArcaneArcade.Game.prototype = {
             case 5:
                 return this.gameInfo.level.five;
             default:
-                console.log ("NO LEVEL");
                 return this.gameInfo.level.infiniteChallenge;
                 // maybe randomly pick a tough level for infinite score attack?
         }
@@ -114,7 +113,6 @@ ArcaneArcade.Game.prototype = {
 
         this.currentLevel = this.getCurrentLevelInfo(ArcaneArcade.currentLevel);     
 
-        console.log(ArcaneArcade.currentLevel);   
 
         switch (this.currentLevel.type)
         {
@@ -151,6 +149,8 @@ ArcaneArcade.Game.prototype = {
         var startX = 0;
         var startY = 0;
 
+
+
         var remainingSpawners = this.currentLevel.spawnerCount;
 
         this.enemyGroup = [];
@@ -167,10 +167,6 @@ ArcaneArcade.Game.prototype = {
             var topSide = room.getTop() * this.TILESIZEY;
             var bottomSide = room.getBottom() * this.TILESIZEY;
 
-            console.log(leftSide);
-            console.log(rightSide);
-            console.log(topSide);
-            console.log(bottomSide);
 
             var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
             var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
@@ -181,7 +177,9 @@ ArcaneArcade.Game.prototype = {
             {
                 startX = randomX;
                 startY = randomY;
-                console.log('Player ' + startX + ',' + startY);
+
+
+                this.player = new Player(this, startX, startY, 'player');
             }
             else if (remainingSpawners > 0)
             {
@@ -190,10 +188,10 @@ ArcaneArcade.Game.prototype = {
                 //this.spawner1.sprite.enableBody = true;
                 this.physics.enable(spawner.sprite, Phaser.Physics.ARCADE);
 
-                this.spawners.push(spawner);
+                gameThat.spawners.push(spawner);
 
                 spawner.forEach(function (enemy) {
-                    this.enemyGroup.push(enemy);
+                    gameThat.enemyGroup.push(enemy);
                 }, this);
                 remainingSpawners--;
             }
@@ -209,60 +207,6 @@ ArcaneArcade.Game.prototype = {
             startY = this.currentLevel.startY;
         }
 
-        var xCheck = 0;
-        var yCheck = 0;
-
-        while (startX === 0 || startY === 0)
-        {
-            if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0 && 
-                this.mapData[this.array2DTo1D(xCheck+1, yCheck, this.MAPWIDTH)] === 0 && 
-                this.mapData[this.array2DTo1D(xCheck, yCheck+1, this.MAPWIDTH)] === 0 && 
-                this.mapData[this.array2DTo1D(xCheck+1, yCheck+1, this.MAPWIDTH)] === 0)
-            {
-                startX = xCheck;
-                startY = yCheck;
-            }
-            else
-            {
-                if (xCheck > yCheck)
-                {
-                    xCheck = 0;
-                    yCheck++;
-                }
-                else
-                {
-                    xCheck++;
-                }
-            }
-
-            
-            if (xCheck > this.MAPWIDTH * 0.5 && yCheck > this.MAPWIDTH * 0.5)
-            {
-                xCheck = 0;
-                yCheck = 0;
-                while (startX === 0 || startY === 0)
-                {
-                    if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
-                    {
-                        startX = xCheck;
-                        startY = yCheck;
-                    }
-                    else
-                    {
-                        if (xCheck > yCheck)
-                        {
-                            xCheck = 0;
-                            yCheck++;
-                        }
-                        else
-                        {
-                            xCheck++;
-                        }
-                    }
-                }
-            }
-        }
-
 
         this.nextLevelButton = this.input.keyboard.addKey(Phaser.Keyboard.N);
 
@@ -273,14 +217,11 @@ ArcaneArcade.Game.prototype = {
         this.pickups.enableBody = true;
         this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
 
-        this.player = new Player(this, startX, startY, 'player');
 
 
         var p = this.pickups.create(100, 100, 'pointsPickup');
         p.amount = 3000;
         p.name = p.key;
-
-        this.enemyGroup = [];
 
         // this.spawners = [];
         // this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');

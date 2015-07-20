@@ -155,6 +155,14 @@ var Player = function(game, posX, posY, imageName) {
     this.hpText.anchor.setTo(0, 0.4);
     this.hpText.fixedToCamera = true;
 
+    this.weaponName = game.add.text(
+    game.camera.position.x + 400, game.camera.position.y - game.camera.height / 2 + 60, 
+    '' + this.weapons[this.currentWeapon].name, 
+    { font: '20px monospace', fill: '#fff', align: 'right' });
+
+    this.weaponName.anchor.setTo(1, 0.5);
+    this.weaponName.fixedToCamera = true;
+
 
     this.multiplier = 1;
     this.score = 0;
