@@ -70,6 +70,8 @@ var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
     this.weapon.enableBody = true;
     this.weapon.physicsBodyType = Phaser.Physics.ARCADE;
 
+    this.facingRight;
+
     return this;
 };
 
@@ -91,6 +93,18 @@ Enemy.prototype.update = function (layer) {
 
 	if(!this.alive || this.stunStacks > 0) return;
 
+	if (this.body.velocity.x !== 0 || this.body.velocity.y !== 0)
+	{
+		if (this.body.velocity.x > 0)
+		{
+			this.facingRight = true;
+		}
+		else if (this.body.velocity.x < 0)
+		{
+			this.facingRight = false;
+		}
+	}
+
 
 	var line = new Phaser.Line();
 	line.start.set(this.body.x, this.body.y);
@@ -104,25 +118,34 @@ Enemy.prototype.update = function (layer) {
 	{
 		var distance = this.game.physics.arcade.distanceBetween(this, 
 			this.targetPlayer.sprite);
+		if (this.targetPlayer.sprite.x > this.x)
+			this.facingRight = true;
+		else if (this.targetPlayer.sprite.x < this.x)
+			this.facingRight = false;
 		if(distance > this.range)
 		{
 			this.body.moves = true;
 			this.moveTo(this.targetPlayer.sprite.x, this.targetPlayer.sprite.y);
-			//this.animations.play('walk');
+			this.animations.play('walk');
 		}
 		else
 		{
 			this.body.moves = false;
 			this.fire();
-			//this.animations.play('attack');
+			this.animations.play('attack');
 			//just shoot
 		}
 	}
 	else
 	{
 		this.body.moves = false;
-		//this.animations.play('idle');
+		this.animations.play('idle');
 	}
+
+	if (this.facingRight === true)
+		this.scale.set(-1, 1);
+	else
+		this.scale.set(1, 1);
 };
 
 Enemy.prototype.moveTo = function (x, y) {
