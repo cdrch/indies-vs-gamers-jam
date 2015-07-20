@@ -358,8 +358,8 @@ Weapon.Fireball.prototype.levelUp = function() {
 
     if(this.level == 2)
     {
-        this.setAll(scale.x, 1);
-        this.setAll(scale.y, 1);
+        this.setAll("scale.x", 1);
+        this.setAll("scale.y", 1);
     }
     else if (this.level == 3)
     {
@@ -386,7 +386,91 @@ Weapon.Fireball.prototype.fire = function (source) {
 
 /*BUBBLES BEAM*/
 
+Weapon.BubblesBeam = function (game) {
 
+    Phaser.Group.call(this, game, game.world, 'Bubbles Beam', 
+        false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 500;
+    this.fireRate = 30;
+    this.cooldown = 20000;
+    this.hitDamage = 15;
+    this.cooldownEnd =0;
+
+    this.firstClick = 0;
+    this.clickLength = 750;
+    this.endClick = 0;
+
+    this.level = 1;
+
+    for (var i = 0; i < 400; i++)
+    {
+        this.add(new Bullet(game, 'transparentBubble'), true, true);
+    }
+
+    this.setAll("hitDamage", this.hitDamage);   
+    this.setAll("scale.x", 0.3);
+    this.setAll("scale.y", 0.3);
+
+    return this;
+
+};
+
+
+Weapon.BubblesBeam.prototype = Object.create(Phaser.Group.prototype);
+Weapon.BubblesBeam.prototype.constructor = Weapon.BubblesBeam;
+
+Weapon.BubblesBeam.prototype.levelUp = function() {
+
+    this.level++;
+
+    if(this.level == 2)
+    {
+        this.hitDamage *= 2;
+        this.setAll("hitDamage", this.hitDamage);
+    }
+    else if (this.level == 3)
+    {
+        this.hitDamage *= 1.5;
+        this.setAll("hitDamage", this.hitDamage);
+    }
+};
+
+Weapon.BubblesBeam.prototype.fire = function (source) {
+
+    if (this.game.time.time < this.nextFire || 
+        this.game.time.time < this.cooldownEnd) { return; }
+
+    if(this.firstClick == 0)
+    {
+        this.firstClick = this.game.time.time;
+        this.endClick = this.game.time.time + this.clickLength;
+        this.fireRate = 30;
+    }
+
+    if(this.endClick < this.game.time.time)
+    {
+        this.cooldownEnd = this.game.time.time + this.cooldown;
+        this.firstClick = 0;
+    }
+
+    var bubblesNow = this.game.rnd.integerInRange(3, 12);
+
+
+    this.nextFire = this.game.time.time + this.fireRate;
+
+    for(var i = 0; i< bubblesNow; i++)
+    {
+
+        var x = source.sprite.x + this.game.rnd.integerInRange(-10, 10);
+        var y = source.sprite.y + this.game.rnd.integerInRange(-10, 10);
+
+        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
+            source.playerTarget.x, source.playerTarget.y);
+    }
+
+};
 
 
 /*WEAPONS END*/
@@ -434,7 +518,8 @@ var Player = function(game, posX, posY, imageName) {
     //this.weapons.push(new Weapon.PoisonSting(game));
     //this.weapons.push(new Weapon.Wind(game));
     //this.weapons.push(new Weapon.Weakness(game));
-    this.weapons.push(new Weapon.Fireball(game));
+    //this.weapons.push(new Weapon.Fireball(game));
+    this.weapons.push(new Weapon.BubblesBeam(game));
 
     
     
