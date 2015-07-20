@@ -483,6 +483,8 @@ var Player = function(game, posX, posY, imageName) {
     this.initialx = posX;
     this.initialy = posY;
 
+    this.stunned = false;
+
     this.sprite.health = 100;
     // animations
     
@@ -706,10 +708,6 @@ Player.prototype.collectPickup = function(player, pickup)
         //heals player 
     }
 
-    if(pickup.name == "damagePickup")
-    {
-        //give bonus damage
-    }
 
     if(pickup.name == "basicWeapon")
     {
@@ -756,6 +754,7 @@ Player.prototype.getHit = function(player, bullet)
 
 Player.prototype.update = function(game) {
     //this.updateScorePosition(game);
+    if(this.stunned) return;
     if(this.sprite.alive)
     {
         this.movePlayer(game);
