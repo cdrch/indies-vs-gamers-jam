@@ -1,0 +1,41 @@
+{ "height":10,
+ "layers":[
+        {
+         "data":[2, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+         "height":10,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "renderorder":"right-down",
+ "tileheight":128,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "image":"..\/art\/simple-tiles.png",
+         "imageheight":128,
+         "imagewidth":384,
+         "margin":0,
+         "name":"simple-tiles",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":128,
+         "tilewidth":128
+        }],
+ "tilewidth":128,
+ "version":1,
+ "width":10
+}

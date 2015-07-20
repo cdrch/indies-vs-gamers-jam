@@ -549,6 +549,7 @@ var Player = function(game, posX, posY, imageName) {
     this.hpBar.fixedToCamera = true;
 
     this.hpBar.cropEnabled = true;
+    this.hpBar.originalWidth = this.hpBar.width;
     this.hpBar.crop(new Phaser.Rectangle(0, 0, (this.sprite.health / 100) * this.hpBar.width, this.hpBar.height), true);
 
     this.hpText = game.add.text(
@@ -783,7 +784,7 @@ Player.prototype.getHit = function(player, bullet)
 Player.prototype.update = function(game) {
     //this.updateScorePosition(game);
     this.hpText.text = this.sprite.health + '%';
-    this.hpBar.crop(new Phaser.Rectangle(0, 0, (this.sprite.health / 100) * this.hpBar.width, this.hpBar.height), true);
+    this.hpBar.crop(new Phaser.Rectangle(0, 0, (this.sprite.health / 100) * this.hpBar.originalWidth, this.hpBar.height), true);
     this.hpBar.updateCrop();
 
     if(this.stunned) return;
@@ -827,6 +828,7 @@ Player.prototype.respawn = function(game) {
     else
     {
         // game over
+        
     }
     
 

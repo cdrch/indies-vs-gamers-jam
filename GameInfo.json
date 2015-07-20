@@ -1,14 +1,53 @@
 {
     "gameVersion": "0.0.1",
     "level": {
-        "premadesample": {
+        "choiceOne": {
             "type": "0",
             "width": "30",
             "height": "30",
             "levelName": "Level 1",
-            "fileName": "test-map1",
-            "startX": "2",
-            "startY": "2"
+            "fileName": "map1",
+            "startX": "1",
+            "startY": "1",
+            "door1Power": "1",
+            "door2Power": "2",
+            "door1X": "1",
+            "door1Y": "8",
+            "door2X": "8",
+            "door2Y": "1",
+            "tileset": "simple-tiles"
+        },
+        "choiceTwo": {
+            "type": "0",
+            "width": "30",
+            "height": "30",
+            "levelName": "Level 1",
+            "fileName": "map1",
+            "startX": "1",
+            "startY": "1",
+            "door1Power": "3",
+            "door2Power": "4",
+            "door1X": "1",
+            "door1Y": "8",
+            "door2X": "8",
+            "door2Y": "1",
+            "tileset": "simple-tiles"
+        },
+        "choiceThree": {
+            "type": "0",
+            "width": "30",
+            "height": "30",
+            "levelName": "Level 1",
+            "fileName": "map1",
+            "startX": "1",
+            "startY": "1",
+            "door1Power": "5",
+            "door2Power": "6",
+            "door1X": "1",
+            "door1Y": "8",
+            "door2X": "8",
+            "door2Y": "1",
+            "tileset": "simple-tiles"
         },
         "infiniteChallenge": {
             "type": "1",

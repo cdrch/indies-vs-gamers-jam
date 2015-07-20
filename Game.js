@@ -109,6 +109,8 @@ ArcaneArcade.Game.prototype = {
                 return this.gameInfo.level.four;
             case 5:
                 return this.gameInfo.level.five;
+            case 6:
+                return this.gameInfo.level.choiceOne;
             default:
                 return this.gameInfo.level.infiniteChallenge;
                 // maybe randomly pick a tough level for infinite score attack?
@@ -136,8 +138,9 @@ ArcaneArcade.Game.prototype = {
         switch (this.currentLevel.type)
         {
             case "0":
-                this.loadPremadeLevel(this.TILESIZEX, this.TILESIZEY, this.currentLevel.fileName);
+                this.loadPremadeLevel(this.TILESIZEX, this.TILESIZEY, this.currentLevel.fileName, this.currentLevel.tileset);
                 this.map.setCollision(2);
+                this.map.setCollision(3);
                 break;
             case "1":
                 this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
@@ -176,54 +179,60 @@ ArcaneArcade.Game.prototype = {
 
         this.spawners = [];
 
-        var rooms = this.rotMap.getRooms();
+        if (this.currentLevel.type !== 0)
+        {
+            var rooms = this.rotMap.getRooms();
 
-        for (var i=0; i<rooms.length; i++) {
-            var room = rooms[i];
+            for (var i=0; i<rooms.length; i++) {
+                var room = rooms[i];
 
-            var leftSide = room.getLeft() * this.TILESIZEX;
-            var rightSide = room.getRight() * this.TILESIZEX;
-            var topSide = room.getTop() * this.TILESIZEY;
-            var bottomSide = room.getBottom() * this.TILESIZEY;
-
-
-            var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
-            var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
-
-            //room.getDoors(drawDoor);
-
-            if (i === 0)
-            {
-                startX = randomX;
-                startY = randomY;
+                var leftSide = room.getLeft() * this.TILESIZEX;
+                var rightSide = room.getRight() * this.TILESIZEX;
+                var topSide = room.getTop() * this.TILESIZEY;
+                var bottomSide = room.getBottom() * this.TILESIZEY;
 
 
-                this.player = new Player(this, startX, startY, 'player');
-            }
-            else if (remainingSpawners > 0)
-            {
-                var spawner = new Spawner.BasicEnemy(this, randomX, randomY, 500,'spawner');
-                //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
-                //this.spawner1.sprite.enableBody = true;
-                this.physics.enable(spawner.sprite, Phaser.Physics.ARCADE);
+                var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
+                var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
 
-                gameThat.spawners.push(spawner);
+                //room.getDoors(drawDoor);
 
-                spawner.forEach(function (enemy) {
-                    gameThat.enemyGroup.push(enemy);
-                }, this);
-                remainingSpawners--;
-            }
-            else
-            {
-                break;
+                if (i === 0)
+                {
+                    startX = randomX;
+                    startY = randomY;
+
+
+                    this.player = new Player(this, startX, startY, 'player');
+                }
+                else if (remainingSpawners > 0)
+                {
+                    var spawner = new Spawner.BasicEnemy(this, randomX, randomY, 500,'spawner');
+                    //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+                    //this.spawner1.sprite.enableBody = true;
+                    this.physics.enable(spawner.sprite, Phaser.Physics.ARCADE);
+
+                    gameThat.spawners.push(spawner);
+
+                    spawner.forEach(function (enemy) {
+                        gameThat.enemyGroup.push(enemy);
+                    }, this);
+                    remainingSpawners--;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
+
+        
 
         if (this.currentLevel.type === "0")
         {
             startX = this.currentLevel.startX;
             startY = this.currentLevel.startY;
+            this.player = new Player(this, startX, startY, 'player');
         }
 
 
@@ -238,9 +247,9 @@ ArcaneArcade.Game.prototype = {
 
 
 
-        var p = this.pickups.create(100, 100, 'pointsPickup');
-        p.amount = 3000;
-        p.name = p.key;
+        // var p = this.pickups.create(100, 100, 'pointsPickup');
+        // p.amount = 3000;
+        // p.name = p.key;
 
         // this.spawners = [];
         // this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');
@@ -264,16 +273,16 @@ ArcaneArcade.Game.prototype = {
 
     },
 
-    loadPremadeLevel: function (tileWidth, tileHeight, fileName) {
+    loadPremadeLevel: function (tileWidth, tileHeight, fileName, tileset) {
         this.map = this.add.tilemap(fileName);
 
-        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
+        this.map.addTilesetImage(tileset, tileset, tileWidth, tileHeight);
 
         //this.setMapCollision();
 
         this.layer = this.map.createLayer(0);
 
-        this.map.setCollisionBetween(2, 2, true);
+        //this.map.setCollisionBetween(2, 2, true);
 
         
 
@@ -516,7 +525,7 @@ ArcaneArcade.Game.prototype = {
             return;
         }
         ArcaneArcade.currentLevel++;
-        this.state.start('MainMenu');
+        this.state.start('Game');
     },
 
     fadeOut: function() {
@@ -533,10 +542,16 @@ ArcaneArcade.Game.prototype = {
             timer.start();
     },
 
+    endGame: function () {
+
+    },
+
     quitGame: function (pointer) {
 
         //  Here you should destroy anything you no longer need.
         //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
+        //  
+        
 
         //  Then let's go back to the main menu.
         this.state.start('MainMenu');

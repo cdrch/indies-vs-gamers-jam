@@ -51,6 +51,10 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.json('gameInfo', 'GameInfo.json');
 
 		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map1', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map2', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map3', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map4', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.image('pointsPickup', 'pointsPickup.png');
 
