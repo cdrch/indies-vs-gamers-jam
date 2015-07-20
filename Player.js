@@ -726,14 +726,12 @@ Player.prototype.updateScorePosition = function(game) {
 
 Player.prototype.collectPickup = function(player, pickup)
 {
-    if(pickup.name == "multiplierPickup")
-    {
-        //give player a score multiplier
-    }
 
     if(pickup.name == "healPickup")
     {
-        this.player.sprite.health += amount;
+        this.player.sprite.health += pickup.amount;
+        if(this.player.sprite.health > 100)
+            this.player.sprite.health = 100;
         //heals player 
     }
 
@@ -741,28 +739,28 @@ Player.prototype.collectPickup = function(player, pickup)
     if(pickup.name == "basicWeapon")
     {
         //upgrade weapons
-        this.weapons[0].levelUp();
+        this.player.weapons[0].levelUp();
     }
 
     if(pickup.name == "supportWeapon")
     {
         //upgrade weapons
-        this.weapons[1].levelUp();
-        this.weapons[2].levelUp();
+        this.player.weapons[1].levelUp();
+        this.player.weapons[2].levelUp();
     }
 
     if(pickup.name == "alternateBasicWeapon")
     {
         //upgrade weapons
-        this.weapons[3].levelUp();
-        this.weapons[4].levelUp();
+        this.player.weapons[3].levelUp();
+        this.player.weapons[4].levelUp();
     }
 
     if(pickup.name == "ultimateWeapon")
     {
         //upgrade weapons
-        this.weapons[5].levelUp();
-        this.weapons[6].levelUp();
+        this.player.weapons[5].levelUp();
+        this.player.weapons[6].levelUp();
     }
 
     if(pickup.name == "pointsPickup")

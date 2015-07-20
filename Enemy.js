@@ -164,6 +164,16 @@ Enemy.prototype.fire = function() {
 Enemy.prototype.dealDamage = function(dmg) {
 	var dam = (1 + this.weakness) * dmg;
 	this.damage(dam);
+
+	if(!this.alive)
+	{
+		var chance = this.game.rnd.integerInRange(1, 10);
+
+		if(chance == 1)
+		{
+			this.game.spawnPickup(this.x, this.y);
+		}
+	}
 }
 
 Enemy.prototype.dealDot = function() {

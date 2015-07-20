@@ -41,6 +41,13 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.image('door', 'art/door.png');
 		this.load.image('blackScreen', 'art/black.png');
 
+		this.load.image('basicWeapon', 'art/pickups/magicMissle.png');
+		this.load.image('supportWeapon', 'art/pickups/weakness.png');
+		this.load.image('alternateBasicWeapon', 'art/pickups/poison.png');
+		this.load.image('ultimateWeapon', 'art/pickups/firebolt.png');
+		this.load.image('healPickup', 'art/pickups/health.png');
+		this.load.image('pointsPickup', 'art/pickups/points.png');
+
 		this.load.image('tileset16', 'greentest.png');
 		this.load.image('tileset32', 'test-tileset32.png');
 		this.load.image('tileset64', 'bluetestwalls.png');
