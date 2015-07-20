@@ -38,6 +38,7 @@ EnemyWeapon.EnemySingleBullet.prototype.fire = function (source, xTarget, yTarge
 
 var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
 
+
     Phaser.Sprite.call(this, game.game, 0, 0, key);
 
     this.animations.add('walk', [2 ,3 , 4, 5], 15, true);

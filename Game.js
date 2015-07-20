@@ -56,7 +56,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250, 20), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage), true, true);
     }
 
     return this;
@@ -110,7 +110,7 @@ ArcaneArcade.Game.prototype = {
             case 5:
                 return this.gameInfo.level.five;
             default:
-                console.log ("NO LEVEL");
+                return this.gameInfo.level.infiniteChallenge;
                 // maybe randomly pick a tough level for infinite score attack?
         }
     },
@@ -125,11 +125,13 @@ ArcaneArcade.Game.prototype = {
         this.MAPWIDTH = 30;
         this.MAPHEIGHT = 30;
 
+        this.startedFading = 0;
+        this.endsFading = 0;
+
         this.gameInfo = this.cache.getJSON('gameInfo');
 
         this.currentLevel = this.getCurrentLevelInfo(ArcaneArcade.currentLevel);     
 
-        console.log(ArcaneArcade.currentLevel);   
 
         switch (this.currentLevel.type)
         {
@@ -138,19 +140,20 @@ ArcaneArcade.Game.prototype = {
                 this.map.setCollision(2);
                 break;
             case "1":
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
+                this.map.setCollision(2);
                 break;
             case "2":
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Cave");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Cave");
                 this.map.setCollision(1);
                 break;
             case "3":
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Maze");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Maze");
                 this.map.setCollision(1);
                 break;
             default:
-                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, "Digger");
+                this.createRandomMapDisplay(this.MAPWIDTH, this.MAPHEIGHT, this.TILESIZEX, this.TILESIZEY, this.currentLevel.tileset, "Digger");
                 this.map.setCollision(1);
         }  
 
@@ -165,64 +168,62 @@ ArcaneArcade.Game.prototype = {
         var startX = 0;
         var startY = 0;
 
+
+
+        var remainingSpawners = this.currentLevel.spawnerCount;
+
+        this.enemyGroup = [];
+
+        this.spawners = [];
+
+        var rooms = this.rotMap.getRooms();
+
+        for (var i=0; i<rooms.length; i++) {
+            var room = rooms[i];
+
+            var leftSide = room.getLeft() * this.TILESIZEX;
+            var rightSide = room.getRight() * this.TILESIZEX;
+            var topSide = room.getTop() * this.TILESIZEY;
+            var bottomSide = room.getBottom() * this.TILESIZEY;
+
+
+            var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
+            var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
+
+            //room.getDoors(drawDoor);
+
+            if (i === 0)
+            {
+                startX = randomX;
+                startY = randomY;
+
+
+                this.player = new Player(this, startX, startY, 'player');
+            }
+            else if (remainingSpawners > 0)
+            {
+                var spawner = new Spawner.BasicEnemy(this, randomX, randomY, 500,'spawner');
+                //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+                //this.spawner1.sprite.enableBody = true;
+                this.physics.enable(spawner.sprite, Phaser.Physics.ARCADE);
+
+                gameThat.spawners.push(spawner);
+
+                spawner.forEach(function (enemy) {
+                    gameThat.enemyGroup.push(enemy);
+                }, this);
+                remainingSpawners--;
+            }
+            else
+            {
+                break;
+            }
+        }
+
         if (this.currentLevel.type === "0")
         {
             startX = this.currentLevel.startX;
             startY = this.currentLevel.startY;
-        }
-
-        var xCheck = 0;
-        var yCheck = 0;
-
-        while (startX === 0 || startY === 0)
-        {
-            if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0 && 
-                this.mapData[this.array2DTo1D(xCheck+1, yCheck, this.MAPWIDTH)] === 0 && 
-                this.mapData[this.array2DTo1D(xCheck, yCheck+1, this.MAPWIDTH)] === 0 && 
-                this.mapData[this.array2DTo1D(xCheck+1, yCheck+1, this.MAPWIDTH)] === 0)
-            {
-                startX = xCheck;
-                startY = yCheck;
-            }
-            else
-            {
-                if (xCheck > yCheck)
-                {
-                    xCheck = 0;
-                    yCheck++;
-                }
-                else
-                {
-                    xCheck++;
-                }
-            }
-
-            
-            if (xCheck > this.MAPWIDTH * 0.5 && yCheck > this.MAPWIDTH * 0.5)
-            {
-                xCheck = 0;
-                yCheck = 0;
-                while (startX === 0 || startY === 0)
-                {
-                    if (this.mapData[this.array2DTo1D(xCheck, yCheck, this.MAPWIDTH)] === 0)
-                    {
-                        startX = xCheck;
-                        startY = yCheck;
-                    }
-                    else
-                    {
-                        if (xCheck > yCheck)
-                        {
-                            xCheck = 0;
-                            yCheck++;
-                        }
-                        else
-                        {
-                            xCheck++;
-                        }
-                    }
-                }
-            }
         }
 
 
@@ -235,28 +236,25 @@ ArcaneArcade.Game.prototype = {
         this.pickups.enableBody = true;
         this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
 
-        this.player = new Player(this, startX * this.TILESIZEX + this.TILESIZEX * 0.5, startY * this.TILESIZEY + this.TILESIZEY * 0.5, 'player');
 
 
         var p = this.pickups.create(100, 100, 'pointsPickup');
         p.amount = 3000;
         p.name = p.key;
 
-        this.enemyGroup = [];
+        // this.spawners = [];
+        // this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');
+        // this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
+        // //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        // //this.spawner1.sprite.enableBody = true;
+        // this.physics.enable(this.spawner1.sprite, 
+        //     Phaser.Physics.ARCADE, true);
 
-        this.spawners = [];
-        this.spawner1 = new Spawner.BasicEnemy(this, 200, 200, 500,'spawner');
-        this.pickups.physicsBodyType = Phaser.Physics.ARCADE;
-        //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
-        //this.spawner1.sprite.enableBody = true;
-        this.physics.enable(this.spawner1.sprite, 
-            Phaser.Physics.ARCADE, true);
+        // this.spawners.push(this.spawner1);
 
-        this.spawners.push(this.spawner1);
-
-        this.spawner1.forEach(function (enemy) {
-            this.enemyGroup.push(enemy);
-        }, this);
+        // this.spawner1.forEach(function (enemy) {
+        //     this.enemyGroup.push(enemy);
+        // }, this);
 
 
         //this.door = new Door(this, 'door', 200, 200);
@@ -282,7 +280,7 @@ ArcaneArcade.Game.prototype = {
         this.layer.resizeWorld();
     },
 
-    createRandomMapDisplay: function (width, height, tileWidth, tileHeight, type) {
+    createRandomMapDisplay: function (width, height, tileWidth, tileHeight, tileset, type) {
 
         switch (type)
         {
@@ -302,7 +300,20 @@ ArcaneArcade.Game.prototype = {
 
         this.map = this.add.tilemap();
 
-        this.map.addTilesetImage('orangetest', 'orangetest', tileWidth, tileHeight);
+        this.map.addTilesetImage(tileset, tileset, tileWidth, tileHeight);
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                if (this.mapData[gameThat.array2DTo1D(x, y, width)] === 1 && 
+                    this.mapData[gameThat.array2DTo1D(x, y+1, width)] !== undefined && 
+                    this.mapData[gameThat.array2DTo1D(x, y+1, width)] === 0)
+                {
+                    this.mapData[gameThat.array2DTo1D(x, y, width)] = 2;
+                }                
+            }
+        }
 
         //this.setMapCollision();
 
@@ -498,8 +509,28 @@ ArcaneArcade.Game.prototype = {
     },
 
     goToNextLevel: function () {
+        if(this.startedFading == 0)
+        {
+            this.startedFading = this.time.now;
+            this.fadeOut();
+            return;
+        }
         ArcaneArcade.currentLevel++;
-        this.state.start('Game');
+        this.state.start('MainMenu');
+    },
+
+    fadeOut: function() {
+        this.player.sprite.body.moves = false;
+        this.player.stunned = true;
+        var sprite = this.add.sprite(this.camera.position.x , 
+            this.camera.position.y, 'blackScreen');
+        sprite.anchor.setTo(0.5, 0.5);
+        sprite.alpha = 0;
+        this.add.tween(sprite).to( { alpha: 1 }, 2000, "Linear", true);
+        var timer = this.time.create(false);
+            timer.add(Phaser.Timer.SECOND * 2, 
+                this.goToNextLevel, this);
+            timer.start();
     },
 
     quitGame: function (pointer) {

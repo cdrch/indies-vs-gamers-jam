@@ -39,11 +39,14 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.image('arrow', 'arrow.png');
 
 		this.load.image('door', 'art/door.png');
+		this.load.image('blackScreen', 'art/black.png');
 
 		this.load.image('tileset16', 'greentest.png');
 		this.load.image('tileset32', 'test-tileset32.png');
 		this.load.image('tileset64', 'bluetestwalls.png');
 		this.load.image('orangetest', 'orangetest.png');
+
+		this.load.image('simple-tiles', 'art/simple-tiles.png');
 
 		this.load.json('gameInfo', 'GameInfo.json');
 
@@ -55,7 +58,8 @@ ArcaneArcade.Preloader.prototype = {
 
 		this.load.image('transparentBubble', 'art/Transparent Bubble.png');
 
-
+		this.load.image('hp-bar', 'art/hp-bar.png');
+		this.load.image('hp-bg', 'art/hp-bg.png');
 
 		this.load.audio('titleSong', ['audio/music/Title Song Final.mp3', 'audio/music/Title Song Final.ogg']);
 		this.load.audio('characterTheme', ['audio/music/Main Character Fixed.mp3', 'audio/music/Main Character Fixed.ogg']);
