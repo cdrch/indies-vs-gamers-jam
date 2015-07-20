@@ -1,26 +1,35 @@
 var Pickup = function(game, posX, posY, name, amount) {
 
-	if(name == "multiplier")
-	{
-		this.sprite = game.add.sprite(posX, posY, "multiplierPickup");
-	}
 
-	else if(name == "heal")
+	else if(name == "healPickup")
 	{
 		this.sprite = game.add.sprite(posX, posY, "healPickup");
 	}
 
-	else if(name == "damage")
+	else if(name == "basicWeapon")
 	{
-		this.sprite = game.add.sprite(posX, posY, "damagePickup");
+		this.sprite = game.add.sprite(posX, posY, "basicWeapon");
 	}
 
-	else if(name == "weapons")
+	else if(name == "supportWeapon")
 	{
-		this.sprite = game.add.sprite(posX, posY, "weaponsPickup");
+		this.sprite = game.add.sprite(posX, posY, "supportWeapon");
 	}
 
-	else if(name == "points")
+
+	else if(name == "alternateBasicWeapon")
+	{
+		this.sprite = game.add.sprite(posX, posY, "alternateBasicWeapon");
+	}
+
+
+	else if(name == "ultimateWeapon")
+	{
+		this.sprite = game.add.sprite(posX, posY, "ultimateWeapon");
+	}
+
+
+	else if(name == "pointsPickup")
 	{
 		this.sprite = game.add.sprite(posX, posY, "pointsPickup");
 	}

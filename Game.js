@@ -413,6 +413,52 @@ ArcaneArcade.Game.prototype = {
 
     },
 
+    spawnPickup: function(x , y) {
+        var pick = this.game.rnd.integerInRange(1, 6);
+
+        if(pick == 1)
+        {
+            var p = this.pickups.create(x, y, 'healPickup');
+            p.amount = 50;
+            p.name = p.key;
+        }
+
+        else if(pick == 2)
+        {
+            var p = this.pickups.create(x, y, 'basicWeapon');
+            p.amount = 50;
+            p.name = p.key;
+        }
+
+        else if(pick == 3)
+        {
+            var p = this.pickups.create(x, y, 'supportWeapon');
+            p.amount = 50;
+            p.name = p.key;
+        }
+
+        else if(pick == 4)
+        {
+            var p = this.pickups.create(x, y, 'alternateBasicWeapon');
+            p.amount = 50;
+            p.name = p.key;
+        }
+
+        else if(pick == 5)
+        {
+            var p = this.pickups.create(x, y, 'ultimateWeapon');
+            p.amount = 50;
+            p.name = p.key;
+        }
+
+        else if(pick == 6)
+        {
+            var p = this.pickups.create(x, y, 'pointsPickup');
+            p.amount = 1500;
+            p.name = p.key;
+        }
+    },
+
     update: function () {
 
         //this.door.update();
