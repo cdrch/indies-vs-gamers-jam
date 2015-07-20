@@ -59,6 +59,8 @@ ArcaneArcade.Preloader.prototype = {
 
 		this.load.audio('titleSong', ['audio/music/Title Song Final.mp3', 'audio/music/Title Song Final.ogg']);
 		this.load.audio('characterTheme', ['audio/music/Main Character Fixed.mp3', 'audio/music/Main Character Fixed.ogg']);
+		this.load.audio('characterTheme', ['audio/music/Main Character Fixed.mp3', 'audio/music/Main Character Fixed.ogg']);
+
 
 		this.load.audio('die', ['audio/sfx/Die.mp3', 'audio/sfx/Die.ogg']);
 		this.load.audio('earth', ['audio/sfx/Earth.mp3', 'audio/sfx/Earth.ogg']);
