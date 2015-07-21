@@ -72,7 +72,8 @@
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": ["characterTheme"]
 
         },
         "two": {
@@ -85,7 +86,8 @@
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": "['characterTheme']"
 
         },
         "three": {
@@ -98,7 +100,8 @@
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": "['characterTheme']"
 
         },
         "four": {
@@ -111,7 +114,8 @@
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": "['characterTheme']"
 
         },
         "five": {
@@ -124,7 +128,8 @@
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": "['characterTheme']"
 
         }
     }

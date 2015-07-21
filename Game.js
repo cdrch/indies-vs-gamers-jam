@@ -21,7 +21,8 @@ ArcaneArcade.Game = function (game) {
 
     //  You can use any of these from any function within this State.
     //  But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
-    //  
+    
+    this.music = null;
 
 };
 
@@ -54,9 +55,11 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     this.sprite.animations.play('new');
 
+    var sound = game.add.audio('skeletonBow');
+
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage, false, false, sound), true, true);
     }
 
     return this;
@@ -268,7 +271,8 @@ ArcaneArcade.Game.prototype = {
 
         //this.door = new Door(this, 'door', 200, 200);
 
-
+        this.music = this.add.audio(this.currentLevel.music[0], 0.5, true);
+        this.music.play();
 
 
     },
@@ -571,6 +575,7 @@ ArcaneArcade.Game.prototype = {
             return;
         }
         ArcaneArcade.currentLevel++;
+        this.music.stop();
         this.state.start('Game');
     },
 
@@ -589,7 +594,7 @@ ArcaneArcade.Game.prototype = {
     },
 
     endGame: function () {
-
+        this.music.stop();
     },
 
     quitGame: function (pointer) {
@@ -597,7 +602,7 @@ ArcaneArcade.Game.prototype = {
         //  Here you should destroy anything you no longer need.
         //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
         //  
-        
+        this.music.stop();
 
         //  Then let's go back to the main menu.
         this.state.start('MainMenu');
