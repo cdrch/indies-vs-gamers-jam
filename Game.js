@@ -539,6 +539,8 @@ ArcaneArcade.Game.prototype = {
         {
             enemy.stunStacks++;
             enemy.tint = 0x996633;
+			enemy.body.moves = false;
+			enemy.animations.play('idle');
             var timer = this.time.create(false);
             timer.add(Phaser.Timer.SECOND * 1, 
                 enemy.removeStun, enemy);
@@ -550,7 +552,7 @@ ArcaneArcade.Game.prototype = {
             enemy.weaknessStacks++;
             enemy.tint = 0xCC0099;
             var timer = this.time.create(false);
-            timer.add(Phaser.Timer.SECOND * 1, 
+            timer.add(Phaser.Timer.SECOND * 4, 
                 enemy.removeWeak, enemy);
             timer.start();
         }
