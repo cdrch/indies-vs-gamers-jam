@@ -141,6 +141,7 @@ Weapon.PoisonSting = function (game) {
 
     this.setAll("hitDamage", this.hitDamage);
     this.setAll("damageOverTime", this.damageOverTime);
+	this.setAll("tint", 0x009900);
 
     return this;
 
@@ -206,6 +207,7 @@ Weapon.Wind = function (game) {
 
     this.setAll("hitDamage", this.hitDamage);
     this.setAll("stunTime", this.stunTime);
+	this.setAll("tint", 0x996633);
 
     this.levelUp();
     this.levelUp();
@@ -279,6 +281,7 @@ Weapon.Weakness = function (game) {
 
     this.setAll("hitDamage", this.hitDamage);
     this.setAll("weaknessAmount", this.weaknessAmount);
+	this.setAll("tint", 0xCC0099);
 
     return this;
 
@@ -324,7 +327,7 @@ Weapon.Weakness.prototype.fire = function (source) {
 
 Weapon.Fireball = function (game) {
 
-    Phaser.Group.call(this, game, game.world, 'Magic Missile', 
+    Phaser.Group.call(this, game, game.world, 'Fireball', 
         false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;

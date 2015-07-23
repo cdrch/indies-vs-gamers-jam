@@ -196,6 +196,7 @@ Enemy.prototype.removeStun = function() {
 	{
 		this.tint = 0xffffff;
 		this.damageOverTime = 0;
+		this.body.moves = true;
 	}
 };
 
