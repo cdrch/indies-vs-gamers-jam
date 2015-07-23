@@ -336,7 +336,7 @@ Weapon.Fireball = function (game) {
 
     for (var i = 0; i < 2; i++)
     {
-        this.add(new Bullet(game, 'bullet'), true, true);
+        this.add(new Bullet(game, 'fireball'), true, true);
     }
 
     this.setAll("hitDamage", this.hitDamage);   

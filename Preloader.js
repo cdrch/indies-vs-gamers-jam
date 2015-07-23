@@ -37,6 +37,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.image('crosshair', 'art/reticle2.png');
 		this.load.image('bullet', 'ice-bolt.png');
 		this.load.image('arrow', 'arrow.png');
+		this.load.image('fireball', 'art/fireball.png');	
 
 		this.load.image('door', 'art/door.png');
 		this.load.image('blackScreen', 'art/black.png');
