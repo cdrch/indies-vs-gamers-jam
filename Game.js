@@ -345,7 +345,7 @@ ArcaneArcade.Game.prototype = {
             timer.add(Phaser.Timer.SECOND * 2.5 * 60, 
                 this.spawnTheGhost, this);
             timer.start();
-       console.log("Ghost spawned at " + this.ghost.x + " " + this.ghost.y);        
+       //console.log("Ghost spawned at " + this.ghost.x + " " + this.ghost.y);        
         
 
         if (this.currentLevel.type === "0")
