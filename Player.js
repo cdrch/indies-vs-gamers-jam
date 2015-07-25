@@ -513,6 +513,7 @@ var Player = function(game, posX, posY, imageName) {
     this.sprite.animations.play('idle');
 
 	game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+    this.sprite.body.setSize(31, 47, 0, 10);
     this.MAXSPEED = 300; // player's maximum velocity
 
     this.sprite.body.collideWorldBounds = true;
@@ -849,7 +850,7 @@ Player.prototype.respawn = function(game) {
     else
     {
         // game over
-        
+        this.game.endGame();
     }
     
 

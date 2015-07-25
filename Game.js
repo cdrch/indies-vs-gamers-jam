@@ -733,7 +733,7 @@ ArcaneArcade.Game.prototype = {
     },
 
     endGame: function () {
-        this.music.stop();
+        this.quitGame();
     },
 
     quitGame: function (pointer) {
@@ -761,6 +761,7 @@ ArcaneArcade.Game.prototype = {
     render: function() {
         // call renderGroup on each of the alive members
         //this.enemyGroup.forEach(this.renderGroup, this);
+        // this.game.debug.body(this.player.sprite);
     },
 
     renderGroup: function (member) {
