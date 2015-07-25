@@ -92,7 +92,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.audio('getHit', ['audio/sfx/GetHit.mp3', 'audio/sfx/GetHit.ogg']);
 		this.load.audio('heal', ['audio/sfx/Heal.mp3', 'audio/sfx/Heal.ogg']);
 		this.load.audio('ice', ['audio/sfx/Ice.mp3', 'audio/sfx/Ice.ogg']);
-		this.load.audio('Lightning', ['audio/sfx/Lightning.mp3', 'audio/sfx/Lightning.ogg']);
+		this.load.audio('lightning', ['audio/sfx/Lightning.mp3', 'audio/sfx/Lightning.ogg']);
 		this.load.audio('pickup', ['audio/sfx/Pickup.mp3', 'audio/sfx/Pickup.ogg']);
 		this.load.audio('water', ['audio/sfx/Water.mp3', 'audio/sfx/Water.ogg']);
 		this.load.audio('wind', ['audio/sfx/Wind.mp3', 'audio/sfx/Wind.ogg']);
@@ -103,6 +103,12 @@ ArcaneArcade.Preloader.prototype = {
 
 		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
 		//this.preloadBar.cropEnabled = false;
+		
+		this.sound.setDecodedCallback([ 'titleSong', 'characterTheme', 'endOfGameSong', 'finalBossTheme', 'gameOverSong',
+			 'ghostTheme', 'magicalGirlThemeOne', 'magicalGirlThemeTwo', 'sadThemeOne', 'sadThemeTwo',
+			  'die', 'earth', 'enemyHit', 'heal', 'fireball',
+			   'getCoin', 'getHit', 'exitLevel', 'ice', 'lightning',
+			    'pickup', 'water', 'wind', 'skeletonBow' ], this.start, this);
 
 	},
 
@@ -117,12 +123,17 @@ ArcaneArcade.Preloader.prototype = {
 		//	If you don't have any music in your game then put the game.state.start line into the create function and delete
 		//	the update function completely.
 		
-		if (this.cache.isSoundDecoded('titleSong') && this.ready === false)
-		{
-			this.ready = true;
-			this.state.start('MainMenu');
-		}
+		// if (this.cache.isSoundDecoded('titleSong') && this.ready === false)
+		// {
+		// 	this.ready = true;
+		// 	this.state.start('MainMenu');
+		// }
 
+	},
+
+	start: function () {
+		this.ready = true;
+		this.state.start('MainMenu');
 	}
 
 };

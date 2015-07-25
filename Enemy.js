@@ -70,6 +70,8 @@ var Enemy = function (game, key, speed, range, damage,invincible, flyer, sfx) {
     this.weaknessStacks = 0;
     this.weakness = 0;
 
+    this.hitSFX = game.add.audio('enemyHit', 0.4, false);
+
     this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage, sfx);
     this.weapon.enableBody = true;
     this.weapon.physicsBodyType = Phaser.Physics.ARCADE;

@@ -55,7 +55,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     this.sprite.animations.play('new');
 
-    var sound = game.add.audio('skeletonBow');
+    var sound = game.add.audio('skeletonBow', 0.5, false);
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
