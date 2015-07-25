@@ -34,8 +34,8 @@ ArcaneArcade.Boot.prototype = {
             this.scale.pageAlignHorizontally = true;
         }
 
-        this.load.baseURL = 'http://cdrch.github.io/indies-vs-gamers-jam/';
-        this.load.crossOrigin = 'anonymous';
+        //this.load.baseURL = 'http://cdrch.github.io/indies-vs-gamers-jam/';
+        //this.load.crossOrigin = 'anonymous';
 
     },
 
@@ -43,7 +43,7 @@ ArcaneArcade.Boot.prototype = {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
         //this.load.image('preloaderBackground', 'images/preloader_background.jpg');
-        this.load.image('preloaderBar', 'art/loadingBar.png');
+        this.load.image('preloaderBar', 'loadingBar.png');
 
     },
 
