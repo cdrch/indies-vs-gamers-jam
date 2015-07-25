@@ -2,7 +2,7 @@ var Ghost = function(game, key, speed)
 {
     //var sound = game.add.audio('skeletonBow', 0.5, false);
 
-	Enemy.call(this, game, key, speed, 1, 100, true, true);
+	Enemy.call(this, game, key, speed, 1, 1000, 100, true, true);
 
 	this.animations.add('walk', [0 ,1 , 2, 3, 2, 1], 15, true);
 

@@ -51,13 +51,14 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
     this.sprite.animations.add('new', [0], 15, false);
     this.sprite.animations.add('broken', [1], 15, false);
 
-    this.maximumEnemies = 2;
+    this.maximumEnemies = gameThat.currentLevel.spawnerEnemyCap;
 
     this.sprite.animations.play('new');
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new SkeletonArcher(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage, false, false), true, true);
+
+        this.add(new SkeletonArcher(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyHP ,gameThat.currentLevel.enemyDamage, false, false), true, true);
     }
 
     return this;
@@ -99,6 +100,8 @@ Spawner.BasicEnemy.prototype.update = function() {
 ArcaneArcade.Game.prototype = {
 
     getCurrentLevelInfo: function (level) {
+        console.log(level);
+
         switch(level)
         {
             case 1:
@@ -113,9 +116,45 @@ ArcaneArcade.Game.prototype = {
                 return this.gameInfo.level.five;
             case 6:
                 return this.gameInfo.level.choiceOne;
+            case 7:
+                return this.gameInfo.level.six;
+            case 8:
+                return this.gameInfo.level.seven;
+            case 9:
+                return this.gameInfo.level.eight;
+            case 10:
+                return this.gameInfo.level.nine;
+            case 11:
+                return this.gameInfo.level.ten;
+            case 12:
+                return this.gameInfo.level.choiceTwo;
+            case 13:
+                return this.gameInfo.level.eleven;
+            case 14:
+                return this.gameInfo.level.twelve;
+            case 15:
+                return this.gameInfo.level.thirteen;
+            case 16:
+                return this.gameInfo.level.fourteen;
+            case 17:
+                return this.gameInfo.level.fifteen;
+            case 18:
+                return this.gameInfo.level.choiceThree;
+            case 19:
+                return this.gameInfo.level.sixteen;
+            case 20:
+                return this.gameInfo.level.seventeen;
+            case 21:
+                return this.gameInfo.level.eighteen;
+            case 22:
+                return this.gameInfo.level.nineteen;
+            case 23:
+                return this.gameInfo.level.twenty;
+            case 24:
+                return this.gameInfo.level.bossOne;
             default:
                 return this.gameInfo.level.infiniteChallenge;
-                // maybe randomly pick a tough level for infinite score attack?
+                // randomly picking a tough level for infinite score attack?
         }
     },
 
@@ -149,9 +188,9 @@ ArcaneArcade.Game.prototype = {
     },
 
     setDoorRoom: function(rooms){
-    	for(var i = rooms.length / 2; i < rooms.length - 1; i++)
+    	for(var i = Math.floor(rooms.length / 2); i < rooms.length - 1; i++)
     	{
-    		var room = rooms[Math.floor(i)];
+    		var room = rooms[i];
 
             var leftSide = room.getLeft() * this.TILESIZEX;
             var rightSide = room.getRight() * this.TILESIZEX;
@@ -311,8 +350,14 @@ ArcaneArcade.Game.prototype = {
 
         if (this.currentLevel.type === "0")
         {
-            startX = this.currentLevel.startX;
-            startY = this.currentLevel.startY;
+            this.door = new PowerDoor(this, 'door', this.currentLevel.door1X * this.TILESIZEX + this.TILESIZEX * 0.5, this.currentLevel.door1Y * this.TILESIZEY + this.TILESIZEY * 0.5, this.currentLevel.door1Power);
+            console.log("Door 1 at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+            this.door2 = new PowerDoor(this, 'door', this.currentLevel.door2X * this.TILESIZEX + this.TILESIZEX * 0.5, this.currentLevel.door2Y * this.TILESIZEY + this.TILESIZEY * 0.5, this.currentLevel.door2Power);
+            console.log("Door 2 at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+            startX = this.currentLevel.startX * this.TILESIZEX + this.TILESIZEX * 0.5;
+            startY = this.currentLevel.startY * this.TILESIZEY + this.TILESIZEY * 0.5;
             this.player = new Player(this, startX, startY, 'player');
         }
 
@@ -421,7 +466,17 @@ ArcaneArcade.Game.prototype = {
     createRandomDiggerMapData: function () {
         var data = [this.MAPWIDTH * this.MAPHEIGHT];
 
-        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
+        var percentage = 0.2;
+        if (ArcaneArcade.currentLevel > 24)
+        {
+            percentage = 0.5;
+        }
+        else
+        {
+            percentage += ArcaneArcade.currentLevel * 0.01;
+        }
+
+        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: percentage});
         //this.rotMap.randomize(0.5);
         //for (var iterations = 0; iterations < 5; iterations++)
         //{
@@ -550,6 +605,10 @@ ArcaneArcade.Game.prototype = {
     update: function () {
 
         this.door.update();
+        if (this.currentLevel.type === "0")
+        {
+            this.door2.update();
+        }
 
         if (this.nextLevelButton.isDown)
         {
