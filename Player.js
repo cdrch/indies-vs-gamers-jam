@@ -17,7 +17,7 @@ Weapon.MagicMissile = function (game) {
 
     for (var i = 0; i < 64; i++)
     {
-        this.add(new Bullet(game, 'bullet'), true, true);
+        this.add(new Bullet(game, 'magicMissile'), true, true);
     }
 
     this.setAll("hitDamage", this.hitDamage);   

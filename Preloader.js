@@ -36,6 +36,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.spritesheet('spawner', 'art/spawnerSheet.png', 66, 56);
 		this.load.image('crosshair', 'art/reticle2.png');
 		this.load.image('bullet', 'ice-bolt.png');
+		this.load.image('magicMissile', 'art/Magic Missile.png');
 		this.load.image('arrow', 'arrow.png');
 		this.load.image('fireball', 'art/fireball.png');	
 
