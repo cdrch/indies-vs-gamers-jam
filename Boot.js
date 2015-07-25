@@ -34,6 +34,9 @@ ArcaneArcade.Boot.prototype = {
             this.scale.pageAlignHorizontally = true;
         }
 
+        this.load.baseURL = "http://cdrch.github.io/indies-vs-gamers-jam/";
+        this.load.crossOrigin = "anonymous";
+
     },
 
     preload: function () {
