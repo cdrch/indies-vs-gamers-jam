@@ -174,7 +174,7 @@ ArcaneArcade.Game.prototype = {
         var startX = 0;
         var startY = 0;
 
-
+        var doorPlaced = false;
 
         var remainingSpawners = this.currentLevel.spawnerCount;
 
@@ -182,9 +182,11 @@ ArcaneArcade.Game.prototype = {
 
         this.spawners = [];
 
-        if (this.currentLevel.type !== 0)
+        if (this.currentLevel.type !== "0")
         {
             var rooms = this.rotMap.getRooms();
+
+            console.log("Room Count: " + rooms.length);
 
             for (var i=0; i<rooms.length; i++) {
                 var room = rooms[i];
@@ -199,14 +201,41 @@ ArcaneArcade.Game.prototype = {
                 var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
 
                 //room.getDoors(drawDoor);
+                startX = randomX;
+                startY = randomY;
 
                 if (i === 0)
                 {
-                    startX = randomX;
-                    startY = randomY;
 
 
                     this.player = new Player(this, startX, startY, 'player');
+                    console.log("Player in room " + i + " at: " + startX + "," + startY);
+                }
+                else if (!doorPlaced && i === rooms.length-1)
+                {
+                    // place door
+
+                    this.door = new Door(this, 'door', randomX, randomY);
+
+                    console.log("Door in room " + i + " at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+                    doorPlaced = true; // the door has now been placed
+
+                    //i--; // this allows the chance of a spawner to be placed in the same room as a door
+                }
+                else if (!doorPlaced && 
+                    i > rooms.length * 0.5 && 
+                    Math.random(0, 1) > 0)
+                {
+                    // place door
+
+                    this.door = new Door(this, 'door', randomX, randomY);
+
+                    console.log("Door in room " + i + " at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+                    doorPlaced = true; // the door has now been placed
+
+                    //i--; // this allows the chance of a spawner to be placed in the same room as a door
                 }
                 else if (remainingSpawners > 0)
                 {
@@ -221,6 +250,7 @@ ArcaneArcade.Game.prototype = {
                         gameThat.enemyGroup.push(enemy);
                     }, this);
                     remainingSpawners--;
+                    console.log("Spawner in room " + i + " at: " + randomX + "," + randomY);
                 }
                 else
                 {
@@ -267,9 +297,6 @@ ArcaneArcade.Game.prototype = {
         // this.spawner1.forEach(function (enemy) {
         //     this.enemyGroup.push(enemy);
         // }, this);
-
-
-        //this.door = new Door(this, 'door', 200, 200);
 
         this.music = this.add.audio(Phaser.ArrayUtils.getRandomItem(this.currentLevel.music), 0.5, true);
         this.music.play();
@@ -474,7 +501,7 @@ ArcaneArcade.Game.prototype = {
 
     update: function () {
 
-        //this.door.update();
+        this.door.update();
 
         if (this.nextLevelButton.isDown)
         {
