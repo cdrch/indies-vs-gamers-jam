@@ -120,6 +120,61 @@ ArcaneArcade.Game.prototype = {
         }
     },
 
+    setPlayerRoom: function(room){
+    	//setting the player
+        var leftSide = room.getLeft() * this.TILESIZEX;
+        var rightSide = room.getRight() * this.TILESIZEX;
+        var topSide = room.getTop() * this.TILESIZEY;
+        var bottomSide = room.getBottom() * this.TILESIZEY;
+
+
+        var startX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
+        var startY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
+
+        this.player = new Player(this, startX, startY, 'player');
+        console.log("Player in room " + 0 + " at: " + startX + "," + startY);
+    },
+
+    setDoorRoom: function(rooms){
+    	for(var i = rooms.length / 2; i < rooms.length - 1; i++)
+    	{
+    		var room = rooms[i];
+
+            var leftSide = room.getLeft() * this.TILESIZEX;
+            var rightSide = room.getRight() * this.TILESIZEX;
+            var topSide = room.getTop() * this.TILESIZEY;
+            var bottomSide = room.getBottom() * this.TILESIZEY;
+
+
+            var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
+            var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
+
+    		var chance = Math.random(1, 10);
+    		if(chance > 7)
+    		{
+    			this.door = new Door(this, 'door', randomX, randomY);
+    			console.log("Door in room " + i + " at: " + this.door.sprite.x + "," + this.door.sprite.y);
+    			return;
+    		}
+    	}
+
+    	var room = rooms[rooms.length - 1];
+
+        var leftSide = room.getLeft() * this.TILESIZEX;
+        var rightSide = room.getRight() * this.TILESIZEX;
+        var topSide = room.getTop() * this.TILESIZEY;
+        var bottomSide = room.getBottom() * this.TILESIZEY;
+
+
+        var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
+        var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
+
+    	this.door = new Door(this, 'door', randomX, randomY);
+    	console.log("Door in room " + i + " at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+
+    },
+
     create: function () {        
 
         gameThat = this;
@@ -188,7 +243,15 @@ ArcaneArcade.Game.prototype = {
 
             console.log("Room Count: " + rooms.length);
 
-            for (var i=0; i<rooms.length; i++) {
+            //setting the player
+            this.setPlayerRoom(rooms[0]);
+
+            //setting the door
+            this.setDoorRoom(rooms);
+
+            //setting the spawners
+
+            for (var i=1; i<rooms.length; i++) {
                 var room = rooms[i];
 
                 var leftSide = room.getLeft() * this.TILESIZEX;
@@ -200,44 +263,8 @@ ArcaneArcade.Game.prototype = {
                 var randomX = this.rnd.realInRange(leftSide + this.TILESIZEX * 0.5, rightSide + this.TILESIZEX * 0.5);
                 var randomY = this.rnd.realInRange(topSide + this.TILESIZEY * 0.5, bottomSide + this.TILESIZEY * 0.5);
 
-                //room.getDoors(drawDoor);
-                startX = randomX;
-                startY = randomY;
-
-                if (i === 0)
-                {
-
-
-                    this.player = new Player(this, startX, startY, 'player');
-                    console.log("Player in room " + i + " at: " + startX + "," + startY);
-                }
-                else if (!doorPlaced && i === rooms.length-1)
-                {
-                    // place door
-
-                    this.door = new Door(this, 'door', randomX, randomY);
-
-                    console.log("Door in room " + i + " at: " + this.door.sprite.x + "," + this.door.sprite.y);
-
-                    doorPlaced = true; // the door has now been placed
-
-                    //i--; // this allows the chance of a spawner to be placed in the same room as a door
-                }
-                else if (!doorPlaced && 
-                    i > rooms.length * 0.5 && 
-                    Math.random(0, 1) > 0)
-                {
-                    // place door
-
-                    this.door = new Door(this, 'door', randomX, randomY);
-
-                    console.log("Door in room " + i + " at: " + this.door.sprite.x + "," + this.door.sprite.y);
-
-                    doorPlaced = true; // the door has now been placed
-
-                    //i--; // this allows the chance of a spawner to be placed in the same room as a door
-                }
-                else if (remainingSpawners > 0)
+                
+                if (remainingSpawners > 0)
                 {
                     var spawner = new Spawner.BasicEnemy(this, randomX, randomY, 500,'spawner');
                     //this.spawner1.sprite.physicsBodyType = Phaser.Physics.ARCADE;
