@@ -79,7 +79,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.audio('characterTheme', ['Main Character Fixed.mp3', 'Main Character Fixed.ogg']);
 		this.load.audio('endOfGameSong', ['End of Game.mp3', 'End of Game.ogg']);
 		this.load.audio('finalBossTheme', ['Final Boss Battle.mp3', 'Final Boss Battle.ogg']);
-		this.load.audio('gameOverSong', ['Game Over.mp3', 'Game Over.ogg']);
+		this.load.audio('gameOverSong', ['Game Over.MP3', 'Game Over.OGG']);
 		this.load.audio('ghostTheme', ['Ghost.mp3', 'Ghost.ogg']);
 		this.load.audio('magicalGirlThemeOne', ['Main Character is a Magical Girl.mp3', 'Main Character is a Magical Girl.ogg']);
 		this.load.audio('magicalGirlThemeTwo', ['Main Character is a Magical Girl ver2.mp3', 'Main Character is a Magical Girl ver2.ogg']);
