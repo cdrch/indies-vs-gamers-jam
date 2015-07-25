@@ -35,7 +35,7 @@ ArcaneArcade.Boot.prototype = {
         }
 
         // this.load.baseURL = 'http://cdrch.github.io/indies-vs-gamers-jam/';
-        this.load.baseURL = 'https://raw.githubusercontent.com/cdrch/indies-vs-gamers-jam/develop/';
+        this.load.baseURL = 'https://rawgit.com/cdrch/indies-vs-gamers-jam/develop/';
         this.load.crossOrigin = 'anonymous';
 
     },
