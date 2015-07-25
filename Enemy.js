@@ -39,16 +39,10 @@ EnemyWeapon.EnemySingleBullet.prototype.fire = function (source, xTarget, yTarge
 
 };
 
-var Enemy = function (game, key, speed, range, damage,invincible, flyer, sfx) {
+var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
 
 
     Phaser.Sprite.call(this, game.game, 0, 0, key);
-
-    this.animations.add('walk', [2 ,3 , 4, 5], 15, true);
-    this.animations.add('attack', [0, 1], 15, true);
-    this.animations.add('idle', [2], 15, false);
-
-    this.animations.play('idle');
 
     this.game = game;
 
@@ -72,9 +66,9 @@ var Enemy = function (game, key, speed, range, damage,invincible, flyer, sfx) {
 
     this.hitSFX = game.add.audio('enemyHit', 0.4, false);
 
-    this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage, sfx);
-    this.weapon.enableBody = true;
-    this.weapon.physicsBodyType = Phaser.Physics.ARCADE;
+    //this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage, sfx);
+    //this.weapon.enableBody = true;
+    //this.weapon.physicsBodyType = Phaser.Physics.ARCADE;
 
     this.facingRight;
 
@@ -132,19 +126,22 @@ Enemy.prototype.update = function (layer) {
 		{
 			this.body.moves = true;
 			this.moveTo(this.targetPlayer.sprite.x, this.targetPlayer.sprite.y);
-			this.animations.play('walk');
+			//this.animations.play('walk');
+			this.shouldPlayAnimation = 'walk';
 		}
 		else
 		{
 			this.body.moves = false;
 			this.fire();
-			this.animations.play('attack');
+			//this.animations.play('attack');
 			//just shoot
+			this.shouldPlayAnimation = 'attack';
 		}
 	}
 	else
 	{
 		this.body.moves = false;
+		this.shouldPlayAnimation = 'idle';
 		this.animations.play('idle');
 	}
 

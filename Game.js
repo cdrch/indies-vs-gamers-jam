@@ -55,11 +55,9 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     this.sprite.animations.play('new');
 
-    var sound = game.add.audio('skeletonBow', 0.5, false);
-
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage, false, false, sound), true, true);
+        this.add(new SkeletonArcher(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage, false, false), true, true);
     }
 
     return this;
@@ -97,6 +95,7 @@ Spawner.BasicEnemy.prototype.update = function() {
     this.spawn();
 };
 
+
 ArcaneArcade.Game.prototype = {
 
     getCurrentLevelInfo: function (level) {
@@ -133,6 +132,20 @@ ArcaneArcade.Game.prototype = {
 
         this.player = new Player(this, startX, startY, 'player');
         console.log("Player in room " + 0 + " at: " + startX + "," + startY);
+    },
+
+    spawnTheGhost: function(xPos, yPos) {
+
+    	this.ghost = new Ghost(this, 'Ghost', 120, 100);
+
+    	var ghostX = this.currentLevel.width * 128 / 2;
+    	var ghostY = this.currentLevel.height * 128 / 2;
+
+    	this.physics.enable(this.ghost, 
+        	Phaser.Physics.ARCADE, true);
+    	//this.ghost.reset(xPos, yPos, 100);
+    	this.ghost.spawn(ghostX, ghostY, 100, 0);
+
     },
 
     setDoorRoom: function(rooms){
@@ -178,6 +191,7 @@ ArcaneArcade.Game.prototype = {
     create: function () {        
 
         gameThat = this;
+        this.ghost = null;
 
         this.TILESIZEX = 128;
         this.TILESIZEY = 128;
@@ -287,6 +301,12 @@ ArcaneArcade.Game.prototype = {
             }
         }
 
+        //ADD TIMER
+        var timer = this.time.create(false);
+            timer.add(Phaser.Timer.SECOND * 2.5 * 60, 
+                this.spawnTheGhost, this);
+            timer.start();
+       console.log("Ghost spawned at " + this.ghost.x + " " + this.ghost.y);        
         
 
         if (this.currentLevel.type === "0")
@@ -535,6 +555,9 @@ ArcaneArcade.Game.prototype = {
         {
             this.goToNextLevel();
         }
+        
+        if(this.ghost != null)
+        	this.ghost.update(gameThat.layer);
 
         this.player.update(this);
         this.enemyGroup.forEach(function (enemy) {
