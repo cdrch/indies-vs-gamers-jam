@@ -36,7 +36,7 @@ EnemyWeapon.SkeletonArrow.prototype.fire = function (source, xTarget, yTarget) {
 
 };
 
-var SkeletonArcher = function(game, key, speed, range, damage)
+var SkeletonArcher = function(game, key, speed, range, hp,damage)
 {
     var sound = game.add.audio('skeletonBow', 0.5, false);
 
