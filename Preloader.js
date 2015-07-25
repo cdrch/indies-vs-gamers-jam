@@ -32,74 +32,74 @@ ArcaneArcade.Preloader.prototype = {
 
 		this.load.image('textBG', 'Test Text Box Background.png');
 
-		this.load.spritesheet('BasicEnemy', 'art/skellColorSheet.png', 64, 64);
-		this.load.spritesheet('spawner', 'art/spawnerSheet.png', 66, 56);
-		this.load.spritesheet('Ghost', 'art/Boss_Sheet.png', 128, 128);
-		this.load.image('crosshair', 'art/reticle2.png');
+		this.load.spritesheet('BasicEnemy', 'skellColorSheet.png', 64, 64);
+		this.load.spritesheet('spawner', 'spawnerSheet.png', 66, 56);
+		this.load.spritesheet('Ghost', 'Boss_Sheet.png', 128, 128);
+		this.load.image('crosshair', 'reticle2.png');
 		this.load.image('bullet', 'ice-bolt.png');
-		this.load.image('magicMissile', 'art/Magic Missile.png');
+		this.load.image('magicMissile', 'Magic Missile.png');
 		this.load.image('arrow', 'arrow.png');
-		this.load.image('fireball', 'art/fireball.png');	
+		this.load.image('fireball', 'fireball.png');	
 
-		this.load.image('door', 'art/door.png');
-		this.load.image('blackScreen', 'art/black.png');
+		this.load.image('door', 'door.png');
+		this.load.image('blackScreen', 'black.png');
 
-		this.load.image('basicWeapon', 'art/pickups/magicMissle.png');
-		this.load.image('supportWeapon', 'art/pickups/weakness.png');
-		this.load.image('alternateBasicWeapon', 'art/pickups/poison.png');
-		this.load.image('ultimateWeapon', 'art/pickups/firebolt.png');
-		this.load.image('healPickup', 'art/pickups/health.png');
-		this.load.image('pointsPickup', 'art/pickups/points.png');
+		this.load.image('basicWeapon', 'magicMissle.png');
+		this.load.image('supportWeapon', 'weakness.png');
+		this.load.image('alternateBasicWeapon', 'poison.png');
+		this.load.image('ultimateWeapon', 'firebolt.png');
+		this.load.image('healPickup', 'health.png');
+		this.load.image('pointsPickup', 'points.png');
 
 		this.load.image('tileset16', 'greentest.png');
 		this.load.image('tileset32', 'test-tileset32.png');
 		this.load.image('tileset64', 'bluetestwalls.png');
 		this.load.image('orangetest', 'orangetest.png');
 
-		this.load.image('simple-tiles', 'art/simple-tiles.png');
+		this.load.image('simple-tiles', 'simple-tiles.png');
 
 		this.load.json('gameInfo', 'GameInfo.json');
 
-		this.load.tilemap('test-map1', 'tilemaps/test-map1.json', null, Phaser.Tilemap.TILED_JSON);
-		this.load.tilemap('map1', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
-		this.load.tilemap('map2', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
-		this.load.tilemap('map3', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
-		this.load.tilemap('map4', 'tilemaps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('test-map1', 'test-map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map1', 'map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map2', 'map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map3', 'map1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('map4', 'map1.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.image('pointsPickup', 'pointsPickup.png');
 
-		this.load.spritesheet('player', 'art/bubbles.png', 64, 64);
+		this.load.spritesheet('player', 'bubbles.png', 64, 64);
 
-		this.load.image('transparentBubble', 'art/Transparent Bubble.png');
+		this.load.image('transparentBubble', 'Transparent Bubble.png');
 
-		this.load.image('hp-bar', 'art/hp-bar.png');
-		this.load.image('hp-bg', 'art/hp-bg.png');
+		this.load.image('hp-bar', 'hp-bar.png');
+		this.load.image('hp-bg', 'hp-bg.png');
 
-		this.load.audio('titleSong', ['audio/music/Title Song Final.mp3', 'audio/music/Title Song Final.ogg']);
-		this.load.audio('characterTheme', ['audio/music/Main Character Fixed.mp3', 'audio/music/Main Character Fixed.ogg']);
-		this.load.audio('endOfGameSong', ['audio/music/End of Game.mp3', 'audio/music/End of Game.ogg']);
-		this.load.audio('finalBossTheme', ['audio/music/Final Boss Battle.mp3', 'audio/music/Final Boss Battle.ogg']);
-		this.load.audio('gameOverSong', ['audio/music/Game Over.mp3', 'audio/music/Game Over.ogg']);
-		this.load.audio('ghostTheme', ['audio/music/Ghost.mp3', 'audio/music/Ghost.ogg']);
-		this.load.audio('magicalGirlThemeOne', ['audio/music/Main Character is a Magical Girl.mp3', 'audio/music/Main Character is a Magical Girl.ogg']);
-		this.load.audio('magicalGirlThemeTwo', ['audio/music/Main Character is a Magical Girl ver2.mp3', 'audio/music/Main Character is a Magical Girl ver2.ogg']);
-		this.load.audio('sadThemeOne', ['audio/music/Main Character Sad 1.mp3', 'audio/music/Main Character Sad 1.ogg']);
-		this.load.audio('sadThemeTwo', ['audio/music/Main Character Sad 2.mp3', 'audio/music/Main Character Sad 2.ogg']);
+		this.load.audio('titleSong', ['Title Song Final.mp3', 'Title Song Final.ogg']);
+		this.load.audio('characterTheme', ['Main Character Fixed.mp3', 'Main Character Fixed.ogg']);
+		this.load.audio('endOfGameSong', ['End of Game.mp3', 'End of Game.ogg']);
+		this.load.audio('finalBossTheme', ['Final Boss Battle.mp3', 'Final Boss Battle.ogg']);
+		this.load.audio('gameOverSong', ['Game Over.mp3', 'Game Over.ogg']);
+		this.load.audio('ghostTheme', ['Ghost.mp3', 'Ghost.ogg']);
+		this.load.audio('magicalGirlThemeOne', ['Main Character is a Magical Girl.mp3', 'Main Character is a Magical Girl.ogg']);
+		this.load.audio('magicalGirlThemeTwo', ['Main Character is a Magical Girl ver2.mp3', 'Main Character is a Magical Girl ver2.ogg']);
+		this.load.audio('sadThemeOne', ['Main Character Sad 1.mp3', 'Main Character Sad 1.ogg']);
+		this.load.audio('sadThemeTwo', ['Main Character Sad 2.mp3', 'Main Character Sad 2.ogg']);
 
-		this.load.audio('die', ['audio/sfx/Die.mp3', 'audio/sfx/Die.ogg']);
-		this.load.audio('earth', ['audio/sfx/Earth.mp3', 'audio/sfx/Earth.ogg']);
-		this.load.audio('enemyHit', ['audio/sfx/Enemy Hit.mp3', 'audio/sfx/Enemy Hit.ogg']);
-		this.load.audio('exitLevel', ['audio/sfx/Exit Level.mp3', 'audio/sfx/Exit Level.ogg']);
-		this.load.audio('fireball', ['audio/sfx/Fireball.mp3', 'audio/sfx/Fireball.ogg']);
-		this.load.audio('getCoin', ['audio/sfx/GetCoin.mp3', 'audio/sfx/GetCoin.ogg']);
-		this.load.audio('getHit', ['audio/sfx/GetHit.mp3', 'audio/sfx/GetHit.ogg']);
-		this.load.audio('heal', ['audio/sfx/Heal.mp3', 'audio/sfx/Heal.ogg']);
-		this.load.audio('ice', ['audio/sfx/Ice.mp3', 'audio/sfx/Ice.ogg']);
-		this.load.audio('lightning', ['audio/sfx/Lightning.mp3', 'audio/sfx/Lightning.ogg']);
-		this.load.audio('pickup', ['audio/sfx/Pickup.mp3', 'audio/sfx/Pickup.ogg']);
-		this.load.audio('water', ['audio/sfx/Water.mp3', 'audio/sfx/Water.ogg']);
-		this.load.audio('wind', ['audio/sfx/Wind.mp3', 'audio/sfx/Wind.ogg']);
-		this.load.audio('skeletonBow', ['audio/sfx/Skeleton Bow.mp3', 'audio/sfx/Skeleton Bow.ogg']);
+		this.load.audio('die', ['Die.mp3', 'Die.ogg']);
+		this.load.audio('earth', ['Earth.mp3', 'Earth.ogg']);
+		this.load.audio('enemyHit', ['Enemy Hit.mp3', 'Enemy Hit.ogg']);
+		this.load.audio('exitLevel', ['Exit Level.mp3', 'Exit Level.ogg']);
+		this.load.audio('fireball', ['Fireball.mp3', 'Fireball.ogg']);
+		this.load.audio('getCoin', ['GetCoin.mp3', 'GetCoin.ogg']);
+		this.load.audio('getHit', ['GetHit.mp3', 'GetHit.ogg']);
+		this.load.audio('heal', ['Heal.mp3', 'Heal.ogg']);
+		this.load.audio('ice', ['Ice.mp3', 'Ice.ogg']);
+		this.load.audio('lightning', ['Lightning.mp3', 'Lightning.ogg']);
+		this.load.audio('pickup', ['Pickup.mp3', 'Pickup.ogg']);
+		this.load.audio('water', ['Water.mp3', 'Water.ogg']);
+		this.load.audio('wind', ['Wind.mp3', 'Wind.ogg']);
+		this.load.audio('skeletonBow', ['Skeleton Bow.mp3', 'Skeleton Bow.ogg']);
 	},
 
 	create: function () {
