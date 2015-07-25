@@ -138,7 +138,7 @@ ArcaneArcade.Game.prototype = {
     setDoorRoom: function(rooms){
     	for(var i = rooms.length / 2; i < rooms.length - 1; i++)
     	{
-    		var room = rooms[i];
+    		var room = rooms[Math.floor(i)];
 
             var leftSide = room.getLeft() * this.TILESIZEX;
             var rightSide = room.getRight() * this.TILESIZEX;
