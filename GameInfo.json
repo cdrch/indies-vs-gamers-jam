@@ -15,14 +15,15 @@
             "door1Y": "8",
             "door2X": "8",
             "door2Y": "1",
-            "tileset": "simple-tiles"
+            "tileset": "simple-tiles",
+            "music": ["characterTheme"]
         },
         "choiceTwo": {
             "type": "0",
             "width": "30",
             "height": "30",
             "levelName": "Level 1",
-            "fileName": "map1",
+            "fileName": "map2",
             "startX": "1",
             "startY": "1",
             "door1Power": "3",
@@ -31,14 +32,15 @@
             "door1Y": "8",
             "door2X": "8",
             "door2Y": "1",
-            "tileset": "simple-tiles"
+            "tileset": "simple-tiles",
+            "music": ["characterTheme"]
         },
         "choiceThree": {
             "type": "0",
             "width": "30",
             "height": "30",
             "levelName": "Level 1",
-            "fileName": "map1",
+            "fileName": "map3",
             "startX": "1",
             "startY": "1",
             "door1Power": "5",
@@ -47,7 +49,8 @@
             "door1Y": "8",
             "door2X": "8",
             "door2Y": "1",
-            "tileset": "simple-tiles"
+            "tileset": "simple-tiles",
+            "music": ["characterTheme"]
         },
         "infiniteChallenge": {
             "type": "1",

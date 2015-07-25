@@ -1,6 +1,8 @@
 var PowerDoor = function(game, key, x, y, power)
 {
-	ArcaneArcade.Door.call(game. key, x, y);
+	Door.call(this, game, key, x, y);
+
+	this.power = power;
 
 	if(power == 1)
 	{
@@ -33,11 +35,11 @@ var PowerDoor = function(game, key, x, y, power)
 	}
 };
 
-PowerDoor.prototype = Object.create(ArcaneArcade.Door.prototype);
+PowerDoor.prototype = Object.create(Door.prototype);
 PowerDoor.prototype.constructor = PowerDoor;
 
 PowerDoor.prototype.openDoor = function() {
 
-	ArcaneArcade.playerWeapons[power] = true;
+	ArcaneArcade.playerWeapons[this.power] = true;
 	this.currentGame.goToNextLevel();
 };

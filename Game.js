@@ -100,6 +100,8 @@ Spawner.BasicEnemy.prototype.update = function() {
 ArcaneArcade.Game.prototype = {
 
     getCurrentLevelInfo: function (level) {
+        console.log(level);
+
         switch(level)
         {
             case 1:
@@ -114,6 +116,8 @@ ArcaneArcade.Game.prototype = {
                 return this.gameInfo.level.five;
             case 6:
                 return this.gameInfo.level.choiceOne;
+            case 7:
+                return this.gameInfo.level.one;
             default:
                 return this.gameInfo.level.infiniteChallenge;
                 // maybe randomly pick a tough level for infinite score attack?
@@ -291,8 +295,14 @@ ArcaneArcade.Game.prototype = {
 
         if (this.currentLevel.type === "0")
         {
-            startX = this.currentLevel.startX;
-            startY = this.currentLevel.startY;
+            this.door = new PowerDoor(this, 'door', this.currentLevel.door1X * this.TILESIZEX + this.TILESIZEX * 0.5, this.currentLevel.door1Y * this.TILESIZEY + this.TILESIZEY * 0.5, this.currentLevel.door1Power);
+            console.log("Door 1 at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+            this.door2 = new PowerDoor(this, 'door', this.currentLevel.door2X * this.TILESIZEX + this.TILESIZEX * 0.5, this.currentLevel.door2Y * this.TILESIZEY + this.TILESIZEY * 0.5, this.currentLevel.door2Power);
+            console.log("Door 2 at: " + this.door.sprite.x + "," + this.door.sprite.y);
+
+            startX = this.currentLevel.startX * this.TILESIZEX + this.TILESIZEX * 0.5;
+            startY = this.currentLevel.startY * this.TILESIZEY + this.TILESIZEY * 0.5;
             this.player = new Player(this, startX, startY, 'player');
         }
 
@@ -530,6 +540,10 @@ ArcaneArcade.Game.prototype = {
     update: function () {
 
         this.door.update();
+        if (this.currentLevel.type === "0")
+        {
+            this.door2.update();
+        }
 
         if (this.nextLevelButton.isDown)
         {
