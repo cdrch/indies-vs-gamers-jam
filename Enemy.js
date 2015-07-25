@@ -39,7 +39,7 @@ EnemyWeapon.EnemySingleBullet.prototype.fire = function (source, xTarget, yTarge
 
 };
 
-var Enemy = function (game, key, speed, range, damage,invincible, flyer, sfx) {
+var Enemy = function (game, key, speed, range, hp, damage,invincible, flyer, sfx) {
 
 
     Phaser.Sprite.call(this, game.game, 0, 0, key);

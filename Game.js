@@ -51,7 +51,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
     this.sprite.animations.add('new', [0], 15, false);
     this.sprite.animations.add('broken', [1], 15, false);
 
-    this.maximumEnemies = 2;
+    this.maximumEnemies = gameThat.currentLevel.spawnerEnemyCap;
 
     this.sprite.animations.play('new');
 
@@ -59,7 +59,7 @@ Spawner.BasicEnemy = function (game, x, y, HP, imgName) {
 
     for(var i = 0; i < this.maximumEnemies; i++)
     {
-        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyDamage, false, false, sound), true, true);
+        this.add(new Enemy(game, 'BasicEnemy', 50, 250, gameThat.currentLevel.enemyHP, gameThat.currentLevel.enemyDamage, false, false, sound), true, true);
     }
 
     return this;
@@ -117,10 +117,44 @@ ArcaneArcade.Game.prototype = {
             case 6:
                 return this.gameInfo.level.choiceOne;
             case 7:
-                return this.gameInfo.level.one;
+                return this.gameInfo.level.six;
+            case 8:
+                return this.gameInfo.level.seven;
+            case 9:
+                return this.gameInfo.level.eight;
+            case 10:
+                return this.gameInfo.level.nine;
+            case 11:
+                return this.gameInfo.level.ten;
+            case 12:
+                return this.gameInfo.level.choiceTwo;
+            case 13:
+                return this.gameInfo.level.eleven;
+            case 14:
+                return this.gameInfo.level.twelve;
+            case 15:
+                return this.gameInfo.level.thirteen;
+            case 16:
+                return this.gameInfo.level.fourteen;
+            case 17:
+                return this.gameInfo.level.fifteen;
+            case 18:
+                return this.gameInfo.level.choiceThree;
+            case 19:
+                return this.gameInfo.level.sixteen;
+            case 20:
+                return this.gameInfo.level.seventeen;
+            case 21:
+                return this.gameInfo.level.eighteen;
+            case 22:
+                return this.gameInfo.level.nineteen;
+            case 23:
+                return this.gameInfo.level.twenty;
+            case 24:
+                return this.gameInfo.level.bossOne;
             default:
                 return this.gameInfo.level.infiniteChallenge;
-                // maybe randomly pick a tough level for infinite score attack?
+                // randomly picking a tough level for infinite score attack?
         }
     },
 
@@ -411,7 +445,17 @@ ArcaneArcade.Game.prototype = {
     createRandomDiggerMapData: function () {
         var data = [this.MAPWIDTH * this.MAPHEIGHT];
 
-        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: 0.2});
+        var percentage = 0.2;
+        if (ArcaneArcade.currentLevel > 24)
+        {
+            percentage = 0.5;
+        }
+        else
+        {
+            percentage += ArcaneArcade.currentLevel * 0.01;
+        }
+
+        this.rotMap = new ROT.Map.Digger(this.MAPWIDTH, this.MAPHEIGHT, {dugPercentage: percentage});
         //this.rotMap.randomize(0.5);
         //for (var iterations = 0; iterations < 5; iterations++)
         //{
