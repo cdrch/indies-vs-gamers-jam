@@ -127,15 +127,16 @@ ArcaneArcade.Game.prototype = {
         this.TILESIZEX = 128;
         this.TILESIZEY = 128;
 
-        this.MAPWIDTH = 30;
-        this.MAPHEIGHT = 30;
-
         this.startedFading = 0;
         this.endsFading = 0;
 
         this.gameInfo = this.cache.getJSON('gameInfo');
 
         this.currentLevel = this.getCurrentLevelInfo(ArcaneArcade.currentLevel);     
+
+
+        this.MAPWIDTH = this.currentLevel.width;
+        this.MAPHEIGHT = this.currentLevel.height;
 
 
         switch (this.currentLevel.type)
