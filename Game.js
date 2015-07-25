@@ -271,7 +271,7 @@ ArcaneArcade.Game.prototype = {
 
         //this.door = new Door(this, 'door', 200, 200);
 
-        this.music = this.add.audio(this.currentLevel.music[0], 0.5, true);
+        this.music = this.add.audio(Phaser.ArrayUtils.getRandomItem(this.currentLevel.music), 0.5, true);
         this.music.play();
 
 
