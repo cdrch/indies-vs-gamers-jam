@@ -1,6 +1,6 @@
 var EnemyWeapon = {};
 
-EnemyWeapon.EnemySingleBullet = function (game, damage) {
+EnemyWeapon.EnemySingleBullet = function (game, damage, sfx) {
 
     Phaser.Group.call(this, game, game.world, 'Single Bullet', 
         false, true, Phaser.Physics.ARCADE);
@@ -8,6 +8,7 @@ EnemyWeapon.EnemySingleBullet = function (game, damage) {
     this.nextFire = 0;
     this.bulletSpeed = 600;
     this.fireRate = 100;
+    this.sfx = sfx;
 
     for (var i = 0; i < 64; i++)
     {
@@ -32,11 +33,13 @@ EnemyWeapon.EnemySingleBullet.prototype.fire = function (source, xTarget, yTarge
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
     	xTarget, yTarget);
 
+    this.sfx.play();
+
     this.nextFire = this.game.time.time + this.fireRate;
 
 };
 
-var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
+var Enemy = function (game, key, speed, range, damage,invincible, flyer, sfx) {
 
 
     Phaser.Sprite.call(this, game.game, 0, 0, key);
@@ -67,7 +70,9 @@ var Enemy = function (game, key, speed, range, damage,invincible, flyer) {
     this.weaknessStacks = 0;
     this.weakness = 0;
 
-    this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage);
+    this.hitSFX = game.add.audio('enemyHit', 0.4, false);
+
+    this.weapon = new EnemyWeapon.EnemySingleBullet(game, damage, sfx);
     this.weapon.enableBody = true;
     this.weapon.physicsBodyType = Phaser.Physics.ARCADE;
 

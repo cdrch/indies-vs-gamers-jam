@@ -55,7 +55,7 @@
             "height": "50",
             "levelName": "Level ???",
             "tileset": "simple-tiles",
-            "music": "characterTheme",
+            "music": ["characterTheme"],
             "spawnerCount": "20",
             "enemyHP": "300",
             "enemyDamage": "99",
@@ -68,11 +68,11 @@
             "height": "30",
             "levelName": "Level 2",
             "tileset": "simple-tiles",
-            "music": "characterTheme",
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": ["characterTheme"]
 
         },
         "two": {
@@ -81,11 +81,11 @@
             "height": "30",
             "levelName": "Level 2",
             "tileset": "simple-tiles",
-            "music": "characterTheme",
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
 
         },
         "three": {
@@ -94,11 +94,11 @@
             "height": "30",
             "levelName": "Level 2",
             "tileset": "simple-tiles",
-            "music": "characterTheme",
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": ["sadThemeOne", "sadThemeTwo"]
 
         },
         "four": {
@@ -107,11 +107,11 @@
             "height": "30",
             "levelName": "Level 2",
             "tileset": "simple-tiles",
-            "music": "characterTheme",
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
 
         },
         "five": {
@@ -120,11 +120,11 @@
             "height": "30",
             "levelName": "Level 2",
             "tileset": "simple-tiles",
-            "music": "characterTheme",
             "spawnerCount": "2",
             "enemyHP": "30",
             "enemyDamage": "1",
-            "spawnerEnemyCap": "2"
+            "spawnerEnemyCap": "2",
+            "music": ["finalBossTheme"]
 
         }
     }

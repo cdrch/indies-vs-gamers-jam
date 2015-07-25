@@ -55,7 +55,7 @@ Weapon.MagicMissile.prototype.fire = function (source) {
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
-
+    playerThat.magicMissileSFX.play();
 
 };
 
@@ -116,6 +116,8 @@ Weapon.IceBolt.prototype.fire = function (source) {
          source.sprite.y, 360 / this.numberOfBullets * i,
          this.bulletSpeed, 0, 0, this.hitDamage);
     }
+    playerThat.iceBoltSFX.play();
+
 
 };
 
@@ -178,6 +180,8 @@ Weapon.PoisonSting.prototype.fire = function (source) {
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
+    playerThat.poisonStingSFX.play();
+
 
 
 };
@@ -257,6 +261,8 @@ Weapon.Wind.prototype.fire = function (source) {
              this.bulletSpeed, 0, 0, this.hitDamage);
         }
     }
+    playerThat.windSFX.play();
+
 };
 
 /*WEAKNESS*/
@@ -319,6 +325,8 @@ Weapon.Weakness.prototype.fire = function (source) {
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
+    playerThat.weaknessSFX.play();
+
 
 
 };
@@ -383,7 +391,7 @@ Weapon.Fireball.prototype.fire = function (source) {
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
         source.playerTarget.x, source.playerTarget.y);
-
+    playerThat.fireballSFX.play();
 
 };
 
@@ -471,6 +479,8 @@ Weapon.BubblesBeam.prototype.fire = function (source) {
 
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 
             source.playerTarget.x, source.playerTarget.y);
+        playerThat.bubblesBeamSFX.play();
+
     }
 
 };
@@ -478,7 +488,11 @@ Weapon.BubblesBeam.prototype.fire = function (source) {
 
 /*WEAPONS END*/
 
+var playerThat;
+
 var Player = function(game, posX, posY, imageName) {    
+
+    playerThat = this;
 
 	this.sprite = game.add.sprite(posX, posY, imageName);
 	this.sprite.anchor.set(0.5);
@@ -511,7 +525,13 @@ var Player = function(game, posX, posY, imageName) {
 
     game.camera.follow(this.sprite);
 
-
+    this.magicMissileSFX = game.add.audio('lightning', 0.1, false);
+    this.iceBoltSFX = game.add.audio('ice', 0.1, false);
+    this.poisonStingSFX = game.add.audio('lightning', 0.1, false);
+    this.windSFX = game.add.audio('wind', 0.1, false);
+    this.weaknessSFX = game.add.audio('lightning', 0.1, false);
+    this.fireballSFX = game.add.audio('fireball', 0.1, false);
+    this.bubblesBeamSFDX = game.add.audio('water', 0.1, false);
 
     this.weapons = [];
     this.currentWeapon = 0;
