@@ -1,0 +1,321 @@
+{
+    "gameVersion": "0.0.1",
+    "level": {
+        "choiceOne": {
+            "type": "0",
+            "width": "30",
+            "height": "30",
+            "levelName": "First Choice",
+            "fileName": "map1",
+            "startX": "1",
+            "startY": "1",
+            "door1Power": "1",
+            "door2Power": "2",
+            "door1X": "1",
+            "door1Y": "8",
+            "door2X": "8",
+            "door2Y": "1",
+            "tileset": "simple-tiles",
+            "music": ["characterTheme"]
+        },
+        "choiceTwo": {
+            "type": "0",
+            "width": "30",
+            "height": "30",
+            "levelName": "Second Choice",
+            "fileName": "map2",
+            "startX": "1",
+            "startY": "1",
+            "door1Power": "3",
+            "door2Power": "4",
+            "door1X": "1",
+            "door1Y": "8",
+            "door2X": "8",
+            "door2Y": "1",
+            "tileset": "simple-tiles",
+            "music": ["characterTheme"]
+        },
+        "choiceThree": {
+            "type": "0",
+            "width": "30",
+            "height": "30",
+            "levelName": "Third Choice",
+            "fileName": "map3",
+            "startX": "1",
+            "startY": "1",
+            "door1Power": "5",
+            "door2Power": "6",
+            "door1X": "1",
+            "door1Y": "8",
+            "door2X": "8",
+            "door2Y": "1",
+            "tileset": "simple-tiles",
+            "music": ["characterTheme"]
+        },
+        "infiniteChallenge": {
+            "type": "1",
+            "width": "50",
+            "height": "50",
+            "levelName": "Level ???",
+            "tileset": "simple-tiles",
+            "music": ["characterTheme", "magicalGirlThemeOne", "magicalGirlThemeTwo", "sadThemeOne", "sadThemeTwo"],
+            "spawnerCount": "20",
+            "enemyHP": "50",
+            "enemyDamage": "15",
+            "spawnerEnemyCap": "5"
+
+        },
+        "one": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "2",
+            "enemyHP": "20",
+            "enemyDamage": "2",
+            "spawnerEnemyCap": "2",
+            "music": ["characterTheme"]
+
+        },
+        "two": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "2",
+            "enemyHP": "20",
+            "enemyDamage": "3",
+            "spawnerEnemyCap": "2",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "three": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "3",
+            "enemyHP": "20",
+            "enemyDamage": "4",
+            "spawnerEnemyCap": "2",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "four": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "3",
+            "enemyHP": "25",
+            "enemyDamage": "4",
+            "spawnerEnemyCap": "2",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "five": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "4",
+            "enemyHP": "25",
+            "enemyDamage": "5",
+            "spawnerEnemyCap": "2",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "six": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "4",
+            "enemyHP": "25",
+            "enemyDamage": "6",
+            "spawnerEnemyCap": "3",
+            "music": ["characterTheme"]
+
+        },
+        "seven": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "4",
+            "enemyHP": "30",
+            "enemyDamage": "6",
+            "spawnerEnemyCap": "3",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "eight": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "5",
+            "enemyHP": "30",
+            "enemyDamage": "7",
+            "spawnerEnemyCap": "3",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "nine": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "5",
+            "enemyHP": "30",
+            "enemyDamage": "8",
+            "spawnerEnemyCap": "3",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "ten": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "6",
+            "enemyHP": "35",
+            "enemyDamage": "8",
+            "spawnerEnemyCap": "3",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "eleven": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "6",
+            "enemyHP": "35",
+            "enemyDamage": "9",
+            "spawnerEnemyCap": "4",
+            "music": ["characterTheme"]
+
+        },
+        "twelve": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "6",
+            "enemyHP": "35",
+            "enemyDamage": "10",
+            "spawnerEnemyCap": "4",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "thirteen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "7",
+            "enemyHP": "40",
+            "enemyDamage": "10",
+            "spawnerEnemyCap": "4",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "fourteen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "7",
+            "enemyHP": "40",
+            "enemyDamage": "11",
+            "spawnerEnemyCap": "4",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "fifteen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "8",
+            "enemyHP": "40",
+            "enemyDamage": "12",
+            "spawnerEnemyCap": "4",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "sixteen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "8",
+            "enemyHP": "45",
+            "enemyDamage": "12",
+            "spawnerEnemyCap": "5",
+            "music": ["characterTheme"]
+
+        },
+        "seventeen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "8",
+            "enemyHP": "45",
+            "enemyDamage": "13",
+            "spawnerEnemyCap": "5",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "eighteen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "9",
+            "enemyHP": "45",
+            "enemyDamage": "14",
+            "spawnerEnemyCap": "5",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "nineteen": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "9",
+            "enemyHP": "50",
+            "enemyDamage": "14",
+            "spawnerEnemyCap": "5",
+            "music": ["magicalGirlThemeOne", "magicalGirlThemeTwo"]
+
+        },
+        "twenty": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "10",
+            "enemyHP": "50",
+            "enemyDamage": "15",
+            "spawnerEnemyCap": "5",
+            "music": ["sadThemeOne", "sadThemeTwo"]
+
+        },
+        "bossOne": {
+            "type": "1",
+            "width": "30",
+            "height": "30",
+            "tileset": "simple-tiles",
+            "spawnerCount": "10",
+            "enemyHP": "50",
+            "enemyDamage": "15",
+            "spawnerEnemyCap": "5",
+            "music": ["finalBossTheme"]
+
+        }
+    }
+}
