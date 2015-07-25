@@ -95,7 +95,7 @@ ArcaneArcade.Preloader.prototype = {
 		this.load.audio('getHit', ['audio/sfx/GetHit.ogg']);
 		this.load.audio('heal', ['audio/sfx/Heal.ogg']);
 		this.load.audio('ice', ['audio/sfx/Ice.ogg']);
-		this.load.audio('lightning', 'audio/sfx/Lightning.ogg']);
+		this.load.audio('lightning', ['audio/sfx/Lightning.ogg']);
 		this.load.audio('pickup', ['audio/sfx/Pickup.ogg']);
 		this.load.audio('water', ['audio/sfx/Water.ogg']);
 		this.load.audio('wind', ['audio/sfx/Wind.ogg']);
