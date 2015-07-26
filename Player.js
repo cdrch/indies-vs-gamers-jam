@@ -806,7 +806,10 @@ Player.prototype.getHit = function(player, bullet)
 Player.prototype.update = function(game) {
     //this.updateScorePosition(game);
     this.hpText.text = this.sprite.health + '%';
-    this.hpBar.crop(new Phaser.Rectangle(0, 0, (this.sprite.health / 100) * this.hpBar.originalWidth, this.hpBar.height), true);
+    this.hpBar.crop(new Phaser.Rectangle(0, 0, 
+    	(this.sprite.health / 100) * this.hpBar.originalWidth, 
+    	this.hpBar.height), true);
+    
     this.hpBar.updateCrop();
 
     if(this.stunned) return;
@@ -817,11 +820,18 @@ Player.prototype.update = function(game) {
     }
     else
     {
+    	
+
         if (!this.bubble.exists)
         {
             this.respawn(game);            
         }    
-        if (this.bubble.exists && this.bubble.x >= this.initialx - 10 && this.bubble.x <= this.initialx + 10 && this.bubble.y >= this.initialy - 10 && this.bubble.y <= this.initialy + 10)
+
+        var initial = new Phaser.Point(this.initialx, this.initialy);
+    	var distance = game.physics.arcade.distanceBetween(initial, 
+			this.bubble);
+
+        if (this.bubble.exists && distance < 30)
         {
             this.sprite.x = this.bubble.x;
             this.sprite.y = this.bubble.y;
@@ -850,7 +860,7 @@ Player.prototype.respawn = function(game) {
     else
     {
         // game over
-        this.game.endGame();
+        game.endGame();
     }
     
 
