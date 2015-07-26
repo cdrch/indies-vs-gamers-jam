@@ -111,8 +111,12 @@ Enemy.prototype.update = function (layer) {
 	line.start.set(this.body.x, this.body.y);
 	line.end.set(this.targetPlayer.sprite.body.x, this.targetPlayer.sprite.body.y);
 
-	this.game.physics.arcade.overlap(this.weapon, this.targetPlayer.sprite, 
-    	this.targetPlayer.getHit, null, this);
+
+	if(!this.targetPlayer.stunned)
+	{
+		this.game.physics.arcade.overlap(this.weapon, this.targetPlayer.sprite, 
+    		this.targetPlayer.getHit, null, this);
+	}
 
 	var tileHits = layer.getRayCastTiles(line, 100, true, false);
 	if (tileHits.length == 0 || this.flyer)

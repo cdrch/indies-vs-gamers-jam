@@ -26,6 +26,8 @@ Ghost.prototype.killPlayer = function(ghost, player)
 
 Ghost.prototype.update = function()
 {
+    if(this.targetPlayer.stunned) return;
+    
     this.moveTo(this.targetPlayer.sprite.x, this.targetPlayer.sprite.y);
 
     this.currentGame.physics.arcade.collide(
