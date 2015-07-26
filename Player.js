@@ -594,16 +594,16 @@ var Player = function(game, posX, posY, imageName) {
 
 
     this.multiplier = 1;
-    this.score = 0;
-    this.lives = 3;
+    //Player.score = 0;
+    //Player.lives = 3;
 
     this.scoreText = game.add.text(
     game.camera.position.x, game.camera.position.y - game.camera.height / 2 + 30, 
-    '' + this.score, 
+    '' + Player.score, 
     { font: '20px monospace', fill: '#fff', align: 'center' });
     this.livesText = game.add.text(
     game.camera.position.x, game.camera.position.y - game.camera.height / 2 + 70, 
-    '' + this.lives + ' ' + ((this.lives === 1) ? ' Life' : 'Lives') + ' Left', 
+    '' + Player.lives + ' ' + ((Player.lives === 1) ? ' Life' : 'Lives') + ' Left', 
     { font: '20px monospace', fill: '#fff', align: 'center' });
 
     this.scoreText.anchor.setTo(0.5, 0.5);
@@ -616,9 +616,12 @@ var Player = function(game, posX, posY, imageName) {
 
 };
 
+Player.lives = 3;
+Player.score = 0;
+
 Player.prototype.addScore = function(points) {
-    this.score += points * this.multiplier;
-    this.scoreText.text = this.score;
+    Player.score += points * this.multiplier;
+    this.scoreText.text = Player.score;
 
 };
 
@@ -846,9 +849,9 @@ Player.prototype.update = function(game) {
 };
 
 Player.prototype.respawn = function(game) {
-    this.lives--;
-    this.livesText.setText('' + this.lives);
-    if (this.lives > 0)
+    Player.lives--;
+    this.livesText.setText('' + Player.lives);
+    if (Player.lives > 0)
     {    
         this.bubble.x = this.sprite.x;
         this.bubble.y = this.sprite.y;

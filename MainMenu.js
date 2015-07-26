@@ -47,6 +47,9 @@ ArcaneArcade.MainMenu.prototype = {
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
 		that.music.stop();
 
+		Player.lives = 3;
+		Player.score = 0;
+
 		//	And start the actual game
 		that.state.start('Game');
 
